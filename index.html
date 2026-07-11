@@ -227,6 +227,27 @@
     .spaces__dot:focus-visible { outline: none; }
     .spaces__dot:focus-visible span { width: 28px; height: 3px; background: var(--amber); }
 
+    /* ---- wellness journey ---- */
+    #journal { padding: 200px var(--margin); background: var(--sand); scroll-margin-top: 40px; }
+    .journey__eyebrow { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(38, 36, 31, 0.45); margin-bottom: 16px; }
+    .journey__title { font-size: 52px; line-height: 1.15; margin: 0 0 72px; max-width: 20ch; }
+    .journey__index { display: flex; gap: 40px; flex-wrap: wrap; align-items: baseline; }
+    .journey__stage-btn { background: transparent; border: none; padding: 0 0 8px; margin: 0; cursor: pointer; font-family: var(--font-display); font-size: 24px; font-weight: 500; color: rgba(38, 36, 31, 0.45); box-shadow: none; transition: color 0.6s ease, box-shadow 0.6s ease; }
+    .journey__stage-btn:hover { box-shadow: 0 1px 0 0 rgba(156, 123, 82, 0.55); }
+    .journey__stage-btn:focus-visible { outline: none; box-shadow: 0 2px 0 0 var(--bronze); }
+    .journey__stage-btn.is-active { color: var(--ink); box-shadow: 0 1px 0 0 var(--bronze); }
+    .journey__progress { position: relative; height: 1px; background: rgba(38, 36, 31, 0.15); margin: 28px 0 64px; }
+    .journey__progress-fill { position: absolute; top: 0; left: 0; height: 1px; width: 16.67%; background: var(--bronze); transition: width 0.9s ease; }
+    .journey__stage { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); }
+    .journey__media-col { grid-column: 1 / span 7; }
+    .journey__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #DDD3BF; }
+    .journey__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease; }
+    .journey__media img.is-active { opacity: 1; }
+    .journey__gesture { font-family: monospace; font-size: 11px; color: rgba(38, 36, 31, 0.5); margin-top: 16px; }
+    .journey__text { grid-column: 9 / span 4; align-self: center; }
+    .journey__stage-title { font-family: var(--font-display); font-size: 34px; font-weight: 500; line-height: 1.2; color: var(--ink); transition: opacity 0.7s ease; }
+    .journey__stage-sentence { font-size: 16px; line-height: 1.8; color: rgba(38, 36, 31, 0.75); margin-top: 18px; max-width: 34ch; transition: opacity 0.7s ease 0.15s; }
+
     /* ---- section skeleton (proportions from prototype) ---- */
     section { position: relative; }
     #hero         { min-height: 100vh; background: var(--hero-black); color: var(--ivory); }
@@ -253,12 +274,17 @@
       :root { --margin: 24px; }
       .nav__links a:not(.nav__reserve) { display: none; }
       h1, .hero__copy h1 { font-size: 40px; }
-      h2, .philo__text h2, .rituals__title, .spaces-intro__col h2 { font-size: 34px; }
+      h2, .philo__text h2, .rituals__title, .spaces-intro__col h2, .journey__title { font-size: 34px; }
       .philo__text, .philo__media { grid-column: 1 / -1; }
       .rituals__index, .rituals__panel { grid-column: 1 / -1; }
       .rituals__panel { position: static; order: -1; margin-bottom: 48px; }
       .spaces-intro__col { grid-column: 1 / -1; }
       .space__name { font-size: 32px; }
+      .journey__stage { row-gap: 56px; }
+      .journey__media-col, .journey__text { grid-column: 1 / -1; }
+      .journey__media { aspect-ratio: auto; height: 66vw; }
+      .journey__index { gap: 16px; flex-wrap: nowrap; justify-content: space-between; }
+      .journey__stage-btn { font-size: 16px; white-space: nowrap; }
       blockquote { font-size: 26px; }
       #philosophy, #rituals, #spaces-intro, #journal, #architecture, #reflections, #reserve { padding-left: 24px; padding-right: 24px; }
       #spaces { height: 560vh; }
@@ -268,6 +294,8 @@
     @media (max-width: 480px) {
       h1, .hero__copy h1 { font-size: 34px; }
       h2 { font-size: 30px; }
+      .journey__stage-btn { font-size: 12.5px; }
+      .journey__index { gap: 8px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -376,9 +404,21 @@
     </section>
 
     <!-- 05 · WELLNESS JOURNEY -->
-    <section id="journal" class="scaffold" aria-label="05 Wellness Journey">
-      <span class="scaffold__label">05 · Wellness Journey</span>
-      <h2>Arrival → Preparation → Ritual → Rest → Renewal → Return</h2>
+    <section id="journal" aria-label="05 Wellness Journey">
+      <div class="journey__eyebrow">The Journey</div>
+      <h2 class="journey__title">Every ritual is a passage.</h2>
+      <div class="journey__index" role="group" aria-label="Journey stages"></div>
+      <div class="journey__progress"><div class="journey__progress-fill"></div></div>
+      <div class="journey__stage">
+        <div class="journey__media-col">
+          <div class="journey__media"></div>
+          <div class="journey__gesture"></div>
+        </div>
+        <div class="journey__text">
+          <div class="journey__stage-title"></div>
+          <div class="journey__stage-sentence"></div>
+        </div>
+      </div>
     </section>
 
     <!-- 06 · ARCHITECTURE & MATERIALS -->
@@ -697,6 +737,88 @@
       }
       addEventListener('scroll', updateSpaces, { passive: true });
       updateSpaces();
+    }
+
+    // ---- wellness journey (6 stages: index + sequenced text->media swap) ----
+    var JOURNEY = [
+      { name: 'Arrival', title: 'A slower threshold', sentence: 'The city stays outside; a timber screen slides open.', gesture: '[ gesture — opening the timber screen ]', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_142522_b0f92e43-be6d-4aec-b66c-a7a05c7dd0fd.png' },
+      { name: 'Preparation', title: 'Care begins quietly', sentence: 'Warm linen, quiet words, unhurried time.', gesture: '[ gesture — folding warm linen ]', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_142523_96781924-3dc5-4f2a-93fe-6e4cac71b66e.png' },
+      { name: 'Ritual', title: 'The ritual itself', sentence: 'Skilled hands find the weight of the day and lift it.', gesture: '[ gesture — the therapist’s hands ]', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_142524_c1c132a6-357e-4657-b03c-c3c659e127a4.png' },
+      { name: 'Rest', title: 'Rest without measure', sentence: 'Time loosens on warm stone.', gesture: '[ gesture — a hand resting on stone ]', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_142656_ea48b4ce-7151-4440-a9c8-31a1a1e3b25d.png' },
+      { name: 'Renewal', title: 'Warmth becomes clarity', sentence: 'Tea is poured; breath returns to its own pace.', gesture: '[ gesture — tea poured at the close ]', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_131259_c1c8c6e6-e5d6-4f28-bf94-615ff193fa69.png' },
+      { name: 'Return', title: 'Returning, changed', sentence: 'You leave lighter, carrying the quiet with you.', gesture: '[ gesture — walking the garden path ]', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_142527_fb69e579-9b26-41fe-9db8-416a8b91bea9.png' }
+    ];
+
+    var jIndex = document.querySelector('.journey__index');
+    if (jIndex) {
+      var jMedia = document.querySelector('.journey__media');
+      var jGesture = document.querySelector('.journey__gesture');
+      var jTitle = document.querySelector('.journey__stage-title');
+      var jSentence = document.querySelector('.journey__stage-sentence');
+      var jFill = document.querySelector('.journey__progress-fill');
+      var jn = JOURNEY.length;
+      var jImgs = [], jBtns = [];
+
+      JOURNEY.forEach(function (s, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'journey__stage-btn' + (i === 0 ? ' is-active' : '');
+        b.setAttribute('data-stage', i);
+        b.textContent = s.name;
+        jIndex.appendChild(b);
+        jBtns.push(b);
+
+        var img = document.createElement('img');
+        img.src = s.src; img.alt = s.name.toLowerCase() + ' — human gesture'; img.loading = 'lazy';
+        if (i === 0) img.className = 'is-active';
+        jMedia.appendChild(img);
+        jImgs.push(img);
+      });
+
+      var activeStage = 0, mediaStage = 0, stageT1 = null, stageT2 = null;
+
+      function paintText(i) { jTitle.textContent = JOURNEY[i].title; jSentence.textContent = JOURNEY[i].sentence; }
+      function paintMedia(i) {
+        jImgs[mediaStage].classList.remove('is-active');
+        mediaStage = i;
+        jImgs[i].classList.add('is-active');
+        jGesture.textContent = JOURNEY[i].gesture;
+      }
+      // index highlight, progress fill, and text commit together at 350ms (as in the prototype)
+      function commitStage(i) {
+        jBtns[activeStage].classList.remove('is-active');
+        activeStage = i;
+        jBtns[i].classList.add('is-active');
+        jFill.style.width = (((i + 1) / jn) * 100).toFixed(2) + '%';
+        paintText(i);
+        jTitle.style.opacity = jSentence.style.opacity = 1;
+      }
+
+      function selectStage(i) {
+        if (i === activeStage) return;
+        if (reduced) { commitStage(i); paintMedia(i); return; }
+        jTitle.style.opacity = jSentence.style.opacity = 0;          // text fades out
+        if (stageT1) clearTimeout(stageT1);
+        if (stageT2) clearTimeout(stageT2);
+        stageT1 = setTimeout(function () { commitStage(i); }, 350);  // swap + highlight + progress
+        stageT2 = setTimeout(function () { paintMedia(i); }, 550);   // media crossfades
+      }
+
+      // initial paint
+      paintText(0); jGesture.textContent = JOURNEY[0].gesture;
+
+      jIndex.addEventListener('click', function (e) {
+        var b = e.target.closest('.journey__stage-btn');
+        if (b) selectStage(+b.getAttribute('data-stage'));
+      });
+      jIndex.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        var dir = e.key === 'ArrowRight' ? 1 : -1;
+        var next = (activeStage + dir + jn) % jn;
+        selectStage(next);
+        jBtns[next].focus();
+      });
     }
   })();
   </script>
