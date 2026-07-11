@@ -38,3 +38,15 @@
 [2026-07-11 21:19:05] MCP__CLAUDE-IN-CHROME__COMPUTER
 [2026-07-11 21:19:32] MCP__CLAUDE-IN-CHROME__JAVASCRIPT_TOOL
 [2026-07-11 21:19:52] MCP__CLAUDE-IN-CHROME__READ_CONSOLE_MESSAGES
+[2026-07-11 21:24:22] BASH: cd "/Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori" && git add -A && git commit -q -m "Phase 2: hero  Timed reveal (5-phase timeline ported 1:1), scene/mist/veil/ripple layers, final copy, delayed Enter cue. Nav reveals + switches past-hero. Opt-in sound toggle with synthesised ambient + water drops (audibility guard kept). Reduced-motion jumps to composed state.  Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>" && git push -q origin main && echo "pushed $(git rev-parse --short HEAD)"
+[2026-07-11 21:24:27] READ: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/SATORI Site.dc.html
+[2026-07-11 21:25:16] EDIT: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/index.html
+[2026-07-11 21:25:30] EDIT: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/index.html
+[2026-07-11 21:25:42] EDIT: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/index.html
+[2026-07-11 21:25:53] EDIT: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/index.html
+[2026-07-11 21:25:59] EDIT: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/index.html
+[2026-07-11 21:26:15] MCP__CLAUDE-IN-CHROME__NAVIGATE
+[2026-07-11 21:26:24] MCP__CLAUDE-IN-CHROME__JAVASCRIPT_TOOL
+[2026-07-11 21:26:48] MCP__CLAUDE-IN-CHROME__JAVASCRIPT_TOOL
+[2026-07-11 21:26:54] MCP__CLAUDE-IN-CHROME__COMPUTER
+[2026-07-11 21:27:10] MCP__CLAUDE-IN-CHROME__READ_CONSOLE_MESSAGES

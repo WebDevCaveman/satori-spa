@@ -140,10 +140,32 @@
     .hero__cue button:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
     .hero__cue .cue-line { width: 1px; height: 44px; background: rgba(201, 155, 98, 0.55); }
 
+    /* ---- philosophy ---- */
+    .philo__sticky { position: sticky; top: 0; min-height: 100vh; display: flex; align-items: center; padding: 120px var(--margin); box-sizing: border-box; }
+    .philo__grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); align-items: center; width: 100%; }
+    .philo__text { grid-column: 2 / span 5; }
+    .philo__media { grid-column: 8 / span 4; }
+    .philo__media .frame { aspect-ratio: 4 / 5; position: relative; }
+    .philo__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .philo__eyebrow { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(38, 36, 31, 0.45); margin-bottom: 28px; }
+    .philo__text h2 { font-size: 54px; line-height: 1.15; margin: 0 0 36px; }
+    .philo__body { font-size: 19px; line-height: 1.85; color: rgba(38, 36, 31, 0.8); max-width: 46ch; margin: 0; }
+    .philo__quote { margin: 44px 0 0; padding-top: 32px; border-top: 1px solid rgba(38, 36, 31, 0.15); font-family: var(--font-display); font-size: 24px; line-height: 1.5; color: rgba(38, 36, 31, 0.7); max-width: 34ch; }
+    /* group reveal on entry */
+    .philo__eyebrow, .philo__text h2, .philo__body, .philo__quote { opacity: 0; transform: translateY(14px); }
+    .philo__eyebrow { transition: opacity 1.6s ease, transform 1.6s ease; }
+    .philo__text h2 { transition: opacity 1.6s ease 0.5s, transform 1.6s ease 0.5s; }
+    .philo__body  { transition: opacity 1.6s ease 1.1s, transform 1.6s ease 1.1s; }
+    .philo__quote { transition: opacity 1.6s ease 1.8s, transform 1.6s ease 1.8s; }
+    .philo__media { opacity: 0; transition: opacity 2.2s ease 0.3s; }
+    #philosophy.is-in .philo__eyebrow, #philosophy.is-in .philo__text h2,
+    #philosophy.is-in .philo__body, #philosophy.is-in .philo__quote { opacity: 1; transform: translateY(0); }
+    #philosophy.is-in .philo__media { opacity: 1; }
+
     /* ---- section skeleton (proportions from prototype) ---- */
     section { position: relative; }
     #hero         { min-height: 100vh; background: var(--hero-black); color: var(--ivory); }
-    #philosophy   { min-height: 135vh; background: var(--ivory);  padding: 200px var(--margin); }
+    #philosophy   { min-height: 135vh; background: var(--ivory);  scroll-margin-top: 40px; }
     #rituals      { background: var(--sand);  padding: 180px var(--margin); }
     #spaces-intro { background: var(--ivory); padding: 200px var(--margin) 140px; }
     #spaces       { height: 760vh; background: var(--spaces-bg); color: var(--ivory); }
@@ -166,7 +188,8 @@
       :root { --margin: 24px; }
       .nav__links a:not(.nav__reserve) { display: none; }
       h1, .hero__copy h1 { font-size: 40px; }
-      h2 { font-size: 34px; }
+      h2, .philo__text h2 { font-size: 34px; }
+      .philo__text, .philo__media { grid-column: 1 / -1; }
       blockquote { font-size: 26px; }
       #philosophy, #rituals, #spaces-intro, #journal, #architecture, #reflections, #reserve { padding-left: 24px; padding-right: 24px; }
       #spaces { height: 560vh; }
@@ -231,9 +254,22 @@
     </section>
 
     <!-- 02 · PHILOSOPHY -->
-    <section id="philosophy" class="scaffold" aria-label="02 Philosophy">
-      <span class="scaffold__label">02 · Philosophy</span>
-      <h2>Editorial pause · text + 4:5 image</h2>
+    <section id="philosophy" aria-label="02 Philosophy">
+      <div class="philo__sticky">
+        <div class="philo__grid">
+          <div class="philo__text">
+            <div class="philo__eyebrow">Philosophy</div>
+            <h2>The art of returning.</h2>
+            <p class="philo__body">Leave the noise outside. Enter a slower rhythm shaped by water, natural light, and deliberate care.</p>
+            <p class="philo__quote">SATORI is not a treatment destination. It is a return to presence.</p>
+          </div>
+          <div class="philo__media">
+            <div class="frame">
+              <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_130751_4eda69fe-43c5-4134-aa68-d277bc105f7e.png" alt="Arrival court — reflecting pool, maple, cedar wall" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- 03 · SIGNATURE RITUALS -->
@@ -394,6 +430,19 @@
       btn.setAttribute('title', lbl);
       label.textContent = lbl;
     });
+
+    // ---- philosophy: group reveal on entry ----
+    var philo = document.getElementById('philosophy');
+    if (philo) {
+      if ('IntersectionObserver' in window) {
+        var pio = new IntersectionObserver(function (es) {
+          if (es.some(function (e) { return e.isIntersecting; })) { philo.classList.add('is-in'); pio.disconnect(); }
+        }, { threshold: 0.3 });
+        pio.observe(philo);
+      } else {
+        philo.classList.add('is-in');
+      }
+    }
   })();
   </script>
 </body>
