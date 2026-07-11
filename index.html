@@ -248,6 +248,30 @@
     .journey__stage-title { font-family: var(--font-display); font-size: 34px; font-weight: 500; line-height: 1.2; color: var(--ink); transition: opacity 0.7s ease; }
     .journey__stage-sentence { font-size: 16px; line-height: 1.8; color: rgba(38, 36, 31, 0.75); margin-top: 18px; max-width: 34ch; transition: opacity 0.7s ease 0.15s; }
 
+    /* ---- architecture & materials ---- */
+    #architecture { padding: 200px var(--margin); background: var(--ivory); }
+    .arch__grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); }
+    .arch__head { grid-column: 2 / span 7; margin-bottom: 110px; }
+    .arch__eyebrow { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(38, 36, 31, 0.45); margin-bottom: 24px; }
+    .arch__head h2 { font-size: 54px; line-height: 1.15; margin: 0 0 28px; max-width: 20ch; }
+    .arch__intro { font-size: 18px; line-height: 1.8; color: rgba(38, 36, 31, 0.75); max-width: 44ch; margin: 0; }
+    .arch__study .frame { position: relative; overflow: hidden; }
+    .arch__study img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .arch__caption { font-size: 14px; line-height: 1.7; color: rgba(38, 36, 31, 0.65); margin-top: 18px; }
+    .arch--travertine { grid-column: 1 / span 7; }
+    .arch--travertine .frame { aspect-ratio: 3 / 2; }
+    .arch--travertine .arch__caption { max-width: 44ch; }
+    .arch--basalt { grid-column: 9 / span 4; margin-top: 140px; }
+    .arch--basalt .frame { aspect-ratio: 4 / 5; }
+    .arch--basalt .arch__caption { max-width: 34ch; }
+    .arch--hinoki { grid-column: 3 / span 9; margin-top: 140px; }
+    .arch--hinoki .frame { aspect-ratio: 21 / 9; }
+    .arch--hinoki .arch__caption { max-width: 44ch; }
+    /* per-element reveal */
+    .arch__reveal { opacity: 0; transform: translateY(16px); transition: opacity 1.3s ease, transform 1.3s ease; }
+    .arch--basalt.arch__reveal { transition: opacity 1.3s ease 0.15s, transform 1.3s ease 0.15s; }
+    .arch__reveal.is-in { opacity: 1; transform: translateY(0); }
+
     /* ---- section skeleton (proportions from prototype) ---- */
     section { position: relative; }
     #hero         { min-height: 100vh; background: var(--hero-black); color: var(--ivory); }
@@ -285,6 +309,10 @@
       .journey__media { aspect-ratio: auto; height: 66vw; }
       .journey__index { gap: 16px; flex-wrap: nowrap; justify-content: space-between; }
       .journey__stage-btn { font-size: 16px; white-space: nowrap; }
+      .arch__head h2 { font-size: 34px; }
+      .arch__head, .arch--travertine, .arch--basalt, .arch--hinoki { grid-column: 1 / -1; }
+      .arch__head { margin-bottom: 64px; }
+      .arch--basalt, .arch--hinoki { margin-top: 56px; }
       blockquote { font-size: 26px; }
       #philosophy, #rituals, #spaces-intro, #journal, #architecture, #reflections, #reserve { padding-left: 24px; padding-right: 24px; }
       #spaces { height: 560vh; }
@@ -422,9 +450,29 @@
     </section>
 
     <!-- 06 · ARCHITECTURE & MATERIALS -->
-    <section id="architecture" class="scaffold" aria-label="06 Architecture and Materials">
-      <span class="scaffold__label">06 · Architecture &amp; Materials</span>
-      <h2>Travertine · basalt · hinoki</h2>
+    <section id="architecture" aria-label="06 Architecture and Materials">
+      <div class="arch__grid">
+        <div class="arch__head arch__reveal">
+          <div class="arch__eyebrow">Architecture &amp; Materials</div>
+          <h2>A living system of light, shadow, and water.</h2>
+          <p class="arch__intro">Nothing here is meant to look new. Stone, timber, and clay are chosen to age beautifully.</p>
+        </div>
+
+        <div class="arch__study arch--travertine arch__reveal">
+          <div class="frame"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133445_5bf4d250-049a-4e78-9c20-a90e0be839fa.png" alt="Travertine at dawn — raking light" loading="lazy"></div>
+          <p class="arch__caption">Travertine holds the day — pale at dawn, amber under lantern light.</p>
+        </div>
+
+        <div class="arch__study arch--basalt arch__reveal">
+          <div class="frame"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133447_0d6a78bd-b947-430d-a0b0-f5352cc35a4e.png" alt="Wet basalt — lantern reflection" loading="lazy"></div>
+          <p class="arch__caption">Wet basalt turns to mirror; the floor learns from the water.</p>
+        </div>
+
+        <div class="arch__study arch--hinoki arch__reveal">
+          <div class="frame"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133449_cb4a16cf-ca98-436c-9fbd-75137f0a4cf1.png" alt="Hinoki and handmade ceramic — shadow as privacy" loading="lazy"></div>
+          <p class="arch__caption">Hinoki warms to the hand. Each vessel is thrown, not molded — and shadow gives every room its privacy.</p>
+        </div>
+      </div>
     </section>
 
     <!-- 07 · GUEST REFLECTIONS -->
@@ -820,6 +868,23 @@
         jBtns[next].focus();
       });
     }
+
+    // ---- per-element reveal on scroll (architecture, later sections) ----
+    function revealOnce(sel) {
+      var els = document.querySelectorAll(sel);
+      if (!els.length) return;
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (e) { e.classList.add('is-in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+        });
+      }, { rootMargin: '0px 0px -12% 0px' });
+      els.forEach(function (e) { io.observe(e); });
+    }
+    revealOnce('.arch__reveal');
   })();
   </script>
 </body>
