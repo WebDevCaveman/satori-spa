@@ -69,6 +69,11 @@
       color: var(--bronze);
     }
 
+    /* ---- keyframes (ported from prototype) ---- */
+    @keyframes satori-mist-a { 0% { transform: translate(-6%, 2%); } 50% { transform: translate(5%, -3%); } 100% { transform: translate(-6%, 2%); } }
+    @keyframes satori-mist-b { 0% { transform: translate(4%, -2%); } 50% { transform: translate(-5%, 3%); } 100% { transform: translate(4%, -2%); } }
+    @keyframes satori-ripple { 0% { transform: scale(0.1); opacity: 0; } 15% { opacity: 0.6; } 100% { transform: scale(1); opacity: 0; } }
+
     /* ---- skip link (keyboard) ---- */
     .skip-link {
       position: fixed; top: 12px; left: 12px; z-index: 100;
@@ -79,16 +84,61 @@
     }
     .skip-link:focus { transform: translateY(0); outline: 2px solid var(--amber); outline-offset: 2px; }
 
-    /* ---- navigation (fixed) ---- */
+    /* ---- navigation (fixed, revealed after hero sequence) ---- */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 50;
       display: flex; justify-content: space-between; align-items: center;
       padding: 24px var(--margin);
+      opacity: 0; color: var(--ivory);
+      background: rgba(244, 239, 230, 0);
+      border-bottom: 1px solid rgba(244, 239, 230, 0);
+      backdrop-filter: blur(6px);
+      transition: opacity 2s ease, background 0.6s ease, color 0.6s ease, border-color 0.6s ease;
     }
+    .nav.is-revealed { opacity: 1; }
+    .nav.is-past { background: rgba(244, 239, 230, 0.92); color: var(--ink); border-bottom-color: rgba(38, 36, 31, 0.08); }
     .nav__mark { font-family: var(--font-display); font-weight: 600; font-size: 20px; letter-spacing: 0.22em; }
     .nav__links { display: flex; gap: 36px; align-items: baseline; }
-    .nav__links a { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; }
+    .nav__links a { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; transition: opacity 0.4s ease; }
+    .nav__links a:hover { opacity: 1; }
+    .nav__links a:focus-visible { outline: 2px solid var(--bronze); outline-offset: 3px; }
     .nav__reserve { border-bottom: 1px solid var(--bronze); padding-bottom: 4px; opacity: 1 !important; }
+
+    /* ---- sound toggle (opt-in, fixed) ---- */
+    .sound { position: fixed; z-index: 51; bottom: 24px; right: var(--margin); opacity: 0; pointer-events: none; transition: opacity 2s ease; }
+    .sound.is-revealed { opacity: 1; pointer-events: auto; }
+    .sound button { display: flex; align-items: center; gap: 10px; font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; background: transparent; color: var(--ivory); border: none; padding: 8px 2px; cursor: pointer; transition: color 0.6s ease; min-height: 44px; }
+    .sound.is-over-light button { color: var(--ink); }
+    .sound button:focus-visible { outline: 2px solid var(--bronze); outline-offset: 3px; }
+    .sound__bars { position: relative; display: flex; align-items: flex-end; gap: 2px; height: 14px; }
+    .sound__bars i { display: inline-block; width: 2px; background: rgba(169, 131, 92, 0.35); transition: background 0.6s ease; }
+    .sound__bars i:nth-child(1) { height: 7px; }
+    .sound__bars i:nth-child(2) { height: 13px; }
+    .sound__bars i:nth-child(3) { height: 10px; }
+    .sound.is-on .sound__bars i { background: var(--amber); }
+    .sound__strike { position: absolute; left: -3px; bottom: 6px; width: 17px; height: 1px; background: currentColor; transform: rotate(-35deg); transition: opacity 0.6s ease; }
+    .sound.is-on .sound__strike { opacity: 0; }
+
+    /* ---- hero ---- */
+    #hero { overflow: hidden; }
+    .hero__layer { position: absolute; inset: 0; }
+    .hero__scene { opacity: 0; transition: opacity 4.5s ease; }
+    .hero__scene img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero__mist { opacity: 0; transition: opacity 5s ease; pointer-events: none; overflow: hidden; }
+    .hero__mist i { position: absolute; border-radius: 50%; }
+    .hero__mist .m-a { left: -10%; bottom: -20%; width: 70%; height: 55%; background: rgba(232, 228, 218, 0.16); filter: blur(64px); animation: satori-mist-a 46s ease-in-out infinite; }
+    .hero__mist .m-b { right: -12%; bottom: -15%; width: 60%; height: 45%; background: rgba(232, 228, 218, 0.12); filter: blur(72px); animation: satori-mist-b 58s ease-in-out infinite; }
+    .hero__veil { background: #04070A; opacity: 1; transition: opacity 5s ease; pointer-events: none; }
+    .hero__drop { position: absolute; top: 46%; left: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px; border: 1px solid rgba(232, 228, 218, 0.5); border-radius: 50%; animation: satori-ripple 3.4s ease-out forwards; pointer-events: none; display: none; }
+    .hero__copy { position: relative; z-index: 2; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 24px; pointer-events: none; }
+    .hero__brand { font-family: var(--font-display); font-weight: 600; font-size: 26px; letter-spacing: 0.34em; color: var(--ivory); opacity: 0; transition: opacity 3s ease; }
+    .hero__copy h1 { font-weight: 500; font-size: 66px; line-height: 1.12; color: var(--ivory); margin: 40px 0 0; max-width: 15ch; opacity: 0; transition: opacity 3s ease 0.9s; }
+    .hero__support { margin-top: 26px; font-size: 16px; line-height: 1.7; color: rgba(244, 239, 230, 0.75); opacity: 0; transition: opacity 3s ease 1.8s; }
+    .hero__cue { position: absolute; z-index: 3; bottom: 44px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 16px; opacity: 0; pointer-events: none; transition: opacity 2.5s ease; }
+    .hero__cue button { font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; background: transparent; color: var(--ivory); border: none; border-bottom: 1px solid var(--amber); padding: 10px 2px; cursor: pointer; transition: color 0.4s ease; }
+    .hero__cue button:hover { color: var(--amber); }
+    .hero__cue button:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+    .hero__cue .cue-line { width: 1px; height: 44px; background: rgba(201, 155, 98, 0.55); }
 
     /* ---- section skeleton (proportions from prototype) ---- */
     section { position: relative; }
@@ -115,14 +165,16 @@
     @media (max-width: 820px) {
       :root { --margin: 24px; }
       .nav__links a:not(.nav__reserve) { display: none; }
-      h1 { font-size: 40px; }
+      h1, .hero__copy h1 { font-size: 40px; }
       h2 { font-size: 34px; }
       blockquote { font-size: 26px; }
       #philosophy, #rituals, #spaces-intro, #journal, #architecture, #reflections, #reserve { padding-left: 24px; padding-right: 24px; }
       #spaces { height: 560vh; }
+      .sound { right: 20px; bottom: 16px; }
+      .sound__label { display: none; }
     }
     @media (max-width: 480px) {
-      h1 { font-size: 34px; }
+      h1, .hero__copy h1 { font-size: 34px; }
       h2 { font-size: 30px; }
     }
 
@@ -136,7 +188,7 @@
   <a class="skip-link" href="#philosophy">Skip to content</a>
 
   <!-- ============ NAVIGATION ============ -->
-  <nav class="nav" aria-label="Primary">
+  <nav id="nav" class="nav" aria-label="Primary">
     <a class="nav__mark" href="#hero">SATORI</a>
     <div class="nav__links">
       <a href="#philosophy">Philosophy</a>
@@ -148,12 +200,33 @@
     </div>
   </nav>
 
+  <!-- sound toggle (opt-in atmosphere) -->
+  <div id="sound" class="sound">
+    <button type="button" aria-label="Enable atmosphere" title="Enable atmosphere">
+      <span class="sound__bars" aria-hidden="true"><i></i><i></i><i></i><span class="sound__strike"></span></span>
+      <span class="sound__label">Enable atmosphere</span>
+    </button>
+  </div>
+
   <main>
     <!-- 01 · HERO -->
-    <section id="hero" class="scaffold" aria-label="01 Hero">
-      <div style="padding: 200px var(--margin);">
-        <span class="scaffold__label">01 · Hero</span>
-        <h2>Timed reveal · wordmark · headline · Enter SATORI</h2>
+    <section id="hero" class="is-dark" aria-label="01 Hero">
+      <div class="hero__layer hero__scene">
+        <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_124910_c6923b47-50fc-494c-a68e-687e7b2b40dd.png" alt="Dawn over a still reflection pool, a robed figure and drifting mist">
+      </div>
+      <div class="hero__layer hero__mist"><i class="m-a"></i><i class="m-b"></i></div>
+      <div class="hero__layer hero__veil"></div>
+      <div class="hero__drop"></div>
+
+      <div class="hero__copy">
+        <div class="hero__brand">SATORI</div>
+        <h1>Where silence becomes luxury.</h1>
+        <p class="hero__support">A sanctuary shaped by water, light, ritual, and time.</p>
+      </div>
+
+      <div class="hero__cue">
+        <button type="button">Enter SATORI</button>
+        <div class="cue-line"></div>
       </div>
     </section>
 
@@ -174,7 +247,7 @@
       <span class="scaffold__label">04 · Spaces — intro</span>
       <h2>Threshold into the spatial sequence</h2>
     </section>
-    <section id="spaces" class="scaffold" aria-label="04 Spaces Sequence">
+    <section id="spaces" class="scaffold is-dark" aria-label="04 Spaces Sequence">
       <div style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center; padding: 0 var(--margin);">
         <div>
           <span class="scaffold__label">04 · Spaces — 760vh scroll sequence (7 scenes)</span>
@@ -202,13 +275,13 @@
     </section>
 
     <!-- 08 · RESERVATION -->
-    <section id="reserve" class="scaffold" aria-label="08 Reservation">
+    <section id="reserve" class="scaffold is-dark" aria-label="08 Reservation">
       <span class="scaffold__label">08 · Reservation</span>
       <h2>Night entry → 5-step flow → confirmation</h2>
     </section>
 
     <!-- 09 · CLOSING & FOOTER -->
-    <section id="visit" class="scaffold" aria-label="09 Closing and Footer">
+    <section id="visit" class="scaffold is-dark" aria-label="09 Closing and Footer">
       <div style="padding: 200px var(--margin) 0;">
         <span class="scaffold__label">09 · Closing</span>
         <h2>Return to presence.</h2>
@@ -218,5 +291,110 @@
       </footer>
     </section>
   </main>
+
+  <script>
+  (function () {
+    var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hero = document.getElementById('hero');
+    var nav = document.getElementById('nav');
+    var sound = document.getElementById('sound');
+    var scene = hero.querySelector('.hero__scene');
+    var veil = hero.querySelector('.hero__veil');
+    var mist = hero.querySelector('.hero__mist');
+    var drop = hero.querySelector('.hero__drop');
+    var brand = hero.querySelector('.hero__brand');
+    var h1 = hero.querySelector('h1');
+    var support = hero.querySelector('.hero__support');
+    var cue = hero.querySelector('.hero__cue');
+
+    // ---- reveal timeline (phases + opacity map ported from prototype) ----
+    function apply(p) {
+      scene.style.opacity = p >= 3 ? 1 : 0;
+      veil.style.opacity = p >= 3 ? 0.42 : 1;
+      mist.style.opacity = reduced ? 0.35 : (p >= 2 ? 0.55 : 0);
+      var bo = p >= 4 ? 1 : 0;
+      brand.style.opacity = bo; h1.style.opacity = bo; support.style.opacity = bo;
+      cue.style.opacity = p >= 5 ? 1 : 0;
+      cue.style.pointerEvents = p >= 5 ? 'auto' : 'none';
+      drop.style.display = (p >= 1 && p < 3 && !reduced) ? 'block' : 'none';
+      nav.classList.toggle('is-revealed', p >= 5);
+      sound.classList.toggle('is-revealed', p >= 5);
+    }
+
+    if (reduced || window.scrollY > 120) {
+      apply(5);
+    } else {
+      apply(0);
+      [[400, 1], [2600, 2], [4600, 3], [8200, 4], [11600, 5]].forEach(function (s) {
+        setTimeout(function () { apply(s[1]); }, s[0]);
+      });
+    }
+
+    // ---- scroll: nav past-hero + sound colour over light/dark ----
+    function onScroll() {
+      nav.classList.toggle('is-past', window.scrollY > window.innerHeight * 0.7);
+      var el = document.elementFromPoint(window.innerWidth * 0.5, window.innerHeight - 30);
+      var sec = el && el.closest('section');
+      sound.classList.toggle('is-over-light', !(sec && sec.classList.contains('is-dark')));
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ---- delayed entry cue -> philosophy ----
+    cue.querySelector('button').addEventListener('click', function () {
+      var el = document.getElementById('philosophy');
+      if (el) window.scrollTo({ top: el.offsetTop - 20, behavior: reduced ? 'auto' : 'smooth' });
+    });
+
+    // ---- opt-in atmosphere (synthesised ambient + occasional water drop) ----
+    // ponytail: water-video audio crossfade at the footer lands with the closing
+    // section; _soundMix stays 0 here so ambient plays standalone, no rework then.
+    var ac, ambGain, dropTimer = null, soundOn = false;
+    var btn = sound.querySelector('button');
+    var label = sound.querySelector('.sound__label');
+
+    function ensureAudio() {
+      if (ac) return;
+      ac = new (window.AudioContext || window.webkitAudioContext)();
+      var len = ac.sampleRate * 4, buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0), last = 0;
+      for (var i = 0; i < len; i++) { var w = Math.random() * 2 - 1; last = (last + 0.02 * w) / 1.02; d[i] = last * 3.5; }
+      var src = ac.createBufferSource(); src.buffer = buf; src.loop = true;
+      var lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 320; lp.Q.value = 0.5;
+      ambGain = ac.createGain(); ambGain.gain.value = 0;
+      src.connect(lp); lp.connect(ambGain); ambGain.connect(ac.destination); src.start();
+    }
+
+    function waterDrop() {
+      if (!ac || !soundOn) return;
+      var t = ac.currentTime, o = ac.createOscillator(); o.type = 'sine';
+      o.frequency.setValueAtTime(520 + Math.random() * 180, t);
+      o.frequency.exponentialRampToValueAtTime(140, t + 0.28);
+      var g = ac.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.05, t + 0.015);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+      o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t + 0.55);
+    }
+
+    btn.addEventListener('click', async function () {
+      ensureAudio();
+      if (ac.state === 'suspended') await ac.resume();
+      soundOn = !soundOn;
+      var t = ac.currentTime;
+      ambGain.gain.cancelScheduledValues(t);
+      ambGain.gain.setTargetAtTime(soundOn ? 0.045 : 0, t, 1.2);
+      if (soundOn && !dropTimer) {
+        var sched = function () { waterDrop(); dropTimer = setTimeout(sched, 3500 + Math.random() * 6000); };
+        dropTimer = setTimeout(sched, 700);
+      }
+      if (!soundOn && dropTimer) { clearTimeout(dropTimer); dropTimer = null; }
+      sound.classList.toggle('is-on', soundOn);
+      var lbl = soundOn ? 'Mute atmosphere' : 'Enable atmosphere';
+      btn.setAttribute('aria-label', lbl);
+      btn.setAttribute('title', lbl);
+      label.textContent = lbl;
+    });
+  })();
+  </script>
 </body>
 </html>
