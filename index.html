@@ -73,6 +73,9 @@
     @keyframes satori-mist-a { 0% { transform: translate(-6%, 2%); } 50% { transform: translate(5%, -3%); } 100% { transform: translate(-6%, 2%); } }
     @keyframes satori-mist-b { 0% { transform: translate(4%, -2%); } 50% { transform: translate(-5%, 3%); } 100% { transform: translate(4%, -2%); } }
     @keyframes satori-ripple { 0% { transform: scale(0.1); opacity: 0; } 15% { opacity: 0.6; } 100% { transform: scale(1); opacity: 0; } }
+    @keyframes satori-fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes satori-breathe { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { [class*="bk-"], .bk-flow, .bk-step, .bk-confirm { animation: none !important; } }
 
     /* ---- skip link (keyboard) ---- */
     .skip-link {
@@ -303,6 +306,97 @@
     .refl__reveal { opacity: 0; transform: translateY(16px); transition: opacity 1.4s ease, transform 1.4s ease; }
     .refl__reveal.is-in { opacity: 1; transform: translateY(0); }
 
+    /* ---- reservation ---- */
+    .reserve__bg { position: absolute; inset: 0; opacity: 0.42; transition: opacity 2s ease; }
+    .reserve__bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .reserve__scrim { position: absolute; inset: 0; background: rgba(13, 19, 23, 0.6); pointer-events: none; }
+    .reserve__inner { position: relative; z-index: 2; padding: 190px var(--margin) 160px; }
+    .reserve__grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); }
+    .reserve__col { grid-column: 2 / span 7; }
+    .reserve__eyebrow { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(244, 239, 230, 0.5); margin-bottom: 24px; }
+
+    .bk-primary { font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; background: var(--ivory); color: var(--ink); border: 1px solid var(--ivory); padding: 18px 36px; cursor: pointer; transition: background 0.4s ease; display: inline-flex; gap: 10px; align-items: center; }
+    .bk-primary:hover { background: #E7DFD0; }
+    .bk-primary:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+    .bk-ghost { background: transparent; border: none; border-bottom: 1px solid var(--amber); padding: 10px 2px; cursor: pointer; font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; color: var(--ivory); transition: color 0.4s ease; }
+    .bk-ghost:hover { color: var(--amber); }
+    .bk-ghost:focus-visible { outline: none; box-shadow: 0 2px 0 0 var(--amber); }
+
+    .bk-entry h2 { font-size: 54px; line-height: 1.15; margin: 0 0 22px; color: var(--ivory); max-width: 16ch; }
+    .bk-entry__lead { font-size: 17px; line-height: 1.8; color: rgba(244, 239, 230, 0.72); max-width: 44ch; margin: 0; }
+    .bk-entry__actions { display: flex; gap: 32px; align-items: center; margin-top: 56px; flex-wrap: wrap; }
+    .bk-host { margin-top: 28px; font-size: 14px; line-height: 1.8; color: rgba(244, 239, 230, 0.65); }
+
+    .bk-flow { border-top: 1px solid rgba(201, 155, 98, 0.5); padding-top: 36px; max-width: 560px; }
+    .bk-flow--enter { animation: satori-fadein 0.9s ease both; }
+    .bk-flow__head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+    .bk-steplabel { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(244, 239, 230, 0.55); }
+    .bk-back { background: transparent; border: none; padding: 4px 0; margin: 0; cursor: pointer; font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244, 239, 230, 0.6); transition: color 0.4s ease; }
+    .bk-back:hover { color: var(--ivory); }
+    .bk-back:focus-visible { outline: none; box-shadow: 0 2px 0 0 var(--amber); }
+    .bk-progress { position: relative; height: 1px; background: rgba(244, 239, 230, 0.15); margin: 20px 0 48px; }
+    .bk-progress__fill { position: absolute; top: 0; left: 0; height: 1px; background: var(--amber); transition: width 0.9s ease; }
+    .bk-steptitle { font-family: var(--font-display); font-weight: 500; font-size: 34px; line-height: 1.2; margin: 0 0 36px; color: var(--ivory); }
+    .bk-step--enter { animation: satori-fadein 0.7s ease both; }
+    .bk-fieldcol { display: flex; flex-direction: column; }
+
+    .bk-option { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; width: 100%; text-align: left; background: transparent; border: none; border-bottom: 1px solid rgba(244, 239, 230, 0.15); padding: 20px 0; cursor: pointer; transition: border-color 0.5s ease; }
+    .bk-option--ritual { padding: 17px 0; }
+    .bk-option:hover { border-color: rgba(201, 155, 98, 0.7); }
+    .bk-option:focus-visible { outline: none; box-shadow: 0 2px 0 0 var(--amber); }
+    .bk-option__name { font-family: var(--font-display); font-size: 24px; font-weight: 500; color: rgba(244, 239, 230, 0.55); transition: color 0.5s ease; }
+    .bk-option--ritual .bk-option__name { font-size: 22px; }
+    .bk-option.is-selected { border-color: rgba(201, 155, 98, 0.9); }
+    .bk-option.is-selected .bk-option__name { color: var(--ivory); }
+    .bk-option__meta { font-size: 12px; color: rgba(244, 239, 230, 0.5); }
+    .bk-selsummary { font-size: 14px; line-height: 1.7; color: rgba(244, 239, 230, 0.6); margin: -16px 0 28px; }
+
+    .bk-sublabel { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: rgba(244, 239, 230, 0.7); margin-bottom: 14px; }
+    .bk-hint { font-size: 13px; line-height: 1.7; color: rgba(244, 239, 230, 0.55); margin-bottom: 14px; }
+    .bk-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+    .bk-chip { background: transparent; color: rgba(244, 239, 230, 0.85); border: 1px solid rgba(244, 239, 230, 0.3); padding: 13px 16px; cursor: pointer; font-family: var(--font-ui); font-size: 13px; transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease; min-height: 44px; }
+    .bk-chip:hover { border-color: rgba(201, 155, 98, 0.8); }
+    .bk-chip:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+    .bk-chip.is-selected { background: var(--ivory); color: var(--ink); border-color: var(--ivory); }
+    .bk-chip--time { padding: 13px 18px; }
+    .bk-chip--guest { padding: 13px 20px; }
+
+    .bk-loading { display: flex; align-items: center; gap: 12px; font-size: 14px; color: rgba(244, 239, 230, 0.6); }
+    .bk-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--amber); animation: satori-breathe 1.6s ease-in-out infinite; }
+    .bk-empty { font-size: 15px; line-height: 1.8; color: rgba(244, 239, 230, 0.7); max-width: 40ch; }
+    .bk-timeblock { margin-top: 40px; }
+
+    .bk-field { margin-top: 18px; }
+    .bk-field--first { margin-top: 40px; }
+    .bk-field label { display: block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: rgba(244, 239, 230, 0.7); margin-bottom: 10px; }
+    .bk-field label .opt { text-transform: none; letter-spacing: 0; color: rgba(244, 239, 230, 0.45); font-weight: 400; }
+    .bk-field input, .bk-field textarea { width: 100%; box-sizing: border-box; font-family: var(--font-ui); font-size: 16px; color: var(--ivory); background: transparent; border: none; border-bottom: 1px solid rgba(244, 239, 230, 0.35); padding: 12px 0; }
+    .bk-field textarea { font-size: 15px; line-height: 1.6; resize: vertical; }
+    .bk-field input:focus, .bk-field textarea:focus { outline: none; border-bottom: 1px solid var(--ivory); box-shadow: 0 1px 0 0 var(--amber); }
+    .bk-fielderr { font-size: 13px; line-height: 1.6; color: var(--error); margin-top: 8px; min-height: 18px; }
+
+    .bk-review-row { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px solid rgba(244, 239, 230, 0.12); }
+    .bk-review-row__label { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244, 239, 230, 0.5); }
+    .bk-review-row__val { display: flex; align-items: baseline; gap: 18px; }
+    .bk-review-row__val > span { font-size: 15px; color: var(--ivory); text-align: right; }
+    .bk-edit { background: transparent; border: none; padding: 0 0 2px; cursor: pointer; font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(201, 155, 98, 0.85); border-bottom: 1px solid rgba(201, 155, 98, 0.5); }
+    .bk-edit:hover { color: var(--amber); }
+    .bk-edit:focus-visible { outline: none; box-shadow: 0 2px 0 0 var(--amber); }
+    .bk-total { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 22px 0 0; margin-top: 8px; }
+    .bk-total__label { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244, 239, 230, 0.7); }
+    .bk-total__val { font-family: var(--font-display); font-size: 30px; font-weight: 500; color: var(--ivory); }
+    .bk-fineprint { font-size: 13px; line-height: 1.7; color: rgba(244, 239, 230, 0.55); margin-top: 10px; max-width: 44ch; }
+
+    .bk-steperror { font-size: 14px; line-height: 1.7; color: var(--error); margin-top: 28px; min-height: 20px; }
+    .bk-continue { display: flex; gap: 28px; align-items: center; margin-top: 28px; }
+    .bk-continue .bk-dot { background: var(--bronze); }
+    .bk-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    .bk-confirm--enter { animation: satori-fadein 1.2s ease both; }
+    .bk-confirm h2 { font-size: 54px; line-height: 1.15; margin: 0 0 22px; color: var(--ivory); max-width: 16ch; }
+    .bk-confirm__lead { font-size: 17px; line-height: 1.8; color: rgba(244, 239, 230, 0.75); max-width: 44ch; margin: 0; }
+    .bk-confirm__summary { margin-top: 44px; font-size: 14px; line-height: 2; color: rgba(244, 239, 230, 0.6); border-top: 1px solid rgba(244, 239, 230, 0.15); padding-top: 28px; max-width: 44ch; }
+
     /* ---- section skeleton (proportions from prototype) ---- */
     section { position: relative; }
     #hero         { min-height: 100vh; background: var(--hero-black); color: var(--ivory); }
@@ -313,7 +407,7 @@
     #journal      { background: var(--sand);  padding: 200px var(--margin); }
     #architecture { background: var(--ivory); padding: 200px var(--margin); }
     #reflections  { background: var(--sand);  padding: 200px var(--margin) 160px; }
-    #reserve      { min-height: 100vh; background: var(--night); color: var(--ivory); padding: 160px var(--margin); }
+    #reserve      { position: relative; min-height: 100vh; background: var(--night); color: var(--ivory); scroll-margin-top: 40px; overflow: hidden; }
     #visit        { background: var(--night-deep); color: var(--ivory); }
 
     /* placeholder scaffolding marker — removed as each phase fills its section */
@@ -347,6 +441,10 @@
       .refl__header, .refl__quote, .refl__note { grid-column: 1 / -1; }
       .refl--q2, .refl--q3, .refl--q4, .refl--q5 { margin-top: 64px; }
       .refl__quote blockquote { font-size: 26px; }
+      .reserve__inner { padding: 140px 24px 110px; }
+      .reserve__col { grid-column: 1 / -1; }
+      .bk-entry h2, .bk-confirm h2 { font-size: 38px; }
+      .bk-steptitle { font-size: 28px; }
       blockquote { font-size: 26px; }
       #philosophy, #rituals, #spaces-intro, #journal, #architecture, #reflections, #reserve { padding-left: 24px; padding-right: 24px; }
       #spaces { height: 560vh; }
@@ -519,9 +617,17 @@
     </section>
 
     <!-- 08 · RESERVATION -->
-    <section id="reserve" class="scaffold is-dark" aria-label="08 Reservation">
-      <span class="scaffold__label">08 · Reservation</span>
-      <h2>Night entry → 5-step flow → confirmation</h2>
+    <section id="reserve" class="is-dark" aria-label="08 Reservation">
+      <div class="reserve__bg"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_150232_ffe7ad92-65c7-4402-a115-433a124cfd26.png" alt="Night sanctuary — blue hour, lanterns, dark pool" loading="lazy"></div>
+      <div class="reserve__scrim"></div>
+      <div class="reserve__inner">
+        <div class="reserve__grid">
+          <div class="reserve__col">
+            <div class="reserve__eyebrow">Reservation</div>
+            <div id="reserve-body"><!-- entry / flow / confirmation rendered by JS --></div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- 09 · CLOSING & FOOTER -->
@@ -669,8 +775,6 @@
     }
 
     // ---- signature rituals ----
-    // pendingRituals is consumed by the booking flow (Phase 10) for preselection.
-    var pendingRituals = [];
     var RITUALS = [
       { name: 'Water Rituals', promise: 'Return through warmth.', desc: 'Immersive bathing and thermal transitions designed to quiet the body.', dur: '120 min', scene: 'steam over the bathing pool — warm side light', price: 180, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_131256_fb2b873b-3827-49d0-9953-a0854cf5840c.png' },
       { name: 'Head & Scalp Rituals', promise: 'Release what the day holds.', desc: 'Slow, precise care for the scalp, neck, shoulders, and breath.', dur: '75 min', scene: 'precise care for scalp and neck — 85 mm', price: 140, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_132328_45d9b17f-6b19-4c5b-b422-364b46bad11c.png' },
@@ -744,10 +848,7 @@
       rIndex.addEventListener('click', function (e) {
         var resBtn = e.target.closest('.ritual__reserve');
         if (resBtn) {
-          var idx = +resBtn.getAttribute('data-reserve');
-          if (pendingRituals.indexOf(idx) < 0 && pendingRituals.length < 3) pendingRituals.push(idx);
-          var el = document.getElementById('reserve');
-          if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: reduced ? 'auto' : 'smooth' });
+          if (window.__satoriReserveRitual) window.__satoriReserveRitual(+resBtn.getAttribute('data-reserve'));
           return;
         }
         // click anywhere on the row selects it
@@ -961,6 +1062,275 @@
         reflNote.parentNode.insertBefore(el, reflNote);
       });
       revealOnce('.refl__reveal');
+    }
+
+    // ---- reservation / booking flow ----
+    var reserveBody = document.getElementById('reserve-body');
+    var reserveBg = document.querySelector('#reserve .reserve__bg');
+    if (reserveBody) {
+      var SANCTUARIES = [
+        { name: 'The Garden Sanctuary', meta: 'city edge' },
+        { name: 'The Water Sanctuary', meta: 'lakeside' },
+        { name: 'The Forest Sanctuary', meta: 'mountain valley' }
+      ];
+      var TIMES = ['10:00', '11:30', '13:00', '15:00', '16:30', '18:00'];
+      var MINS = [120, 75, 90, 75, 90, 60, 120, 300];
+      var CLOSE_MIN = 1200, BUFFER = 30;
+      var STEP_TITLES = ['', 'Where would you like to be received?', 'Choose your ritual', 'Choose a day and time', 'A few quiet details', 'Review your ritual'];
+
+      var bk = { open: false, step: 1, sanctuary: -1, rituals: [], day: -1, time: -1, guests: 1, name: '', guest2: '', email: '', notes: '', hostOpen: false, timesLoading: false, confirming: false, confirmed: false, stepError: '', nameError: '', emailError: '', guest2Error: '' };
+      var bkTimesT = null, bkConfirmT = null, bkDaysCache = null;
+      var bkPrevView = null, bkPrevStep = 0; // enter-animations play only on real view/step change
+
+      function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+      function bkPersist() {
+        try {
+          localStorage.setItem('satori_booking_v1', JSON.stringify({ open: bk.open, step: bk.step, s: bk.sanctuary, r: bk.rituals, d: bk.day, t: bk.time, g: bk.guests, n: bk.name, g2: bk.guest2, e: bk.email, no: bk.notes }));
+        } catch (e) {}
+      }
+      function bkDays() {
+        if (bkDaysCache) return bkDaysCache;
+        var out = [], now = new Date();
+        for (var i = 1; i <= 7; i++) {
+          var d = new Date(now.getTime() + i * 86400000);
+          out.push({
+            label: d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }),
+            full: d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
+          });
+        }
+        bkDaysCache = out; return out;
+      }
+      function bkNeedMin() {
+        var sel = bk.rituals;
+        if (!sel.length) return 0;
+        return sel.reduce(function (a, i) { return a + MINS[i]; }, 0) + BUFFER * (sel.length - 1);
+      }
+      function bkNeedLabel() {
+        var m = bkNeedMin();
+        if (!m) return '';
+        var h = Math.floor(m / 60), rest = m % 60;
+        return 'about ' + h + (rest >= 45 ? '¾' : rest >= 30 ? '½' : rest >= 15 ? '¼' : '') + ' hours together';
+      }
+      function bkTimesFor(dayIdx) {
+        if (dayIdx === 2) return [];
+        var need = bkNeedMin();
+        return TIMES.filter(function (t) { var p = t.split(':'); return (+p[0] * 60 + +p[1]) + need <= CLOSE_MIN; });
+      }
+      function bkEndLabel(t) {
+        var p = t.split(':'), end = +p[0] * 60 + +p[1] + bkNeedMin();
+        var h = Math.floor(end / 60), m = end % 60;
+        return h + ':' + (m < 10 ? '0' : '') + m;
+      }
+      function bkPrice(i) { var r = RITUALS[i]; return (i === 6 || i === 7) ? r.price : r.price * bk.guests; }
+      function bkTotal() { return bk.rituals.length ? '€' + bk.rituals.reduce(function (a, i) { return a + bkPrice(i); }, 0) : '—'; }
+
+      function bkToggleRitual(i) {
+        var sel = bk.rituals.slice(), at = sel.indexOf(i);
+        if (at >= 0) { sel.splice(at, 1); }
+        else {
+          if (sel.length >= 3) { bk.stepError = 'A single day holds three rituals at most. Remove one to add another.'; render(); return; }
+          sel.push(i);
+        }
+        bk.rituals = sel; bk.stepError = '';
+        // keep chosen time only if it still fits the new total duration
+        if (bk.time >= 0) {
+          var p = TIMES[bk.time].split(':'), start = +p[0] * 60 + +p[1];
+          if (bk.day === 2 || start + bkNeedMin() > CLOSE_MIN) bk.time = -1;
+        }
+        bkPersist(); render();
+      }
+      function bkPickDay(i) {
+        if (bkTimesT) clearTimeout(bkTimesT);
+        bk.day = i; bk.time = -1; bk.timesLoading = true; bk.stepError = '';
+        bkPersist(); render();
+        bkTimesT = setTimeout(function () { bk.timesLoading = false; render(); }, 700);
+      }
+      function bkContinue() {
+        if (bk.step === 1) {
+          if (bk.sanctuary < 0) { bk.stepError = 'Please choose a sanctuary to continue.'; render(); return; }
+          bk.step = 2; bk.stepError = '';
+        } else if (bk.step === 2) {
+          if (!bk.rituals.length) { bk.stepError = 'Please choose at least one ritual to continue.'; render(); return; }
+          bk.step = 3; bk.stepError = '';
+        } else if (bk.step === 3) {
+          if (bk.day < 0 || bk.time < 0) { bk.stepError = 'Please choose a day and an open time to continue.'; render(); return; }
+          bk.step = 4; bk.stepError = '';
+        } else if (bk.step === 4) {
+          var nameErr = bk.name.trim() ? '' : 'Please tell us your name — it helps us welcome you.';
+          var guest2Err = (bk.guests === 2 && !bk.guest2.trim()) ? 'Please tell us your guest’s name — every welcome is personal.' : '';
+          var emailErr = /.+@.+\..+/.test(bk.email.trim()) ? '' : 'Please check this address — it seems incomplete.';
+          if (nameErr || emailErr || guest2Err) { bk.nameError = nameErr; bk.emailError = emailErr; bk.guest2Error = guest2Err; render(); return; }
+          bk.step = 5; bk.stepError = ''; bk.nameError = ''; bk.emailError = ''; bk.guest2Error = '';
+        } else if (bk.step === 5 && !bk.confirming) {
+          bk.confirming = true; bk.stepError = ''; render();
+          bkConfirmT = setTimeout(function () {
+            bk.confirming = false; bk.confirmed = true; bk.open = false;
+            try { localStorage.removeItem('satori_booking_v1'); } catch (e) {}
+            render();
+          }, 1200);
+          return;
+        }
+        bkPersist(); render();
+      }
+      function bkReset() {
+        try { localStorage.removeItem('satori_booking_v1'); } catch (e) {}
+        bk = { open: false, step: 1, sanctuary: -1, rituals: [], day: -1, time: -1, guests: 1, name: '', guest2: '', email: '', notes: '', hostOpen: false, timesLoading: false, confirming: false, confirmed: false, stepError: '', nameError: '', emailError: '', guest2Error: '' };
+        render();
+      }
+      // deep-link from a ritual's "Reserve this ritual"
+      window.__satoriReserveRitual = function (i) {
+        var sel = bk.rituals.slice();
+        if (sel.indexOf(i) < 0 && sel.length < 3) sel.push(i);
+        bk.rituals = sel; bk.open = true; bk.confirmed = false; bk.stepError = '';
+        bkPersist(); render();
+        var el = document.getElementById('reserve');
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: reduced ? 'auto' : 'smooth' });
+      };
+
+      function renderStep() {
+        if (bk.step === 1) {
+          return '<div class="bk-step bk-fieldcol">' + SANCTUARIES.map(function (s, i) {
+            return '<button class="bk-option' + (i === bk.sanctuary ? ' is-selected' : '') + '" data-act="pick-sanctuary:' + i + '" type="button"><span class="bk-option__name">' + s.name + '</span><span class="bk-option__meta">' + s.meta + '</span></button>';
+          }).join('') + '</div>';
+        }
+        if (bk.step === 2) {
+          var summary = bk.rituals.length ? (bk.rituals.length + (bk.rituals.length === 1 ? ' ritual chosen' : ' rituals chosen') + ' · ' + bkNeedLabel()) : 'Choose up to three rituals for one visit.';
+          return '<div class="bk-step"><div class="bk-selsummary">' + summary + '</div><div class="bk-fieldcol">' + RITUALS.map(function (r, i) {
+            var s = bk.rituals.indexOf(i) >= 0;
+            return '<button class="bk-option bk-option--ritual' + (s ? ' is-selected' : '') + '" data-act="toggle-ritual:' + i + '" type="button"><span class="bk-option__name">' + r.name + '</span><span class="bk-option__meta">' + (s ? 'chosen · ' : '') + r.dur + ' · from €' + r.price + '</span></button>';
+          }).join('') + '</div></div>';
+        }
+        if (bk.step === 3) {
+          var dayChips = bkDays().map(function (d, i) {
+            return '<button class="bk-chip' + (i === bk.day ? ' is-selected' : '') + '" data-act="pick-day:' + i + '" type="button">' + d.label + '</button>';
+          }).join('');
+          var timeBlock = '';
+          if (bk.day >= 0) {
+            if (bk.timesLoading) timeBlock = '<div class="bk-loading"><span class="bk-dot"></span>Preparing the next moment…</div>';
+            else {
+              var tf = bkTimesFor(bk.day);
+              if (!tf.length) timeBlock = '<div class="bk-empty">This day is already fully quiet. The nearest open day is highlighted above — or a host can find time that suits you.</div>';
+              else timeBlock = '<div class="bk-sublabel">Time</div><div class="bk-hint">Only times that leave room for everything you have chosen — we close at 20:00.</div><div class="bk-chips">' + tf.map(function (t) {
+                var gi = TIMES.indexOf(t);
+                return '<button class="bk-chip bk-chip--time' + (gi === bk.time ? ' is-selected' : '') + '" data-act="pick-time:' + gi + '" type="button" title="Ends around ' + bkEndLabel(t) + '" aria-label="' + t + ', ends around ' + bkEndLabel(t) + '">' + t + '</button>';
+              }).join('') + '</div>';
+            }
+          }
+          return '<div class="bk-step"><div class="bk-sublabel">Day</div><div class="bk-chips">' + dayChips + '</div><div class="bk-timeblock">' + timeBlock + '</div></div>';
+        }
+        if (bk.step === 4) {
+          return '<div class="bk-step"><div class="bk-sublabel">Guests</div><div class="bk-chips">'
+            + '<button class="bk-chip bk-chip--guest' + (bk.guests === 1 ? ' is-selected' : '') + '" data-act="guests:1" type="button">One guest</button>'
+            + '<button class="bk-chip bk-chip--guest' + (bk.guests === 2 ? ' is-selected' : '') + '" data-act="guests:2" type="button">Two guests</button>'
+            + '</div>'
+            + '<div class="bk-field bk-field--first"><label for="bk-name">Your name</label><input id="bk-name" type="text" value="' + esc(bk.name) + '" aria-describedby="bk-name-err"><div id="bk-name-err" class="bk-fielderr">' + esc(bk.nameError) + '</div></div>'
+            + (bk.guests === 2 ? '<div class="bk-field"><label for="bk-guest2">Your guest’s name</label><input id="bk-guest2" type="text" value="' + esc(bk.guest2) + '" aria-describedby="bk-guest2-err"><div id="bk-guest2-err" class="bk-fielderr">' + esc(bk.guest2Error) + '</div></div>' : '')
+            + '<div class="bk-field"><label for="bk-email">Email</label><input id="bk-email" type="email" value="' + esc(bk.email) + '" aria-describedby="bk-email-err"><div id="bk-email-err" class="bk-fielderr">' + esc(bk.emailError) + '</div></div>'
+            + '<div class="bk-field"><label for="bk-notes">Anything we should know <span class="opt">— optional</span></label><textarea id="bk-notes" rows="2">' + esc(bk.notes) + '</textarea></div>'
+            + '</div>';
+        }
+        // step 5 — review
+        var sel = bk.rituals;
+        var names = sel.map(function (i) { return RITUALS[i].name; }).join(', ') || '—';
+        var priceParts = sel.map(function (i) { return '€' + bkPrice(i); });
+        var day = bkDays()[bk.day] || {};
+        var guestsVal = bk.guests === 2 ? ('Two guests' + (bk.guest2.trim() ? ' — with ' + esc(bk.guest2.trim()) : '')) : 'One guest';
+        var rows = [
+          ['Sanctuary', esc((SANCTUARIES[bk.sanctuary] || {}).name || '—'), 1],
+          [sel.length === 1 ? 'Ritual' : 'Rituals', esc(names) + ' · ' + bkNeedLabel(), 2],
+          ['Day &amp; time', esc(day.full || '—') + ' at ' + (TIMES[bk.time] || '—') + ' — ends ~' + bkEndLabel(TIMES[bk.time] || '10:00'), 3],
+          ['Guests', guestsVal, 4],
+          ['Price', priceParts.join(' + ') + (bk.guests === 2 ? ' — for two guests' : ''), 2]
+        ];
+        return '<div class="bk-step"><div class="bk-fieldcol">' + rows.map(function (r) {
+          return '<div class="bk-review-row"><span class="bk-review-row__label">' + r[0] + '</span><span class="bk-review-row__val"><span>' + r[1] + '</span><button class="bk-edit" data-act="edit:' + r[2] + '" type="button">Edit</button></span></div>';
+        }).join('') + '</div>'
+          + '<div class="bk-total"><span class="bk-total__label">Total</span><span class="bk-total__val">' + bkTotal() + '</span></div>'
+          + '<div class="bk-fineprint">The full amount is settled at the sanctuary. Rescheduling is free up to 24 hours before your visit.</div></div>';
+      }
+
+      function render() {
+        reserveBg.style.opacity = (bk.open && !bk.confirmed) ? '0.22' : '0.42';
+        var view = bk.confirmed ? 'confirm' : (bk.open ? 'flow' : 'entry');
+        // enter-animations only on actual transitions (never on same-step re-renders like selecting an option)
+        var flowEnter = view === 'flow' && bkPrevView !== 'flow';
+        var stepEnter = view === 'flow' && (bkPrevView !== 'flow' || bkPrevStep !== bk.step);
+        var confirmEnter = view === 'confirm' && bkPrevView !== 'confirm';
+        var html;
+        if (bk.confirmed) {
+          var cnames = bk.rituals.map(function (i) { return RITUALS[i].name; }).join(', ');
+          var cday = bkDays()[bk.day] || {}, csa = SANCTUARIES[bk.sanctuary] || {};
+          var summary = esc(cnames) + ' · ' + esc(cday.full || '') + ' at ' + (TIMES[bk.time] || '') + ' · ' + esc(csa.name || '');
+          html = '<div class="bk-confirm' + (confirmEnter ? ' bk-confirm--enter' : '') + '"><h2>Your time has been reserved.</h2><p class="bk-confirm__lead">We look forward to welcoming you into a slower rhythm.</p><div class="bk-confirm__summary">' + summary + '<br>A quiet confirmation is on its way to ' + esc(bk.email) + '.</div><button class="bk-ghost" style="margin-top:44px" data-act="reset" type="button">Plan another visit</button></div>';
+        } else if (bk.open) {
+          var stepHtml = renderStep();
+          if (stepEnter) stepHtml = stepHtml.replace('bk-step', 'bk-step bk-step--enter');
+          html = '<div class="bk-flow' + (flowEnter ? ' bk-flow--enter' : '') + '">'
+            + '<div class="bk-sr" aria-live="polite">Step ' + bk.step + ' of 5</div>'
+            + '<div class="bk-flow__head"><div class="bk-steplabel">Step ' + bk.step + ' of 5</div>'
+            + (bk.step > 1 ? '<button class="bk-back" data-act="back" type="button">← Previous step</button>' : '')
+            + '</div>'
+            + '<div class="bk-progress"><div class="bk-progress__fill" style="width:' + (bk.step / 5 * 100).toFixed(1) + '%"></div></div>'
+            + '<h3 class="bk-steptitle">' + STEP_TITLES[bk.step] + '</h3>'
+            + stepHtml
+            + '<div class="bk-steperror">' + esc(bk.stepError) + '</div>'
+            + '<div class="bk-continue"><button class="bk-primary" data-act="continue" type="button"><span>' + (bk.step === 5 ? (bk.confirming ? 'Confirming' : 'Confirm reservation') : 'Continue') + '</span>' + (bk.confirming ? '<span class="bk-dot"></span>' : '') + '</button></div>'
+            + '</div>';
+        } else {
+          html = '<div class="bk-entry"><h2>Reserve your moment of stillness.</h2>'
+            + '<p class="bk-entry__lead">Choose a ritual, preferred sanctuary, and time. We will guide the rest.</p>'
+            + '<div class="bk-entry__actions"><button class="bk-primary" data-act="begin" type="button">Begin your reservation</button>'
+            + '<button class="bk-ghost" data-act="toggle-host" type="button">Speak with a host</button></div>'
+            + (bk.hostOpen ? '<div class="bk-host">A host is available daily, 9:00 – 20:00.<br>+44 20 7946 0918 · host@satori-spa.com</div>' : '')
+            + '</div>';
+        }
+        reserveBody.innerHTML = html;
+        bkPrevView = view; bkPrevStep = bk.step;
+      }
+
+      reserveBody.addEventListener('click', function (e) {
+        var t = e.target.closest('[data-act]');
+        if (!t) return;
+        var parts = t.getAttribute('data-act').split(':'), act = parts[0], arg = parts[1];
+        switch (act) {
+          case 'begin': bk.open = true; bk.step = 1; bk.stepError = ''; bkPersist(); render(); break;
+          case 'toggle-host': bk.hostOpen = !bk.hostOpen; render(); break;
+          case 'back': bk.step = Math.max(1, bk.step - 1); bk.stepError = ''; bkPersist(); render(); break;
+          case 'pick-sanctuary': bk.sanctuary = +arg; bk.stepError = ''; bkPersist(); render(); break;
+          case 'toggle-ritual': bkToggleRitual(+arg); break;
+          case 'pick-day': bkPickDay(+arg); break;
+          case 'pick-time': bk.time = +arg; bk.stepError = ''; bkPersist(); render(); break;
+          case 'guests': bk.guests = +arg; bkPersist(); render(); break;
+          case 'continue': bkContinue(); break;
+          case 'edit': bk.step = +arg; bk.stepError = ''; bkPersist(); render(); break;
+          case 'reset': bkReset(); break;
+        }
+      });
+      reserveBody.addEventListener('input', function (e) {
+        var id = e.target.id, v = e.target.value;
+        if (id === 'bk-name') { bk.name = v; bk.nameError = ''; }
+        else if (id === 'bk-guest2') { bk.guest2 = v; bk.guest2Error = ''; }
+        else if (id === 'bk-email') { bk.email = v; bk.emailError = ''; }
+        else if (id === 'bk-notes') { bk.notes = v; }
+        else return;
+        var errEl = document.getElementById(id + '-err');
+        if (errEl) errEl.textContent = '';
+        bkPersist();
+      });
+
+      // restore persisted booking
+      try {
+        var saved = JSON.parse(localStorage.getItem('satori_booking_v1') || 'null');
+        if (saved && typeof saved === 'object') {
+          // restore data only — always land on the entry screen (open:false, step:1);
+          // the preserved choices reappear as the user walks through from Begin.
+          bk.sanctuary = saved.s == null ? -1 : saved.s;
+          bk.rituals = Array.isArray(saved.r) ? saved.r : (typeof saved.r === 'number' && saved.r >= 0 ? [saved.r] : []);
+          bk.day = saved.d == null ? -1 : saved.d; bk.time = saved.t == null ? -1 : saved.t;
+          bk.guests = saved.g || 1; bk.name = saved.n || ''; bk.guest2 = saved.g2 || ''; bk.email = saved.e || ''; bk.notes = saved.no || '';
+        }
+      } catch (e) {}
+      render();
     }
   })();
   </script>
