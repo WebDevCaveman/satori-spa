@@ -198,6 +198,35 @@
     .ritual__reserve:hover { color: var(--bronze); }
     .ritual__reserve:focus-visible { outline: none; box-shadow: 0 2px 0 0 var(--bronze); }
 
+    /* ---- spaces (intro + scroll-driven sequence) ---- */
+    #spaces-intro { background: var(--ivory); padding: 200px var(--margin) 140px; }
+    .spaces-intro__grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); }
+    .spaces-intro__col { grid-column: 2 / span 7; }
+    .spaces-intro__eyebrow { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(38, 36, 31, 0.45); margin-bottom: 24px; }
+    .spaces-intro__col h2 { font-size: 54px; line-height: 1.15; margin: 0 0 28px; }
+    .spaces-intro__body { font-size: 18px; line-height: 1.8; color: rgba(38, 36, 31, 0.75); max-width: 46ch; margin: 0; }
+
+    #spaces { position: relative; height: 760vh; background: var(--spaces-bg); }
+    .spaces__sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+    .space { position: absolute; inset: 0; opacity: 0; transition: opacity 1.6s ease; pointer-events: none; box-sizing: border-box; display: flex; }
+    .space.is-active { opacity: 1; pointer-events: auto; }
+    .space__frame { position: relative; flex: 1; overflow: hidden; }
+    .space__img { position: absolute; inset: 0; transform: scale(1.075); transition: transform 0.2s linear; will-change: transform; }
+    .space__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .space__tint { position: absolute; inset: 0; pointer-events: none; }
+    .space__caption { position: absolute; left: 6%; bottom: 9%; pointer-events: none; max-width: 60ch; }
+    .space__num { font-family: monospace; font-size: 11px; color: rgba(244, 239, 230, 0.6); margin-bottom: 14px; }
+    .space__name { font-family: var(--font-display); font-weight: 500; font-size: 46px; line-height: 1.1; color: var(--ivory); text-shadow: 0 1px 24px rgba(0, 0, 0, 0.35); }
+    .space__sentence { font-size: 15px; line-height: 1.7; color: rgba(244, 239, 230, 0.8); margin-top: 12px; text-shadow: 0 1px 16px rgba(0, 0, 0, 0.35); }
+
+    .spaces__rail { position: absolute; right: 4.5%; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 3px; align-items: flex-end; }
+    .spaces__dot { display: flex; align-items: center; justify-content: flex-end; background: transparent; border: none; margin: 0; padding: 7px 0; cursor: pointer; min-width: 44px; }
+    .spaces__dot span { display: inline-block; height: 1px; width: 14px; background: rgba(244, 239, 230, 0.35); transition: width 0.6s ease, background 0.6s ease, height 0.2s ease; }
+    .spaces__dot:hover { opacity: 0.8; }
+    .spaces__dot.is-active span { width: 28px; background: var(--amber); }
+    .spaces__dot:focus-visible { outline: none; }
+    .spaces__dot:focus-visible span { width: 28px; height: 3px; background: var(--amber); }
+
     /* ---- section skeleton (proportions from prototype) ---- */
     section { position: relative; }
     #hero         { min-height: 100vh; background: var(--hero-black); color: var(--ivory); }
@@ -224,10 +253,12 @@
       :root { --margin: 24px; }
       .nav__links a:not(.nav__reserve) { display: none; }
       h1, .hero__copy h1 { font-size: 40px; }
-      h2, .philo__text h2, .rituals__title { font-size: 34px; }
+      h2, .philo__text h2, .rituals__title, .spaces-intro__col h2 { font-size: 34px; }
       .philo__text, .philo__media { grid-column: 1 / -1; }
       .rituals__index, .rituals__panel { grid-column: 1 / -1; }
       .rituals__panel { position: static; order: -1; margin-bottom: 48px; }
+      .spaces-intro__col { grid-column: 1 / -1; }
+      .space__name { font-size: 32px; }
       blockquote { font-size: 26px; }
       #philosophy, #rituals, #spaces-intro, #journal, #architecture, #reflections, #reserve { padding-left: 24px; padding-right: 24px; }
       #spaces { height: 560vh; }
@@ -328,16 +359,19 @@
     </section>
 
     <!-- 04 · SPACES (intro + sequence) -->
-    <section id="spaces-intro" class="scaffold" aria-label="04 Spaces Intro">
-      <span class="scaffold__label">04 · Spaces — intro</span>
-      <h2>Threshold into the spatial sequence</h2>
-    </section>
-    <section id="spaces" class="scaffold is-dark" aria-label="04 Spaces Sequence">
-      <div style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center; padding: 0 var(--margin);">
-        <div>
-          <span class="scaffold__label">04 · Spaces — 760vh scroll sequence (7 scenes)</span>
-          <h2>Stone Corridor → Infinity Sanctuary → Moon Garden</h2>
+    <section id="spaces-intro" aria-label="04 Spaces Intro">
+      <div class="spaces-intro__grid">
+        <div class="spaces-intro__col">
+          <div class="spaces-intro__eyebrow">Spaces</div>
+          <h2>A sanctuary revealed slowly.</h2>
+          <p class="spaces-intro__body">Every space is composed to change the way time feels.</p>
         </div>
+      </div>
+    </section>
+    <section id="spaces" class="is-dark" aria-label="04 Spaces Sequence">
+      <div class="spaces__sticky">
+        <div class="spaces__scenes"></div>
+        <div class="spaces__rail" role="group" aria-label="Jump to space"></div>
       </div>
     </section>
 
@@ -589,6 +623,80 @@
         var btn = rIndex.querySelector('button[data-ritual="' + next + '"]');
         if (btn) btn.focus();
       });
+    }
+
+    // ---- spaces: scroll-driven sequence (7 scenes, crossfade + slow push-in) ----
+    var SPACES = [
+      { name: 'Stone Corridor', sentence: 'The world narrows before it opens.', tint: 'rgba(16,14,10,0.28)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_135918_f76576a6-35e1-4d3d-a42e-4573efafb780.png' },
+      { name: 'Timber Threshold', sentence: 'Hinoki marks the passage into warmth.', tint: 'rgba(50,38,20,0.14)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133434_35ec4cef-8664-4eff-900f-4843e3c33fe1.png' },
+      { name: 'Reflection Hall', sentence: 'Still water doubles the light.', tint: 'rgba(0,0,0,0.08)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133435_e1845644-5e97-4339-b621-79f6fbff3079.png' },
+      { name: 'Water Sanctuary', sentence: 'Bathing, returned to ceremony.', tint: 'rgba(8,18,22,0.10)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133437_8b58ce17-836c-4fcd-8c37-5f04c314ae93.png' },
+      { name: 'Forest Walk', sentence: 'A path held between moss and wind.', tint: 'rgba(10,16,9,0.18)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133439_06d0a285-cf5d-4ab2-8486-3722cd60d82a.png' },
+      { name: 'Infinity Sanctuary', sentence: 'Water meets a pale horizon.', tint: 'rgba(26,18,16,0.10)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133442_c9d3b155-cb84-473c-baf0-4b1219b5b949.png' },
+      { name: 'Moon Garden', sentence: 'The day ends in shadow and lantern light.', tint: 'rgba(5,9,15,0.34)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133443_8b9990d8-49a3-4688-90d2-550c03ec1d39.png' }
+    ];
+
+    var spacesSec = document.getElementById('spaces');
+    if (spacesSec) {
+      var scenesWrap = spacesSec.querySelector('.spaces__scenes');
+      var railWrap = spacesSec.querySelector('.spaces__rail');
+      var n = SPACES.length;
+      var sceneImgs = [], sceneEls = [], dots = [];
+
+      SPACES.forEach(function (s, i) {
+        var num = String(i + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0');
+        var el = document.createElement('div');
+        el.className = 'space' + (i === 0 ? ' is-active' : '');
+        el.innerHTML =
+          '<div class="space__frame">'
+          + '<div class="space__img"><img src="' + s.src + '" alt="' + s.name + ' — spatial sequence frame" loading="lazy"></div>'
+          + '<div class="space__tint" style="background:' + s.tint + '"></div>'
+          + '<div class="space__caption"><div class="space__num">' + num + '</div>'
+          + '<div class="space__name">' + s.name + '</div>'
+          + '<div class="space__sentence">' + s.sentence + '</div></div>'
+          + '</div>';
+        scenesWrap.appendChild(el);
+        sceneEls.push(el);
+        sceneImgs.push(el.querySelector('.space__img'));
+
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'spaces__dot' + (i === 0 ? ' is-active' : '');
+        dot.setAttribute('aria-label', s.name);
+        dot.title = s.name;
+        dot.innerHTML = '<span></span>';
+        dot.addEventListener('click', function () {
+          var total = spacesSec.offsetHeight - window.innerHeight;
+          var top = spacesSec.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({ top: top + ((i + 0.5) / n) * total, behavior: reduced ? 'auto' : 'smooth' });
+        });
+        railWrap.appendChild(dot);
+        dots.push(dot);
+      });
+
+      var activeSpace = 0;
+      function updateSpaces() {
+        var rect = spacesSec.getBoundingClientRect();
+        var total = spacesSec.offsetHeight - window.innerHeight;
+        if (total <= 0) return;
+        var prog = Math.min(1, Math.max(0, -rect.top / total));
+        var idx = Math.min(n - 1, Math.floor(prog * n));
+        for (var i = 0; i < n; i++) {
+          // slow push-in: scale 1.075 -> 1.0 across each scene's window
+          var local = Math.min(1, Math.max(0, prog * n - i));
+          var scale = reduced ? 1 : Math.round((1.075 - 0.075 * local) * 1000) / 1000;
+          sceneImgs[i].style.transform = 'scale(' + scale + ')';
+        }
+        if (idx !== activeSpace) {
+          sceneEls[activeSpace].classList.remove('is-active');
+          dots[activeSpace].classList.remove('is-active');
+          activeSpace = idx;
+          sceneEls[idx].classList.add('is-active');
+          dots[idx].classList.add('is-active');
+        }
+      }
+      addEventListener('scroll', updateSpaces, { passive: true });
+      updateSpaces();
     }
   })();
   </script>
