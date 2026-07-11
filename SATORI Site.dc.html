@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="utf-8">
+  <title>SATORI — Oriental Spa &amp; Ritual House</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; background: #06090B; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body { font-family: 'Work Sans', sans-serif; color: #26241F; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: inherit; }
+    @keyframes satori-breathe { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+    @keyframes satori-fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { [data-anim] { animation: none !important; } }
+    @keyframes satori-ripple { 0% { transform: scale(0.1); opacity: 0; } 15% { opacity: 0.6; } 100% { transform: scale(1); opacity: 0; } }
+    @keyframes satori-mist-a { 0% { transform: translate(-6%, 2%); } 50% { transform: translate(5%, -3%); } 100% { transform: translate(-6%, 2%); } }
+    @keyframes satori-mist-b { 0% { transform: translate(4%, -2%); } 50% { transform: translate(-5%, 3%); } 100% { transform: translate(4%, -2%); } }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; }
+    }
+    /* ===== responsive foundations (Phase 13) ===== */
+    @media (max-width: 820px) {
+      [data-grid] { grid-template-columns: 1fr !important; }
+      [data-grid] > * { grid-column: 1 / -1 !important; justify-self: start !important; position: static !important; }
+      [data-nav-sec] { display: none !important; }
+      nav { padding: 16px 24px !important; }
+      section:not(#spaces):not(#hero) { padding-left: 24px !important; padding-right: 24px !important; }
+      footer { padding-left: 24px !important; padding-right: 24px !important; }
+      h1 { font-size: 40px !important; }
+      h2 { font-size: 34px !important; }
+      blockquote { font-size: 26px !important; }
+      #spaces { height: 560vh !important; }
+      #journal [data-stage-index] button { font-size: 16px !important; white-space: nowrap; }
+      [data-stage-index] { gap: 16px !important; flex-wrap: nowrap !important; justify-content: space-between; }
+      [data-scene-name] { font-size: 32px !important; }
+      [data-closing] { aspect-ratio: 4 / 3 !important; }
+      [data-grid-gapless] { row-gap: 56px !important; }
+      [data-rituals-panel] { order: -1; margin-bottom: 48px; }
+      [data-journey-media] { aspect-ratio: auto !important; height: 66vw !important; }
+      [data-sound-label] { display: none !important; }
+      [data-sound-wrap] { right: 20px !important; bottom: 16px !important; }
+    }
+    @media (max-width: 480px) {
+      h1 { font-size: 34px !important; }
+      h2 { font-size: 30px !important; }
+      #journal [data-stage-index] button { font-size: 12.5px !important; }
+      [data-stage-index] { gap: 8px !important; }
+    }
+  </style>
+</helmet>
+
+<div style="background: #F4EFE6; color: #26241F;">
+
+  <!-- skip link (keyboard) -->
+  <a href="#philosophy" style="position: fixed; top: 12px; left: 12px; z-index: 100; background: #26241F; color: #F4EFE6; padding: 12px 20px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; transform: translateY(-200%); transition: transform 0.3s ease;" style-focus="transform: translateY(0); outline: 2px solid #C99B62; outline-offset: 2px;">Skip to content</a>
+
+  <!-- ============ NAVIGATION (appears after reveal) ============ -->
+  <nav data-screen-label="Navigation" style="position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 24px 8vw; opacity: {{ navOpacity }}; background: {{ navBg }}; color: {{ navColor }}; border-bottom: {{ navBorder }}; backdrop-filter: blur(6px); transition: opacity 2s ease, background 0.6s ease, color 0.6s ease, border-color 0.6s ease;">
+    <a href="#hero" style="font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 20px; letter-spacing: 0.22em;">SATORI</a>
+    <div style="display: flex; gap: 36px; align-items: baseline;">
+      <a href="#philosophy" data-nav-sec="1" style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; transition: opacity 0.4s ease;" style-hover="opacity: 1;" style-focus="outline: 2px solid #A9835C; outline-offset: 3px;">Philosophy</a>
+      <a href="#rituals" data-nav-sec="1" style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; transition: opacity 0.4s ease;" style-hover="opacity: 1;" style-focus="outline: 2px solid #A9835C; outline-offset: 3px;">Rituals</a>
+      <a href="#spaces" data-nav-sec="1" style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; transition: opacity 0.4s ease;" style-hover="opacity: 1;" style-focus="outline: 2px solid #A9835C; outline-offset: 3px;">Spaces</a>
+      <a href="#journal" data-nav-sec="1" style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; transition: opacity 0.4s ease;" style-hover="opacity: 1;" style-focus="outline: 2px solid #A9835C; outline-offset: 3px;">Journal</a>
+      <a href="#visit" data-nav-sec="1" style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; transition: opacity 0.4s ease;" style-hover="opacity: 1;" style-focus="outline: 2px solid #A9835C; outline-offset: 3px;">Visit</a>
+      <a href="#reserve" style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; border-bottom: 1px solid #A9835C; padding-bottom: 4px;" style-hover="color: #A9835C;" style-focus="outline: 2px solid #A9835C; outline-offset: 3px;">Reserve</a>
+    </div>
+  </nav>
+
+  <!-- ============ 1 · HERO ============ -->
+  <section id="hero" data-screen-label="01 Hero" style="position: relative; min-height: 100vh; background: #06090B; overflow: hidden;">
+
+    <!-- media layer (drop zone for cinematic dawn frame) -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: {{ sceneOpacity }}; transition: opacity 4.5s ease;">
+      <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="hero-media" shape="rect" fit="cover" src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_124910_c6923b47-50fc-494c-a68e-687e7b2b40dd.png" placeholder="dawn reflection pool — cinematic hero frame" hint-size="100%,100%"></x-import>
+    </div>
+
+    <!-- mist layer (single secondary environmental motion) -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: {{ mistOpacity }}; transition: opacity 5s ease; pointer-events: none; overflow: hidden;">
+      <div style="position: absolute; left: -10%; bottom: -20%; width: 70%; height: 55%; background: rgba(232,228,218,0.16); border-radius: 50%; filter: blur(64px); animation: satori-mist-a 46s ease-in-out infinite;"></div>
+      <div style="position: absolute; right: -12%; bottom: -15%; width: 60%; height: 45%; background: rgba(232,228,218,0.12); border-radius: 50%; filter: blur(72px); animation: satori-mist-b 58s ease-in-out infinite;"></div>
+    </div>
+
+    <!-- darkness veil -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #04070A; opacity: {{ veilOpacity }}; transition: opacity 5s ease; pointer-events: none;"></div>
+
+    <!-- distant water drop -->
+    <sc-if value="{{ showDrop }}" hint-placeholder-val="{{ false }}">
+      <div style="position: absolute; top: 46%; left: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px; border: 1px solid rgba(232,228,218,0.5); border-radius: 50%; animation: satori-ripple 3.4s ease-out forwards; pointer-events: none;"></div>
+    </sc-if>
+
+    <!-- composed copy -->
+    <div style="position: relative; z-index: 2; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 24px; pointer-events: none;">
+      <div style="font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 26px; letter-spacing: 0.34em; color: #F4EFE6; opacity: {{ brandOpacity }}; transition: opacity 3s ease;">SATORI</div>
+      <h1 style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 66px; line-height: 1.12; color: #F4EFE6; margin: 40px 0 0 0; max-width: 15ch; opacity: {{ brandOpacity }}; transition: opacity 3s ease 0.9s;">Where silence becomes luxury.</h1>
+      <div style="margin-top: 26px; font-size: 16px; line-height: 1.7; color: rgba(244,239,230,0.75); opacity: {{ brandOpacity }}; transition: opacity 3s ease 1.8s;">A sanctuary shaped by water, light, ritual, and time.</div>
+    </div>
+
+    <!-- sound toggle (opt-in, fixed) -->
+    <div data-sound-wrap="1" style="position: fixed; z-index: 51; bottom: 24px; right: 8vw; opacity: {{ navOpacity }}; pointer-events: {{ cueEvents }}; transition: opacity 2s ease;">
+      <button onClick="{{ toggleSound }}" aria-label="{{ soundLabel }}" title="{{ soundLabel }}" style="display: flex; align-items: center; gap: 10px; font-family: 'Work Sans', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; background: transparent; color: {{ soundColor }}; border: none; padding: 8px 2px; cursor: pointer; transition: color 0.6s ease; min-height: 44px;" style-focus="outline: 2px solid #A9835C; outline-offset: 3px;">
+        <span style="position: relative; display: flex; align-items: flex-end; gap: 2px; height: 14px;">
+          <span style="display: inline-block; width: 2px; height: 7px; background: {{ soundDotColor }}; transition: background 0.6s ease;"></span>
+          <span style="display: inline-block; width: 2px; height: 13px; background: {{ soundDotColor }}; transition: background 0.6s ease;"></span>
+          <span style="display: inline-block; width: 2px; height: 10px; background: {{ soundDotColor }}; transition: background 0.6s ease;"></span>
+          <span style="position: absolute; left: -3px; bottom: 6px; width: 17px; height: 1px; background: {{ soundColor }}; transform: rotate(-35deg); opacity: {{ soundStrikeOp }}; transition: opacity 0.6s ease;"></span>
+        </span>
+        <span data-sound-label="1">{{ soundLabel }}</span>
+      </button>
+    </div>
+
+    <!-- delayed entry cue -->
+    <div style="position: absolute; z-index: 3; bottom: 44px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 16px; opacity: {{ cueOpacity }}; transition: opacity 2.5s ease; pointer-events: {{ cueEvents }};">
+      <button onClick="{{ enterSanctuary }}" style="font-family: 'Work Sans', sans-serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; background: transparent; color: #F4EFE6; border: none; border-bottom: 1px solid #C99B62; padding: 10px 2px; cursor: pointer; transition: color 0.4s ease;" style-hover="color: #C99B62;" style-focus="outline: 2px solid #C99B62; outline-offset: 3px;">Enter SATORI</button>
+      <div style="width: 1px; height: 44px; background: rgba(201,155,98,0.55);"></div>
+    </div>
+  </section>
+
+  <!-- ============ 2 · PHILOSOPHY ============ -->
+  <section id="philosophy" data-screen-label="02 Philosophy" style="background: #F4EFE6; min-height: 135vh; scroll-margin-top: 40px;">
+    <div style="position: sticky; top: 0; min-height: 100vh; display: flex; align-items: center; padding: 120px 8vw; box-sizing: border-box;">
+      <div data-grid="1" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; align-items: center; width: 100%;">
+        <div style="grid-column: 2 / span 5;">
+          <div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(38,36,31,0.45); margin-bottom: 28px; opacity: {{ philoOp }}; transform: {{ philoShift }}; transition: opacity 1.6s ease, transform 1.6s ease;">Philosophy</div>
+          <h2 style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 54px; line-height: 1.15; margin: 0 0 36px 0; opacity: {{ philoOp }}; transform: {{ philoShift }}; transition: opacity 1.6s ease 0.5s, transform 1.6s ease 0.5s;">The art of returning.</h2>
+          <div style="font-size: 19px; line-height: 1.85; color: rgba(38,36,31,0.8); max-width: 46ch; opacity: {{ philoOp }}; transform: {{ philoShift }}; transition: opacity 1.6s ease 1.1s, transform 1.6s ease 1.1s;">Leave the noise outside. Enter a slower rhythm shaped by water, natural light, and deliberate care.</div>
+          <div style="margin-top: 44px; padding-top: 32px; border-top: 1px solid rgba(38,36,31,0.15); font-family: 'Cormorant Garamond', serif; font-size: 24px; line-height: 1.5; color: rgba(38,36,31,0.7); max-width: 34ch; opacity: {{ philoOp }}; transform: {{ philoShift }}; transition: opacity 1.6s ease 1.8s, transform 1.6s ease 1.8s;">SATORI is not a treatment destination. It is a return to presence.</div>
+        </div>
+        <div style="grid-column: 8 / span 4; opacity: {{ philoOp }}; transition: opacity 2.2s ease 0.3s;">
+          <div style="aspect-ratio: 4 / 5; position: relative;">
+            <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="philosophy-media" shape="rect" fit="cover" src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_130751_4eda69fe-43c5-4134-aa68-d277bc105f7e.png" placeholder="arrival court — reflecting pool, maple, cedar wall" hint-size="100%,100%"></x-import>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3 · SIGNATURE RITUALS ============ -->
+  <section id="rituals" data-screen-label="03 Signature Rituals" style="padding: 180px 8vw; background: #EDE6D8; box-sizing: border-box; scroll-margin-top: 40px;">
+    <div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(38,36,31,0.45); margin-bottom: 16px;">Signature Rituals</div>
+    <h2 style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 52px; line-height: 1.15; margin: 0 0 24px 0; max-width: 18ch;">Care, composed with intention.</h2>
+    <div style="font-size: 17px; line-height: 1.8; color: rgba(38,36,31,0.7); max-width: 44ch; margin-bottom: 80px;">Every gesture has a purpose. Every pause belongs.</div>
+
+    <div data-grid="1" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; align-items: start;">
+
+      <!-- vertical ritual index -->
+      <div style="grid-column: 1 / span 5;" onKeyDown="{{ ritualKeyDown }}">
+        <sc-for list="{{ rituals }}" as="r" hint-placeholder-count="8">
+          <div style="border-bottom: 1px solid {{ r.borderColor }}; transition: border-color 0.6s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 22px 0 20px 0;">
+              <button data-ritual="{{ r.i }}" onClick="{{ r.select }}" aria-expanded="{{ r.ariaExpanded }}" style="background: transparent; border: none; padding: 0 0 6px 0; margin: 0; text-align: left; cursor: pointer; font-family: 'Cormorant Garamond', serif; box-shadow: {{ r.underline }}; transition: box-shadow 0.6s ease;" style-hover="box-shadow: 0 1px 0 0 rgba(156,123,82,0.55);" style-focus="outline: none; box-shadow: 0 2px 0 0 #9C7B52;">
+                <span style="font-size: {{ r.nameSize }}; font-weight: 500; color: {{ r.nameColor }}; line-height: 1.2; transition: color 0.6s ease, font-size 0.5s ease;">{{ r.name }}</span>
+              </button>
+              <span style="font-family: monospace; font-size: 11px; color: rgba(38,36,31,0.4);">{{ r.num }}</span>
+            </div>
+            <div style="display: grid; grid-template-rows: {{ r.detailRows }}; transition: grid-template-rows 0.7s ease;">
+              <div style="overflow: hidden;">
+                <div style="padding: 2px 0 30px 0;">
+                  <div style="font-family: 'Cormorant Garamond', serif; font-size: 23px; font-weight: 500; color: #4A392C;">{{ r.promise }}</div>
+                  <div style="font-size: 15px; line-height: 1.75; color: rgba(38,36,31,0.72); max-width: 46ch; margin-top: 10px;">{{ r.desc }}</div>
+                  <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 22px;">
+                    <span style="font-size: 13px; color: rgba(38,36,31,0.6);">{{ r.meta }}</span>
+                    <button onClick="{{ r.reserve }}" style="background: transparent; border: none; margin: 0; cursor: pointer; font-family: 'Work Sans', sans-serif; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; color: #26241F; border-bottom: 1px solid #9C7B52; padding: 0 0 3px 0; transition: color 0.4s ease;" style-hover="color: #9C7B52;" style-focus="outline: none; box-shadow: 0 2px 0 0 #9C7B52;">Reserve this ritual</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- pinned cinematic panel -->
+      <div data-rituals-panel="1" style="grid-column: 7 / span 6; position: sticky; top: 96px;">
+        <div style="position: relative; aspect-ratio: 3 / 2; overflow: hidden; background: #DDD3BF;">
+          <sc-for list="{{ ritualPanels }}" as="p" hint-placeholder-count="1">
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: {{ p.opacity }}; transition: opacity 1.1s ease; pointer-events: {{ p.events }};">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ p.slotId }}" shape="rect" fit="cover" src="{{ p.src }}" placeholder="{{ p.caption }}" hint-size="100%,100%"></x-import>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 20px;">
+          <span style="font-family: monospace; font-size: 11px; color: rgba(38,36,31,0.5);">{{ activeScene }}</span>
+          <span style="font-size: 13px; color: rgba(38,36,31,0.6);">{{ activeMeta }}</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 4 · SPACES ============ -->
+  <section data-screen-label="04 Spaces Intro" style="background: #F4EFE6; padding: 200px 8vw 140px 8vw;">
+    <div data-grid="1" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
+      <div style="grid-column: 2 / span 7;">
+        <div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(38,36,31,0.45); margin-bottom: 24px;">Spaces</div>
+        <h2 style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 54px; line-height: 1.15; margin: 0 0 28px 0;">A sanctuary revealed slowly.</h2>
+        <div style="font-size: 18px; line-height: 1.8; color: rgba(38,36,31,0.75); max-width: 46ch;">Every space is composed to change the way time feels.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="spaces" data-screen-label="04 Spaces Sequence" style="position: relative; height: 760vh; background: #0E1113; scroll-margin-top: 0;">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden;">
+      <sc-for list="{{ spaceScenes }}" as="s" hint-placeholder-count="1">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: {{ s.opacity }}; transition: opacity 1.6s ease; pointer-events: {{ s.events }}; padding: {{ s.pad }}; box-sizing: border-box; display: flex;">
+          <div style="position: relative; flex: 1; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; transform: scale({{ s.scale }}); transition: transform 0.2s linear; will-change: transform;">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ s.slotId }}" shape="rect" fit="cover" src="{{ s.src }}" placeholder="{{ s.captionShort }}" hint-size="100%,100%"></x-import>
+            </div>
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: {{ s.tint }}; pointer-events: none;"></div>
+            <div style="position: absolute; left: 6%; bottom: 9%; pointer-events: none; max-width: 60ch;">
+              <div style="font-family: monospace; font-size: 11px; color: rgba(244,239,230,0.6); margin-bottom: 14px;">{{ s.num }}</div>
+              <div data-scene-name="1" style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 46px; line-height: 1.1; color: #F4EFE6; text-shadow: 0 1px 24px rgba(0,0,0,0.35);">{{ s.name }}</div>
+              <div style="font-size: 15px; line-height: 1.7; color: rgba(244,239,230,0.8); margin-top: 12px; text-shadow: 0 1px 16px rgba(0,0,0,0.35);">{{ s.sentence }}</div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+      <div style="position: absolute; right: 4.5%; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 3px; align-items: flex-end;">
+        <sc-for list="{{ spaceDots }}" as="d" hint-placeholder-count="7">
+          <button onClick="{{ d.go }}" onFocus="{{ d.focus }}" onBlur="{{ d.blur }}" aria-label="{{ d.label }}" title="{{ d.label }}" style="display: flex; align-items: center; justify-content: flex-end; background: transparent; border: none; margin: 0; padding: 7px 0; cursor: pointer; min-width: 44px;" style-hover="opacity: 0.8;" style-focus="outline: none;">
+            <span style="display: inline-block; height: {{ d.h }}; width: {{ d.w }}; background: {{ d.bg }}; transition: width 0.6s ease, background 0.6s ease, height 0.2s ease;"></span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5 · WELLNESS JOURNEY ============ -->
+  <section id="journal" data-screen-label="05 Wellness Journey" style="padding: 200px 8vw; background: #EDE6D8; scroll-margin-top: 40px;">
+    <div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(38,36,31,0.45); margin-bottom: 16px;">The Journey</div>
+    <h2 style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 52px; line-height: 1.15; margin: 0 0 72px 0; max-width: 20ch;">Every ritual is a passage.</h2>
+
+    <!-- stage index -->
+    <div data-stage-index="1" style="display: flex; gap: 40px; flex-wrap: wrap; align-items: baseline;" onKeyDown="{{ stageKeyDown }}">
+      <sc-for list="{{ stages }}" as="st" hint-placeholder-count="6">
+        <button data-stage="{{ st.i }}" onClick="{{ st.select }}" style="background: transparent; border: none; padding: 0 0 8px 0; margin: 0; cursor: pointer; font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 500; color: {{ st.color }}; box-shadow: {{ st.underline }}; transition: color 0.6s ease, box-shadow 0.6s ease;" style-hover="box-shadow: 0 1px 0 0 rgba(156,123,82,0.55);" style-focus="outline: none; box-shadow: 0 2px 0 0 #9C7B52;">{{ st.name }}</button>
+      </sc-for>
+    </div>
+
+    <!-- calm progress indicator -->
+    <div style="position: relative; height: 1px; background: rgba(38,36,31,0.15); margin: 28px 0 64px 0;">
+      <div style="position: absolute; top: 0; left: 0; height: 1px; width: {{ stageProgressW }}; background: #9C7B52; transition: width 0.9s ease;"></div>
+    </div>
+
+    <!-- active stage -->
+    <div data-grid="1" data-grid-gapless="1" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
+      <div style="grid-column: 1 / span 7;">
+        <div data-journey-media="1" style="position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #DDD3BF;">
+          <sc-for list="{{ stagePanels }}" as="sp" hint-placeholder-count="1">
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: {{ sp.opacity }}; transition: opacity 1s ease; pointer-events: {{ sp.events }};">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ sp.slotId }}" shape="rect" fit="cover" src="{{ sp.src }}" placeholder="{{ sp.caption }}" hint-size="100%,100%"></x-import>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-family: monospace; font-size: 11px; color: rgba(38,36,31,0.5); margin-top: 16px;">{{ stageGesture }}</div>
+      </div>
+      <div style="grid-column: 9 / span 4; align-self: center;">
+        <div style="font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 500; line-height: 1.2; color: #26241F; opacity: {{ stageTextOp }}; transition: opacity 0.7s ease;">{{ stageTitle }}</div>
+        <div style="font-size: 16px; line-height: 1.8; color: rgba(38,36,31,0.75); margin-top: 18px; max-width: 34ch; opacity: {{ stageTextOp }}; transition: opacity 0.7s ease 0.15s;">{{ stageSentence }}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6 · ARCHITECTURE AND MATERIALS ============ -->
+  <section id="architecture" data-screen-label="06 Architecture and Materials" style="padding: 200px 8vw; background: #F4EFE6;">
+    <div data-grid="1" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
+      <div id="arch-h" style="grid-column: 2 / span 7; margin-bottom: 110px; opacity: {{ archHOp }}; transform: {{ archHShift }}; transition: opacity 1.3s ease, transform 1.3s ease;">
+        <div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(38,36,31,0.45); margin-bottom: 24px;">Architecture &amp; Materials</div>
+        <h2 style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 54px; line-height: 1.15; margin: 0 0 28px 0; max-width: 20ch;">A living system of light, shadow, and water.</h2>
+        <div style="font-size: 18px; line-height: 1.8; color: rgba(38,36,31,0.75); max-width: 44ch;">Nothing here is meant to look new. Stone, timber, and clay are chosen to age beautifully.</div>
+      </div>
+
+      <div id="arch-d1" style="grid-column: 1 / span 7; opacity: {{ archD1Op }}; transform: {{ archD1Shift }}; transition: opacity 1.3s ease, transform 1.3s ease;">
+        <div style="aspect-ratio: 3 / 2; position: relative;">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="material-travertine" shape="rect" fit="cover" src="{{ archTravertineSrc }}" placeholder="travertine at dawn — raking light, 100 mm" hint-size="100%,100%"></x-import>
+        </div>
+        <div style="font-size: 14px; line-height: 1.7; color: rgba(38,36,31,0.65); margin-top: 18px; max-width: 44ch;">Travertine holds the day — pale at dawn, amber under lantern light.</div>
+      </div>
+
+      <div id="arch-d2" style="grid-column: 9 / span 4; margin-top: 140px; opacity: {{ archD2Op }}; transform: {{ archD2Shift }}; transition: opacity 1.3s ease 0.15s, transform 1.3s ease 0.15s;">
+        <div style="aspect-ratio: 4 / 5; position: relative;">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="material-basalt" shape="rect" fit="cover" src="{{ archBasaltSrc }}" placeholder="wet basalt — lantern reflection, 100 mm" hint-size="100%,100%"></x-import>
+        </div>
+        <div style="font-size: 14px; line-height: 1.7; color: rgba(38,36,31,0.65); margin-top: 18px; max-width: 34ch;">Wet basalt turns to mirror; the floor learns from the water.</div>
+      </div>
+
+      <div id="arch-d3" style="grid-column: 3 / span 9; margin-top: 140px; opacity: {{ archD3Op }}; transform: {{ archD3Shift }}; transition: opacity 1.3s ease, transform 1.3s ease;">
+        <div style="aspect-ratio: 21 / 9; position: relative;">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="material-hinoki" shape="rect" fit="cover" src="{{ archHinokiSrc }}" placeholder="hinoki and handmade ceramic — shadow as privacy, 50 mm" hint-size="100%,100%"></x-import>
+        </div>
+        <div style="font-size: 14px; line-height: 1.7; color: rgba(38,36,31,0.65); margin-top: 18px; max-width: 44ch;">Hinoki warms to the hand. Each vessel is thrown, not molded — and shadow gives every room its privacy.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7 · GUEST REFLECTIONS ============ -->
+  <section id="reflections" data-screen-label="07 Guest Reflections" style="padding: 200px 8vw 160px 8vw; background: #EDE6D8;">
+    <div data-grid="1" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
+      <div style="grid-column: 2 / span 8; margin-bottom: 100px;">
+        <div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(38,36,31,0.45);">Reflections from SATORI.</div>
+      </div>
+
+      <div id="refl-q1" style="grid-column: 2 / span 8; opacity: {{ reflQ1Op }}; transform: {{ reflQ1Shift }}; transition: opacity 1.4s ease, transform 1.4s ease;">
+        <blockquote style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 44px; line-height: 1.3; margin: 0; max-width: 24ch; color: #26241F;">"For the first time in months, I stopped thinking about time."</blockquote>
+        <div style="display: flex; align-items: center; gap: 14px; margin-top: 30px;">
+          <div style="width: 52px; height: 52px; flex: none;">
+            <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="portrait-elena" shape="circle" fit="cover" src="{{ portraitElenaSrc }}" placeholder="portrait" hint-size="52px,52px"></x-import>
+          </div>
+          <div style="font-size: 13px; color: rgba(38,36,31,0.6);">Elena V. — Vienna</div>
+        </div>
+      </div>
+
+      <div id="refl-q2" style="grid-column: 6 / span 7; margin-top: 130px; opacity: {{ reflQ2Op }}; transform: {{ reflQ2Shift }}; transition: opacity 1.4s ease, transform 1.4s ease;">
+        <blockquote style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 30px; line-height: 1.4; margin: 0; max-width: 30ch; color: rgba(38,36,31,0.85);">"Nothing felt performed. Every detail seemed to arrive exactly when it was needed."</blockquote>
+        <div style="display: flex; align-items: center; gap: 14px; margin-top: 26px;">
+          <div style="width: 52px; height: 52px; flex: none;">
+            <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="portrait-marc" shape="circle" fit="cover" src="{{ portraitMarcSrc }}" placeholder="portrait" hint-size="52px,52px"></x-import>
+          </div>
+          <div style="font-size: 13px; color: rgba(38,36,31,0.6);">Marc D. — Lyon</div>
+        </div>
+      </div>
+
+      <div id="refl-q3" style="grid-column: 2 / span 6; margin-top: 130px; opacity: {{ reflQ3Op }}; transform: {{ reflQ3Shift }}; transition: opacity 1.4s ease, transform 1.4s ease;">
+        <blockquote style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 30px; line-height: 1.4; margin: 0; max-width: 26ch; color: rgba(38,36,31,0.85);">"The silence stayed with me long after I left."</blockquote>
+        <div style="display: flex; align-items: center; gap: 14px; margin-top: 26px;">
+          <div style="width: 52px; height: 52px; flex: none;">
+            <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="portrait-ingrid" shape="circle" fit="cover" src="{{ portraitIngridSrc }}" placeholder="portrait" hint-size="52px,52px"></x-import>
+          </div>
+          <div style="font-size: 13px; color: rgba(38,36,31,0.6);">Ingrid S. — Copenhagen</div>
+        </div>
+      </div>
+
+      <div id="refl-q4" style="grid-column: 4 / span 8; margin-top: 130px; opacity: {{ reflQ4Op }}; transform: {{ reflQ4Shift }}; transition: opacity 1.4s ease, transform 1.4s ease;">
+        <blockquote style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 38px; line-height: 1.32; margin: 0; max-width: 26ch; color: #26241F;">"It felt less like a treatment and more like returning to myself."</blockquote>
+        <div style="display: flex; align-items: center; gap: 14px; margin-top: 30px;">
+          <div style="width: 52px; height: 52px; flex: none;">
+            <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="portrait-tomasz" shape="circle" fit="cover" src="{{ portraitTomaszSrc }}" placeholder="portrait" hint-size="52px,52px"></x-import>
+          </div>
+          <div style="font-size: 13px; color: rgba(38,36,31,0.6);">Tomasz K. — Warsaw</div>
+        </div>
+      </div>
+
+      <div id="refl-q5" style="grid-column: 8 / span 5; margin-top: 130px; opacity: {{ reflQ5Op }}; transform: {{ reflQ5Shift }}; transition: opacity 1.4s ease, transform 1.4s ease;">
+        <blockquote style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 30px; line-height: 1.4; margin: 0; max-width: 22ch; color: rgba(38,36,31,0.85);">"I arrived with a list in my head. I left with none."</blockquote>
+        <div style="display: flex; align-items: center; gap: 14px; margin-top: 26px;">
+          <div style="width: 52px; height: 52px; flex: none;">
+            <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="portrait-sofia" shape="circle" fit="cover" src="{{ portraitSofiaSrc }}" placeholder="portrait" hint-size="52px,52px"></x-import>
+          </div>
+          <div style="font-size: 13px; color: rgba(38,36,31,0.6);">Sofia R. — Milan</div>
+        </div>
+      </div>
+
+      <div style="grid-column: 2 / span 8; margin-top: 110px;">
+        <div style="font-family: monospace; font-size: 11px; color: rgba(38,36,31,0.45);">[ names, locations, and portraits are fictional placeholders ]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 8 · RESERVATION ============ -->
+  <section id="reserve" data-screen-label="08 Reservation" style="position: relative; background: #10181D; color: #F4EFE6; min-height: 100vh; box-sizing: border-box; scroll-margin-top: 40px; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: {{ bkBackOp }}; transition: opacity 2s ease;">
+      <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="reserve-night" shape="rect" fit="cover" src="{{ nightSrc }}" placeholder="night sanctuary — blue hour, lanterns" hint-size="100%,100%"></x-import>
+    </div>
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(13,19,23,0.6); pointer-events: none;"></div>
+
+    <div style="position: relative; z-index: 2; padding: 190px 8vw 160px 8vw;">
+      <div data-grid="1" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
+        <div style="grid-column: 2 / span 7;">
+          <div style="font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(244,239,230,0.5); margin-bottom: 24px;">Reservation</div>
+
+          <!-- ENTRY -->
+          <sc-if value="{{ bkEntryVisible }}" hint-placeholder-val="{{ true }}">
+            <h2 style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 54px; line-height: 1.15; margin: 0 0 22px 0; color: #F4EFE6; max-width: 16ch;">Reserve your moment of stillness.</h2>
+            <div style="font-size: 17px; line-height: 1.8; color: rgba(244,239,230,0.72); max-width: 44ch;">Choose a ritual, preferred sanctuary, and time. We will guide the rest.</div>
+            <div style="display: flex; gap: 32px; align-items: center; margin-top: 56px; flex-wrap: wrap;">
+              <button onClick="{{ bkBegin }}" style="font-family: 'Work Sans', sans-serif; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; background: #F4EFE6; color: #26241F; border: 1px solid #F4EFE6; padding: 18px 36px; cursor: pointer; transition: background 0.4s ease;" style-hover="background: #E7DFD0;" style-focus="outline: 2px solid #C99B62; outline-offset: 3px;">Begin your reservation</button>
+              <button onClick="{{ bkToggleHost }}" style="font-family: 'Work Sans', sans-serif; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; background: transparent; color: #F4EFE6; border: none; border-bottom: 1px solid #C99B62; padding: 10px 2px; cursor: pointer; transition: color 0.4s ease;" style-hover="color: #C99B62;" style-focus="outline: none; box-shadow: 0 2px 0 0 #C99B62;">Speak with a host</button>
+            </div>
+            <sc-if value="{{ bkHostOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top: 28px; font-size: 14px; line-height: 1.8; color: rgba(244,239,230,0.65);">A host is available daily, 9:00 – 20:00.<br>+44 20 7946 0918 · host@satori-spa.com</div>
+            </sc-if>
+          </sc-if>
+
+          <!-- FLOW -->
+          <sc-if value="{{ bkFlowVisible }}" hint-placeholder-val="{{ false }}">
+            <div data-anim="1" style="border-top: 1px solid rgba(201,155,98,0.5); padding-top: 36px; max-width: 560px; animation: satori-fadein 0.9s ease both;">
+              <div style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;" aria-live="polite">{{ bkAnnounce }}</div>
+
+              <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px;">
+                <div style="font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(244,239,230,0.55);">{{ bkStepLabel }}</div>
+                <sc-if value="{{ bkCanBack }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ bkBack }}" style="background: transparent; border: none; padding: 4px 0; margin: 0; cursor: pointer; font-family: 'Work Sans', sans-serif; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244,239,230,0.6); transition: color 0.4s ease;" style-hover="color: #F4EFE6;" style-focus="outline: none; box-shadow: 0 2px 0 0 #C99B62;">← Previous step</button>
+                </sc-if>
+              </div>
+              <div style="position: relative; height: 1px; background: rgba(244,239,230,0.15); margin: 20px 0 48px 0;">
+                <div style="position: absolute; top: 0; left: 0; height: 1px; width: {{ bkProgressW }}; background: #C99B62; transition: width 0.9s ease;"></div>
+              </div>
+
+              <h3 style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 34px; line-height: 1.2; margin: 0 0 36px 0; color: #F4EFE6;">{{ bkStepTitle }}</h3>
+
+              <!-- STEP 1 · SANCTUARY -->
+              <sc-if value="{{ bkIsStep1 }}" hint-placeholder-val="{{ false }}">
+                <div data-anim="1" style="display: flex; flex-direction: column; animation: satori-fadein 0.7s ease both;">
+                  <sc-for list="{{ bkSanctuaries }}" as="o" hint-placeholder-count="3">
+                    <button onClick="{{ o.pick }}" style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; width: 100%; text-align: left; background: transparent; border: none; border-bottom: 1px solid {{ o.border }}; padding: 20px 0; cursor: pointer; transition: border-color 0.5s ease;" style-hover="border-color: rgba(201,155,98,0.7);" style-focus="outline: none; box-shadow: 0 2px 0 0 #C99B62;">
+                      <span style="font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 500; color: {{ o.color }}; transition: color 0.5s ease;">{{ o.name }}</span>
+                      <span style="font-size: 12px; color: rgba(244,239,230,0.5);">{{ o.meta }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <!-- STEP 2 · RITUAL -->
+              <sc-if value="{{ bkIsStep2 }}" hint-placeholder-val="{{ false }}">
+                <div data-anim="1" style="animation: satori-fadein 0.7s ease both;">
+                <div style="font-size: 14px; line-height: 1.7; color: rgba(244,239,230,0.6); margin: -16px 0 28px 0;">{{ bkSelSummary }}</div>
+                <div style="display: flex; flex-direction: column;">
+                  <sc-for list="{{ bkRituals }}" as="o" hint-placeholder-count="8">
+                    <button onClick="{{ o.pick }}" style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; width: 100%; text-align: left; background: transparent; border: none; border-bottom: 1px solid {{ o.border }}; padding: 17px 0; cursor: pointer; transition: border-color 0.5s ease;" style-hover="border-color: rgba(201,155,98,0.7);" style-focus="outline: none; box-shadow: 0 2px 0 0 #C99B62;">
+                      <span style="font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: {{ o.color }}; transition: color 0.5s ease;">{{ o.name }}</span>
+                      <span style="font-size: 12px; color: rgba(244,239,230,0.5);">{{ o.meta }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+                </div>
+              </sc-if>
+
+              <!-- STEP 3 · DATE AND TIME -->
+              <sc-if value="{{ bkIsStep3 }}" hint-placeholder-val="{{ false }}">
+                <div data-anim="1" style="animation: satori-fadein 0.7s ease both;">
+                <div style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: rgba(244,239,230,0.7); margin-bottom: 14px;">Day</div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                  <sc-for list="{{ bkDays }}" as="d" hint-placeholder-count="7">
+                    <button onClick="{{ d.pick }}" style="background: {{ d.bg }}; color: {{ d.color }}; border: 1px solid {{ d.border }}; padding: 13px 16px; cursor: pointer; font-family: 'Work Sans', sans-serif; font-size: 13px; transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease; min-height: 44px;" style-hover="border-color: rgba(201,155,98,0.8);" style-focus="outline: 2px solid #C99B62; outline-offset: 2px;">{{ d.label }}</button>
+                  </sc-for>
+                </div>
+                <div style="margin-top: 40px;">
+                  <sc-if value="{{ bkTimesLoading }}" hint-placeholder-val="{{ false }}">
+                    <div style="display: flex; align-items: center; gap: 12px; font-size: 14px; color: rgba(244,239,230,0.6);">
+                      <span style="display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #C99B62; animation: satori-breathe 1.6s ease-in-out infinite;"></span>
+                      Preparing the next moment…
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ bkTimesEmpty }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-size: 15px; line-height: 1.8; color: rgba(244,239,230,0.7); max-width: 40ch;">This day is already fully quiet. The nearest open day is highlighted above — or a host can find time that suits you.</div>
+                  </sc-if>
+                  <sc-if value="{{ bkTimesVisible }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: rgba(244,239,230,0.7); margin-bottom: 8px;">Time</div>
+                    <div style="font-size: 13px; line-height: 1.7; color: rgba(244,239,230,0.55); margin-bottom: 14px;">Only times that leave room for everything you have chosen — we close at 20:00.</div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                      <sc-for list="{{ bkTimes }}" as="t" hint-placeholder-count="6">
+                        <button onClick="{{ t.pick }}" title="{{ t.title }}" aria-label="{{ t.label }}, {{ t.title }}" style="background: {{ t.bg }}; color: {{ t.color }}; border: 1px solid {{ t.border }}; padding: 13px 18px; cursor: pointer; font-family: 'Work Sans', sans-serif; font-size: 13px; transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease; min-height: 44px;" style-hover="border-color: rgba(201,155,98,0.8);" style-focus="outline: 2px solid #C99B62; outline-offset: 2px;">{{ t.label }}</button>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+                </div>
+              </sc-if>
+
+              <!-- STEP 4 · PREFERENCES -->
+              <sc-if value="{{ bkIsStep4 }}" hint-placeholder-val="{{ false }}">
+                <div data-anim="1" style="animation: satori-fadein 0.7s ease both;">
+                <div style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: rgba(244,239,230,0.7); margin-bottom: 14px;">Guests</div>
+                <div style="display: flex; gap: 10px;">
+                  <button onClick="{{ bkGuests1 }}" style="background: {{ bkG1Bg }}; color: {{ bkG1Color }}; border: 1px solid {{ bkG1Border }}; padding: 13px 20px; cursor: pointer; font-family: 'Work Sans', sans-serif; font-size: 13px; transition: background 0.4s ease, color 0.4s ease; min-height: 44px;" style-hover="border-color: rgba(201,155,98,0.8);" style-focus="outline: 2px solid #C99B62; outline-offset: 2px;">One guest</button>
+                  <button onClick="{{ bkGuests2 }}" style="background: {{ bkG2Bg }}; color: {{ bkG2Color }}; border: 1px solid {{ bkG2Border }}; padding: 13px 20px; cursor: pointer; font-family: 'Work Sans', sans-serif; font-size: 13px; transition: background 0.4s ease, color 0.4s ease; min-height: 44px;" style-hover="border-color: rgba(201,155,98,0.8);" style-focus="outline: 2px solid #C99B62; outline-offset: 2px;">Two guests</button>
+                </div>
+
+                <div style="margin-top: 40px;">
+                  <label for="bk-name" style="display: block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: rgba(244,239,230,0.7); margin-bottom: 10px;">Your name</label>
+                  <input id="bk-name" type="text" value="{{ bkName }}" onChange="{{ bkNameChange }}" aria-describedby="bk-name-err" style="width: 100%; box-sizing: border-box; font-family: 'Work Sans', sans-serif; font-size: 16px; color: #F4EFE6; background: transparent; border: none; border-bottom: 1px solid rgba(244,239,230,0.35); padding: 12px 0;" style-focus="outline: none; border-bottom: 1px solid #F4EFE6; box-shadow: 0 1px 0 0 #C99B62;">
+                  <div id="bk-name-err" style="font-size: 13px; line-height: 1.6; color: #D9A08A; margin-top: 8px; min-height: 18px;">{{ bkNameError }}</div>
+                </div>
+                <sc-if value="{{ bkIsTwoGuests }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top: 18px;">
+                    <label for="bk-guest2" style="display: block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: rgba(244,239,230,0.7); margin-bottom: 10px;">Your guest's name</label>
+                    <input id="bk-guest2" type="text" value="{{ bkGuest2 }}" onChange="{{ bkGuest2Change }}" aria-describedby="bk-guest2-err" style="width: 100%; box-sizing: border-box; font-family: 'Work Sans', sans-serif; font-size: 16px; color: #F4EFE6; background: transparent; border: none; border-bottom: 1px solid rgba(244,239,230,0.35); padding: 12px 0;" style-focus="outline: none; border-bottom: 1px solid #F4EFE6; box-shadow: 0 1px 0 0 #C99B62;">
+                    <div id="bk-guest2-err" style="font-size: 13px; line-height: 1.6; color: #D9A08A; margin-top: 8px; min-height: 18px;">{{ bkGuest2Error }}</div>
+                  </div>
+                </sc-if>
+                <div style="margin-top: 18px;">
+                  <label for="bk-email" style="display: block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: rgba(244,239,230,0.7); margin-bottom: 10px;">Email</label>
+                  <input id="bk-email" type="email" value="{{ bkEmail }}" onChange="{{ bkEmailChange }}" aria-describedby="bk-email-err" style="width: 100%; box-sizing: border-box; font-family: 'Work Sans', sans-serif; font-size: 16px; color: #F4EFE6; background: transparent; border: none; border-bottom: 1px solid rgba(244,239,230,0.35); padding: 12px 0;" style-focus="outline: none; border-bottom: 1px solid #F4EFE6; box-shadow: 0 1px 0 0 #C99B62;">
+                  <div id="bk-email-err" style="font-size: 13px; line-height: 1.6; color: #D9A08A; margin-top: 8px; min-height: 18px;">{{ bkEmailError }}</div>
+                </div>
+                <div style="margin-top: 18px;">
+                  <label for="bk-notes" style="display: block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: rgba(244,239,230,0.7); margin-bottom: 10px;">Anything we should know <span style="text-transform: none; letter-spacing: 0; color: rgba(244,239,230,0.45); font-weight: 400;">— optional</span></label>
+                  <textarea id="bk-notes" rows="2" value="{{ bkNotes }}" onChange="{{ bkNotesChange }}" style="width: 100%; box-sizing: border-box; font-family: 'Work Sans', sans-serif; font-size: 15px; line-height: 1.6; color: #F4EFE6; background: transparent; border: none; border-bottom: 1px solid rgba(244,239,230,0.35); padding: 12px 0; resize: vertical;" style-focus="outline: none; border-bottom: 1px solid #F4EFE6; box-shadow: 0 1px 0 0 #C99B62;"></textarea>
+                </div>
+                </div>
+              </sc-if>
+
+              <!-- STEP 5 · REVIEW -->
+              <sc-if value="{{ bkIsStep5 }}" hint-placeholder-val="{{ false }}">
+                <div data-anim="1" style="animation: satori-fadein 0.7s ease both;">
+                <div style="display: flex; flex-direction: column;">
+                  <sc-for list="{{ bkReviewRows }}" as="rr" hint-placeholder-count="5">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px solid rgba(244,239,230,0.12);">
+                      <span style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244,239,230,0.5);">{{ rr.label }}</span>
+                      <span style="display: flex; align-items: baseline; gap: 18px;">
+                        <span style="font-size: 15px; color: #F4EFE6; text-align: right;">{{ rr.value }}</span>
+                        <button onClick="{{ rr.edit }}" style="background: transparent; border: none; padding: 0 0 2px 0; cursor: pointer; font-family: 'Work Sans', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(201,155,98,0.85); border-bottom: 1px solid rgba(201,155,98,0.5);" style-hover="color: #C99B62;" style-focus="outline: none; box-shadow: 0 2px 0 0 #C99B62;">Edit</button>
+                      </span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 22px 0 0 0; margin-top: 8px;">
+                  <span style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244,239,230,0.7);">Total</span>
+                  <span style="font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 500; color: #F4EFE6;">{{ bkTotal }}</span>
+                </div>
+                <div style="font-size: 13px; line-height: 1.7; color: rgba(244,239,230,0.55); margin-top: 10px; max-width: 44ch;">The full amount is settled at the sanctuary. Rescheduling is free up to 24 hours before your visit.</div>
+                </div>
+              </sc-if>
+
+              <!-- step error -->
+              <div style="font-size: 14px; line-height: 1.7; color: #D9A08A; margin-top: 28px; min-height: 20px;">{{ bkStepError }}</div>
+
+              <!-- continue -->
+              <div style="display: flex; gap: 28px; align-items: center; margin-top: 28px;">
+                <button onClick="{{ bkContinue }}" style="font-family: 'Work Sans', sans-serif; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; background: #F4EFE6; color: #26241F; border: 1px solid #F4EFE6; padding: 18px 36px; cursor: pointer; transition: background 0.4s ease; display: inline-flex; gap: 10px; align-items: center;" style-hover="background: #E7DFD0;" style-focus="outline: 2px solid #C99B62; outline-offset: 3px;">
+                  <span>{{ bkContinueLabel }}</span>
+                  <sc-if value="{{ bkConfirming }}" hint-placeholder-val="{{ false }}">
+                    <span style="display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #9C7B52; animation: satori-breathe 1.6s ease-in-out infinite;"></span>
+                  </sc-if>
+                </button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- CONFIRMATION -->
+          <sc-if value="{{ bkConfirmed }}" hint-placeholder-val="{{ false }}">
+            <div data-anim="1" style="animation: satori-fadein 1.2s ease both;">
+            <h2 style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 54px; line-height: 1.15; margin: 0 0 22px 0; color: #F4EFE6; max-width: 16ch;">Your time has been reserved.</h2>
+            <div style="font-size: 17px; line-height: 1.8; color: rgba(244,239,230,0.75); max-width: 44ch;">We look forward to welcoming you into a slower rhythm.</div>
+            <div style="margin-top: 44px; font-size: 14px; line-height: 2; color: rgba(244,239,230,0.6); border-top: 1px solid rgba(244,239,230,0.15); padding-top: 28px; max-width: 44ch;">{{ bkConfirmSummary }}<br>A quiet confirmation is on its way to {{ bkEmail }}.</div>
+            <button onClick="{{ bkReset }}" style="margin-top: 44px; background: transparent; border: none; border-bottom: 1px solid rgba(201,155,98,0.6); padding: 8px 2px; cursor: pointer; font-family: 'Work Sans', sans-serif; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(244,239,230,0.7); transition: color 0.4s ease;" style-hover="color: #F4EFE6;" style-focus="outline: none; box-shadow: 0 2px 0 0 #C99B62;">Plan another visit</button>
+            </div>
+          </sc-if>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 9 · CLOSING AND FOOTER ============ -->
+  <section id="visit" data-screen-label="09 Closing and Footer" style="background: #0C1216; scroll-margin-top: 40px;">
+    <div data-closing="1" style="position: relative; aspect-ratio: 21 / 9; overflow: hidden;">
+      <sc-if value="{{ closingVideoOn }}" hint-placeholder-val="{{ false }}">
+        <video id="closing-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_155611_8a21ba59-ed4b-495d-81a0-3ae0ac9a923a.mp4" poster="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_154453_9dc9a353-8206-4408-ae96-c5e5b572668e.png" muted="muted" loop="loop" playsinline="playsinline" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"></video>
+        <video id="closing-video-b" src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_155611_8a21ba59-ed4b-495d-81a0-3ae0ac9a923a.mp4" muted="muted" loop="loop" playsinline="playsinline" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease;"></video>
+      </sc-if>
+      <sc-if value="{{ closingVideoOff }}" hint-placeholder-val="{{ true }}">
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="closing-water" shape="rect" fit="cover" src="{{ closingSrc }}" placeholder="still dark water — faint lantern reflection" hint-size="100%,100%"></x-import>
+      </sc-if>
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10,15,19,0.25); pointer-events: none;"></div>
+      <div id="close-line" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; opacity: {{ closeLineOp }}; transition: opacity 3s ease;">
+        <div style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 30px; letter-spacing: 0.06em; color: rgba(244,239,230,0.85);">Return to presence.</div>
+      </div>
+    </div>
+    <footer style="padding: 96px 8vw 64px 8vw; color: rgba(244,239,230,0.65);">
+      <div data-grid="1" data-grid-gapless="1" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;">
+        <div style="grid-column: 1 / span 4;">
+          <div style="font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 20px; letter-spacing: 0.22em; color: #F4EFE6; margin-bottom: 16px;">SATORI</div>
+          <div style="font-size: 13px; line-height: 1.8; color: rgba(244,239,230,0.5);">Oriental Spa &amp; Ritual House</div>
+        </div>
+        <div style="grid-column: 6 / span 3;">
+          <div style="font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(244,239,230,0.4); margin-bottom: 16px;">Visit</div>
+          <div style="font-size: 13px; line-height: 2;">14 Willow Court, Stillwater Valley<br>Open daily 9:00 – 20:00</div>
+        </div>
+        <div style="grid-column: 9 / span 2;">
+          <div style="font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(244,239,230,0.4); margin-bottom: 16px;">Contact</div>
+          <div style="font-size: 13px; line-height: 2;">host@satori-spa.com<br>+44 20 7946 0918</div>
+        </div>
+        <div style="grid-column: 11 / span 2; justify-self: end;">
+          <a href="#reserve" style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244,239,230,0.75); border-bottom: 1px solid rgba(201,155,98,0.6); padding-bottom: 4px; transition: color 0.4s ease;" style-hover="color: #C99B62;" style-focus="outline: none; box-shadow: 0 2px 0 0 #C99B62;">Reserve</a>
+        </div>
+      </div>
+      <div style="margin-top: 72px; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-size: 12px; color: rgba(244,239,230,0.35);">
+        <span>© SATORI — a fictional brand study</span>
+        <span style="display: flex; gap: 20px; align-items: baseline;">
+          <button onClick="{{ toggleCalm }}" style="background: transparent; border: none; padding: 0; margin: 0; cursor: pointer; font-family: 'Work Sans', sans-serif; font-size: 12px; color: rgba(244,239,230,0.35); transition: color 0.4s ease;" style-hover="color: rgba(244,239,230,0.7);" style-focus="outline: none; box-shadow: 0 2px 0 0 #C99B62;">{{ calmLabel }}</button>
+          <a href="#" style="color: rgba(244,239,230,0.35); transition: color 0.4s ease;" style-hover="color: rgba(244,239,230,0.7);" style-focus="outline: none; box-shadow: 0 2px 0 0 #C99B62;">Privacy</a>
+          <a href="#" style="color: rgba(244,239,230,0.35); transition: color 0.4s ease;" style-hover="color: rgba(244,239,230,0.7);" style-focus="outline: none; box-shadow: 0 2px 0 0 #C99B62;">Accessibility</a>
+        </span>
+      </div>
+    </footer>
+  </section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;reducedMotion&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Hero&quot; },
+  &quot;introPace&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;standard&quot;, &quot;fast&quot;], &quot;default&quot;: &quot;standard&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Hero&quot; },
+  &quot;showAnnotations&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Skeleton&quot; }
+}">
+class Component extends DCLogic {
+  state = { phase: 0, pastHero: false, reduced: false, soundOn: false, philoIn: false, activeRitual: 0, mediaRitual: 0, activeSpace: 0, spaceP: 0, soundOverDark: true, activeStage: 0, mediaStage: 0, stageTextOp: 1, focusedDot: -1, reflIn: false, rev: {},
+    bkOpen: false, bkStep: 1, bkSanctuary: -1, bkRituals: [], bkDay: -1, bkTime: -1,
+    bkGuests: 1, bkName: '', bkGuest2: '', bkGuest2Error: '', bkEmail: '', bkNotes: '', bkHostOpen: false,
+    bkTimesLoading: false, bkConfirming: false, bkConfirmed: false,
+    bkStepError: '', bkNameError: '', bkEmailError: '' };
+
+  static RITUALS = [
+    { name: 'Water Rituals', promise: 'Return through warmth.', desc: 'Immersive bathing and thermal transitions designed to quiet the body.', dur: '120 min', scene: 'steam over the bathing pool — warm side light', price: 180, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_131256_fb2b873b-3827-49d0-9953-a0854cf5840c.png' },
+    { name: 'Head & Scalp Rituals', promise: 'Release what the day holds.', desc: 'Slow, precise care for the scalp, neck, shoulders, and breath.', dur: '75 min', scene: 'precise care for scalp and neck — 85 mm', price: 140, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_132328_45d9b17f-6b19-4c5b-b422-364b46bad11c.png' },
+    { name: 'Body Restoration', promise: 'Let the body become quiet.', desc: 'Measured touch, warmth, and pressure restore a sense of ease.', dur: '90 min', scene: 'basalt stones placed on linen — 100 mm macro', price: 165, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_131258_f35ca9ab-1623-48ac-be77-e5cc4bd4be00.png' },
+    { name: 'Facial Renewal', promise: 'Light returns gradually.', desc: 'Considered facial care guided by touch, hydration, and rest.', dur: '75 min', scene: 'water touched in a ceramic basin — macro', price: 150, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_132330_7074a60c-e6dc-4d77-a6ad-c2d5b4d80e32.png' },
+    { name: 'Stone & Heat Therapy', promise: 'Grounded by warmth.', desc: 'Basalt, heat, and deliberate pressure release accumulated tension.', dur: '90 min', scene: 'warm stone prepared beside linen — 100 mm macro', price: 170, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_132332_28eadd45-16be-4c7a-a6cc-7d755f34906e.png' },
+    { name: 'Tea & Breath Ceremonies', promise: 'A pause with form.', desc: 'Tea, scent, and guided breath create a gentle transition into presence.', dur: '60 min', scene: 'tea poured at the close — 100 mm macro', price: 95, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_131259_c1c8c6e6-e5d6-4f28-bf94-615ff193fa69.png' },
+    { name: "Couples' Rituals", promise: 'Shared silence.', desc: 'A private sequence composed for two.', dur: '120 min', scene: 'two robes, one quiet room — 50 mm', price: 340, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_132335_69b79bab-bc68-47b4-9ad7-a8493d484d4c.png' },
+    { name: 'Private Sanctuary Journeys', promise: 'Time, held entirely for you.', desc: 'A personalized progression through water, treatment, rest, and tea.', dur: 'half day', scene: 'private sanctuary — water, rest, tea — 35 mm', price: 620, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_132337_8f59aa77-2e79-43bb-8615-052112467a19.png' }
+  ];
+
+  static SPACES = [
+    { name: 'Stone Corridor', sentence: 'The world narrows before it opens.', pad: '0vh 0vw', tint: 'rgba(16,14,10,0.28)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_135918_f76576a6-35e1-4d3d-a42e-4573efafb780.png' },
+    { name: 'Timber Threshold', sentence: 'Hinoki marks the passage into warmth.', pad: '0vh 0vw', tint: 'rgba(50,38,20,0.14)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133434_35ec4cef-8664-4eff-900f-4843e3c33fe1.png' },
+    { name: 'Reflection Hall', sentence: 'Still water doubles the light.', pad: '0vh 0vw', tint: 'rgba(0,0,0,0.08)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133435_e1845644-5e97-4339-b621-79f6fbff3079.png' },
+    { name: 'Water Sanctuary', sentence: 'Bathing, returned to ceremony.', pad: '0vh 0vw', tint: 'rgba(8,18,22,0.10)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133437_8b58ce17-836c-4fcd-8c37-5f04c314ae93.png' },
+    { name: 'Forest Walk', sentence: 'A path held between moss and wind.', pad: '0vh 0vw', tint: 'rgba(10,16,9,0.18)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133439_06d0a285-cf5d-4ab2-8486-3722cd60d82a.png' },
+    { name: 'Infinity Sanctuary', sentence: 'Water meets a pale horizon.', pad: '0vh 0vw', tint: 'rgba(26,18,16,0.10)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133442_c9d3b155-cb84-473c-baf0-4b1219b5b949.png' },
+    { name: 'Moon Garden', sentence: 'The day ends in shadow and lantern light.', pad: '0vh 0vw', tint: 'rgba(5,9,15,0.34)', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133443_8b9990d8-49a3-4688-90d2-550c03ec1d39.png' }
+  ];
+
+  static CLOSING_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_155611_8a21ba59-ed4b-495d-81a0-3ae0ac9a923a.mp4';
+  static CLOSING = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_154453_9dc9a353-8206-4408-ae96-c5e5b572668e.png';
+  static NIGHT = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_150232_ffe7ad92-65c7-4402-a115-433a124cfd26.png';
+  static PORTRAIT_MARC = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_145418_edd88817-eab5-4b1c-9502-2a50be17f54c.png';
+  static PORTRAIT_INGRID = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_145419_7ff6be4e-3f3f-4afb-9835-8d73c4bdb469.png';
+  static PORTRAIT_SOFIA = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_145422_4b0f7468-cfed-4781-b418-dc7acd924a76.png';
+  static PORTRAIT_ELENA = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_144025_4d6c77b8-46f1-4f04-b801-f67f06516b99.png';
+  static PORTRAIT_TOMASZ = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_144026_19e9e5b1-1827-4767-bfa2-999036544dce.png';
+
+  static ARCH_TRAVERTINE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133445_5bf4d250-049a-4e78-9c20-a90e0be839fa.png';
+  static ARCH_BASALT = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133447_0d6a78bd-b947-430d-a0b0-f5352cc35a4e.png';
+  static ARCH_HINOKI = 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_133449_cb4a16cf-ca98-436c-9fbd-75137f0a4cf1.png';
+
+  static JOURNEY = [
+    { name: 'Arrival', title: 'A slower threshold', sentence: 'The city stays outside; a timber screen slides open.', gesture: '[ gesture — opening the timber screen ]', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_142522_b0f92e43-be6d-4aec-b66c-a7a05c7dd0fd.png' },
+    { name: 'Preparation', title: 'Care begins quietly', sentence: 'Warm linen, quiet words, unhurried time.', gesture: '[ gesture — folding warm linen ]', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_142523_96781924-3dc5-4f2a-93fe-6e4cac71b66e.png' },
+    { name: 'Ritual', title: 'The ritual itself', sentence: 'Skilled hands find the weight of the day and lift it.', gesture: '[ gesture — the therapist\u2019s hands ]', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_142524_c1c132a6-357e-4657-b03c-c3c659e127a4.png' },
+    { name: 'Rest', title: 'Rest without measure', sentence: 'Time loosens on warm stone.', gesture: '[ gesture — a hand resting on stone ]', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_142656_ea48b4ce-7151-4440-a9c8-31a1a1e3b25d.png' },
+    { name: 'Renewal', title: 'Warmth becomes clarity', sentence: 'Tea is poured; breath returns to its own pace.', gesture: '[ gesture — tea poured at the close ]', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_131259_c1c8c6e6-e5d6-4f28-bf94-615ff193fa69.png' },
+    { name: 'Return', title: 'Returning, changed', sentence: 'You leave lighter, carrying the quiet with you.', gesture: '[ gesture — walking the garden path ]', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_142527_fb69e579-9b26-41fe-9db8-416a8b91bea9.png' }
+  ];
+
+  static SANCTUARIES = [
+    { name: 'The Garden Sanctuary', meta: 'city edge' },
+    { name: 'The Water Sanctuary', meta: 'lakeside' },
+    { name: 'The Forest Sanctuary', meta: 'mountain valley' }
+  ];
+
+  static TIMES = ['10:00', '11:30', '13:00', '15:00', '16:30', '18:00'];
+  static MINS = [120, 75, 90, 75, 90, 60, 120, 300];
+  static CLOSE_MIN = 1200; // 20:00
+  static BUFFER_MIN = 30;  // transition between rituals
+
+  _bkNeedMin() {
+    const sel = this.state.bkRituals;
+    if (!sel.length) return 0;
+    const sum = sel.reduce((a, i) => a + Component.MINS[i], 0);
+    return sum + Component.BUFFER_MIN * (sel.length - 1);
+  }
+
+  _bkNeedLabel() {
+    const m = this._bkNeedMin();
+    if (!m) return '';
+    const h = Math.floor(m / 60);
+    const rest = m % 60;
+    return 'about ' + h + (rest >= 45 ? '¾' : rest >= 30 ? '½' : rest >= 15 ? '¼' : '') + ' hours together';
+  }
+
+  _bkDays() {
+    if (this._days) return this._days;
+    const out = [];
+    const now = new Date();
+    for (let i = 1; i <= 7; i++) {
+      const d = new Date(now.getTime() + i * 86400000);
+      out.push({
+        label: d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }),
+        full: d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
+      });
+    }
+    this._days = out;
+    return out;
+  }
+
+  _bkTimesFor(dayIdx) {
+    if (dayIdx === 2) return [];
+    const need = this._bkNeedMin();
+    return Component.TIMES.filter((t) => {
+      const parts = t.split(':');
+      const start = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+      return start + need <= Component.CLOSE_MIN;
+    });
+  }
+
+  _bkEndLabel(t) {
+    const parts = t.split(':');
+    const end = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10) + this._bkNeedMin();
+    const h = Math.floor(end / 60);
+    const m = end % 60;
+    return h + ':' + (m < 10 ? '0' : '') + m;
+  }
+
+  bkToggleRitual(i) {
+    const sel = this.state.bkRituals.slice();
+    const at = sel.indexOf(i);
+    if (at >= 0) {
+      sel.splice(at, 1);
+    } else {
+      if (sel.length >= 3) {
+        return this.setState({ bkStepError: 'A single day holds three rituals at most. Remove one to add another.' });
+      }
+      sel.push(i);
+    }
+    // keep chosen time only if it still fits the new total duration
+    const patch = { bkRituals: sel, bkStepError: '' };
+    if (this.state.bkTime >= 0) {
+      const prev = Component.TIMES[this.state.bkTime];
+      this.setBk(patch);
+      const stillOk = this._bkTimesForAfter(sel, this.state.bkDay, prev);
+      if (!stillOk) this.setBk({ bkTime: -1 });
+      return;
+    }
+    this.setBk(patch);
+  }
+
+  _bkTimesForAfter(sel, dayIdx, t) {
+    if (dayIdx === 2 || !t) return false;
+    const sum = sel.reduce((a, i) => a + Component.MINS[i], 0);
+    const need = sel.length ? sum + Component.BUFFER_MIN * (sel.length - 1) : 0;
+    const parts = t.split(':');
+    const start = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+    return start + need <= Component.CLOSE_MIN;
+  }
+
+  setBk(patch) {
+    this.setState(patch, () => {
+      try {
+        localStorage.setItem('satori_booking_v1', JSON.stringify({
+          open: this.state.bkOpen, step: this.state.bkStep, s: this.state.bkSanctuary,
+          r: this.state.bkRituals, d: this.state.bkDay, t: this.state.bkTime,
+          g: this.state.bkGuests, n: this.state.bkName, g2: this.state.bkGuest2, e: this.state.bkEmail, no: this.state.bkNotes
+        }));
+      } catch (e) {}
+    });
+  }
+
+  bkContinue() {
+    const s = this.state;
+    if (s.bkStep === 1) {
+      if (s.bkSanctuary < 0) return this.setState({ bkStepError: 'Please choose a sanctuary to continue.' });
+      return this.setBk({ bkStep: 2, bkStepError: '' });
+    }
+    if (s.bkStep === 2) {
+      if (!s.bkRituals.length) return this.setState({ bkStepError: 'Please choose at least one ritual to continue.' });
+      return this.setBk({ bkStep: 3, bkStepError: '' });
+    }
+    if (s.bkStep === 3) {
+      if (s.bkDay < 0 || s.bkTime < 0) return this.setState({ bkStepError: 'Please choose a day and an open time to continue.' });
+      return this.setBk({ bkStep: 4, bkStepError: '' });
+    }
+    if (s.bkStep === 4) {
+      const nameErr = s.bkName.trim() ? '' : 'Please tell us your name — it helps us welcome you.';
+      const guest2Err = (s.bkGuests === 2 && !s.bkGuest2.trim()) ? 'Please tell us your guest\u2019s name — every welcome is personal.' : '';
+      const emailErr = /.+@.+\..+/.test(s.bkEmail.trim()) ? '' : 'Please check this address — it seems incomplete.';
+      if (nameErr || emailErr || guest2Err) return this.setState({ bkNameError: nameErr, bkEmailError: emailErr, bkGuest2Error: guest2Err });
+      return this.setBk({ bkStep: 5, bkStepError: '', bkNameError: '', bkEmailError: '', bkGuest2Error: '' });
+    }
+    if (s.bkStep === 5 && !s.bkConfirming) {
+      this.setState({ bkConfirming: true, bkStepError: '' });
+      this._bkConfirmT = setTimeout(() => {
+        this.setState({ bkConfirming: false, bkConfirmed: true, bkOpen: false });
+        try { localStorage.removeItem('satori_booking_v1'); } catch (e) {}
+      }, 1200);
+    }
+  }
+
+  selectStage(i) {
+    if (i === this.state.activeStage) return;
+    const reduced = (this.props.reducedMotion ?? false) || this.state.reduced;
+    if (reduced) return this.setState({ activeStage: i, mediaStage: i, stageTextOp: 1 });
+    this.setState({ stageTextOp: 0 });
+    if (this._stageT1) clearTimeout(this._stageT1);
+    if (this._stageT2) clearTimeout(this._stageT2);
+    this._stageT1 = setTimeout(() => this.setState({ activeStage: i, stageTextOp: 1 }), 350);
+    this._stageT2 = setTimeout(() => this.setState({ mediaStage: i }), 550);
+  }
+
+  selectRitual(i) {
+    if (i === this.state.activeRitual) return;
+    const reduced = (this.props.reducedMotion ?? false) || this.state.reduced;
+    if (reduced) return this.setState({ activeRitual: i, mediaRitual: i });
+    this.setState({ activeRitual: i });
+    if (this._mediaT) clearTimeout(this._mediaT);
+    this._mediaT = setTimeout(() => this.setState({ mediaRitual: i }), 550);
+  }
+
+  _cvEl() {
+    return document.getElementById(this._cvActive === 'b' ? 'closing-video-b' : 'closing-video');
+  }
+
+  _ensureAudio() {
+    if (this._ac) return;
+    const ac = new (window.AudioContext || window.webkitAudioContext)();
+    this._ac = ac;
+    const len = ac.sampleRate * 4;
+    const buf = ac.createBuffer(1, len, ac.sampleRate);
+    const d = buf.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < len; i++) {
+      const w = Math.random() * 2 - 1;
+      last = (last + 0.02 * w) / 1.02;
+      d[i] = last * 3.5;
+    }
+    const src = ac.createBufferSource();
+    src.buffer = buf;
+    src.loop = true;
+    const lp = ac.createBiquadFilter();
+    lp.type = 'lowpass';
+    lp.frequency.value = 320;
+    lp.Q.value = 0.5;
+    const g = ac.createGain();
+    g.gain.value = 0;
+    src.connect(lp);
+    lp.connect(g);
+    g.connect(ac.destination);
+    src.start();
+    this._ambGain = g;
+  }
+
+  _drop() {
+    const ac = this._ac;
+    if (!ac || !this.state.soundOn) return;
+    const t = ac.currentTime;
+    const o = ac.createOscillator();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(520 + Math.random() * 180, t);
+    o.frequency.exponentialRampToValueAtTime(140, t + 0.28);
+    const g = ac.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.05, t + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+    o.connect(g);
+    g.connect(ac.destination);
+    o.start(t);
+    o.stop(t + 0.55);
+  }
+
+  componentDidMount() {
+    this._timers = [];
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const reduced = mq.matches;
+    if (reduced) this.setState({ reduced: true });
+
+    const fast = (this.props.introPace ?? 'standard') === 'fast';
+    const s = fast ? 0.28 : 1;
+
+    if (reduced || (this.props.reducedMotion ?? false) || window.scrollY > 120) {
+      this.setState({ phase: 5 });
+    } else {
+      const steps = [[400, 1], [2600, 2], [4600, 3], [8200, 4], [11600, 5]];
+      steps.forEach(([t, p]) => {
+        this._timers.push(setTimeout(() => this.setState({ phase: p }), Math.round(t * s)));
+      });
+    }
+
+    const philoEl = document.getElementById('philosophy');
+    if (philoEl && 'IntersectionObserver' in window) {
+      this._philoObs = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting)) {
+          this.setState({ philoIn: true });
+          this._philoObs.disconnect();
+          this._philoObs = null;
+        }
+      }, { threshold: 0.3 });
+      this._philoObs.observe(philoEl);
+    } else {
+      this.setState({ philoIn: true });
+    }
+
+    const reflEl = document.getElementById('reflections');
+    if (reflEl && 'IntersectionObserver' in window) {
+      this._reflObs = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting)) {
+          this.setState({ reflIn: true });
+          this._reflObs.disconnect();
+          this._reflObs = null;
+        }
+      }, { threshold: 0.12 });
+      this._reflObs.observe(reflEl);
+    } else {
+      this.setState({ reflIn: true });
+    }
+
+    this._onScroll = () => {
+      const past = window.scrollY > window.innerHeight * 0.7;
+      if (past !== this.state.pastHero) this.setState({ pastHero: past });
+      // scroll-position fallback for reveal (IntersectionObserver can be throttled/unavailable)
+      if (!this.state.philoIn) {
+        const pe = document.getElementById('philosophy');
+        if (pe && pe.getBoundingClientRect().top < window.innerHeight * 0.85) this.setState({ philoIn: true });
+      }
+      const revealIds = ['arch-h', 'arch-d1', 'arch-d2', 'arch-d3', 'refl-q1', 'refl-q2', 'refl-q3', 'refl-q4', 'refl-q5', 'close-line'];
+      let revChanged = false;
+      const rev = Object.assign({}, this.state.rev);
+      for (const id of revealIds) {
+        if (!rev[id]) {
+          const el = document.getElementById(id);
+          if (el && el.getBoundingClientRect().top < window.innerHeight * 0.88) {
+            rev[id] = true;
+            revChanged = true;
+          }
+        }
+      }
+      if (revChanged) this.setState({ rev: rev });
+      const cvA = document.getElementById('closing-video');
+      const cv = this._cvEl() || cvA;
+      if (cv && cvA) {
+        const r = cvA.getBoundingClientRect();
+        if (cv.paused && !this._cvSwapping && r.top < window.innerHeight * 1.5) {
+          cv.muted = true;
+          cv.play().catch(() => {});
+        }
+        // scroll-linked crossfade: ambient -> water sound at the footer (only when sound is on)
+        const mix = Math.max(0, Math.min(1, (window.innerHeight * 1.05 - r.top) / (window.innerHeight * 0.75)));
+        this._soundMix = mix;
+        if (this.state.soundOn && this._ac && this._ambGain) {
+          this._ambGain.gain.setTargetAtTime(0.045 * (1 - mix), this._ac.currentTime, 0.4);
+          cv.muted = mix <= 0.01;
+          cv.volume = Math.min(1, mix * 0.9);
+        } else {
+          cv.muted = true;
+        }
+      }
+      const y = window.innerHeight - 40;
+      const overDark = ['hero', 'spaces', 'reserve', 'visit'].some((id) => {
+        const el = document.getElementById(id);
+        if (!el) return false;
+        const r = el.getBoundingClientRect();
+        return r.top <= y && r.bottom >= y;
+      });
+      if (overDark !== this.state.soundOverDark) this.setState({ soundOverDark: overDark });
+      const sp = document.getElementById('spaces');
+      if (sp) {
+        const rect = sp.getBoundingClientRect();
+        const total = sp.offsetHeight - window.innerHeight;
+        if (total > 0) {
+          const prog = Math.min(1, Math.max(0, -rect.top / total));
+          const n = Component.SPACES.length;
+          const idx = Math.min(n - 1, Math.floor(prog * n));
+          if (idx !== this.state.activeSpace || Math.abs(prog - this.state.spaceP) > 0.0015) {
+            this.setState({ activeSpace: idx, spaceP: prog });
+          }
+        }
+      }
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+
+    // Sound discipline guard: the closing videos may never be audible unless the user
+    // has switched sound on AND is at the footer (crossfade zone). Runs regardless of
+    // scroll events, so a freshly-mounted or re-mounted video can't leak audio.
+    this._cvActive = 'a';
+    this._soundGuardT = setInterval(() => {
+      const a = document.getElementById('closing-video');
+      const b = document.getElementById('closing-video-b');
+      const act = this._cvEl();
+      const allowed = this.state.soundOn && (this._soundMix || 0) > 0.01;
+      [a, b].forEach((v) => {
+        if (!v) return;
+        if (!allowed || v !== act) {
+          if (!v.muted) v.muted = true;
+          if (v.volume !== 0) v.volume = 0;
+        } else if (v.volume === 0) {
+          v.muted = false;
+          v.volume = Math.min(1, (this._soundMix || 0) * 0.9);
+        }
+      });
+    }, 400);
+
+    // Seamless-loop manager: slow the clip to 0.75x and crossfade between two
+    // copies ~1.4s before the end, hiding the loop seam.
+    this._loopT = setInterval(() => {
+      const a = document.getElementById('closing-video');
+      const b = document.getElementById('closing-video-b');
+      if (!a || !b) return;
+      if (a.playbackRate !== 0.5) { a.playbackRate = 0.5; b.playbackRate = 0.5; }
+      const cur = this._cvActive === 'b' ? b : a;
+      const other = cur === a ? b : a;
+      if (this._cvSwapping || !cur.duration || cur.paused) return;
+      if (cur.duration - cur.currentTime < 1.4) {
+        this._cvSwapping = true;
+        other.muted = true;
+        other.volume = 0;
+        try { other.currentTime = 0; } catch (e) {}
+        other.play().catch(() => {});
+        b.style.opacity = other === b ? '1' : '0';
+        setTimeout(() => {
+          cur.pause();
+          try { cur.currentTime = 0; } catch (e) {}
+          this._cvActive = other === b ? 'b' : 'a';
+          this._cvSwapping = false;
+        }, 1250);
+      }
+    }, 250);
+
+    try {
+      const saved = JSON.parse(localStorage.getItem('satori_booking_v1') || 'null');
+      if (saved && typeof saved === 'object') {
+        this.setState({
+          bkOpen: !!saved.open, bkStep: saved.step || 1,
+          bkSanctuary: saved.s ?? -1,
+          bkRituals: Array.isArray(saved.r) ? saved.r : (typeof saved.r === 'number' && saved.r >= 0 ? [saved.r] : []),
+          bkDay: saved.d ?? -1, bkTime: saved.t ?? -1,
+          bkGuests: saved.g || 1, bkName: saved.n || '', bkGuest2: saved.g2 || '', bkEmail: saved.e || '', bkNotes: saved.no || ''
+        });
+      }
+    } catch (e) {}
+  }
+
+  componentWillUnmount() {
+    (this._timers || []).forEach(clearTimeout);
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+    if (this._dropTimer) clearTimeout(this._dropTimer);
+    if (this._philoObs) this._philoObs.disconnect();
+    if (this._mediaT) clearTimeout(this._mediaT);
+    if (this._stageT1) clearTimeout(this._stageT1);
+    if (this._stageT2) clearTimeout(this._stageT2);
+    if (this._reflObs) this._reflObs.disconnect();
+    if (this._soundGuardT) clearInterval(this._soundGuardT);
+    if (this._loopT) clearInterval(this._loopT);
+    if (this._bkConfirmT) clearTimeout(this._bkConfirmT);
+    if (this._bkTimesT) clearTimeout(this._bkTimesT);
+    if (this._ac) this._ac.close();
+  }
+
+  renderVals() {
+    const forcedReduced = (this.props.reducedMotion ?? false) || this.state.reduced;
+    const p = forcedReduced ? 5 : this.state.phase;
+    const past = this.state.pastHero;
+    return {
+      showAnnotations: this.props.showAnnotations ?? true,
+      showDrop: p >= 1 && p < 3 && !forcedReduced,
+      mistOpacity: forcedReduced ? 0.35 : (p >= 2 ? 0.55 : 0),
+      sceneOpacity: p >= 3 ? 1 : 0,
+      veilOpacity: p >= 3 ? 0.42 : 1,
+      brandOpacity: p >= 4 ? 1 : 0,
+      cueOpacity: p >= 5 ? 1 : 0,
+      cueEvents: p >= 5 ? 'auto' : 'none',
+      navOpacity: p >= 5 ? 1 : 0,
+      navBg: past ? 'rgba(244,239,230,0.92)' : 'rgba(244,239,230,0)',
+      navColor: past ? '#26241F' : '#F4EFE6',
+      navBorder: past ? '1px solid rgba(38,36,31,0.08)' : '1px solid rgba(244,239,230,0)',
+      rituals: Component.RITUALS.map((r, i) => {
+        const active = i === this.state.activeRitual;
+        return {
+          i: i,
+          num: String(i + 1).padStart(2, '0'),
+          name: r.name,
+          promise: r.promise,
+          desc: r.desc,
+          meta: r.dur + ' · from €' + r.price,
+          select: () => this.selectRitual(i),
+          reserve: () => {
+            const sel = this.state.bkRituals.slice();
+            if (!sel.includes(i) && sel.length < 3) sel.push(i);
+            this.setBk({ bkRituals: sel, bkOpen: true, bkConfirmed: false, bkStepError: '' });
+            const el = document.getElementById('reserve');
+            if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' });
+          },
+          ariaExpanded: active ? 'true' : 'false',
+          underline: active ? '0 1px 0 0 #9C7B52' : 'none',
+          nameColor: active ? '#26241F' : 'rgba(38,36,31,0.45)',
+          nameSize: active ? '30px' : '23px',
+          borderColor: active ? 'rgba(38,36,31,0.4)' : 'rgba(38,36,31,0.12)',
+          detailRows: active ? '1fr' : '0fr'
+        };
+      }),
+      ritualPanels: Component.RITUALS.map((r, i) => ({
+        slotId: 'ritual-media-' + i,
+        src: r.src,
+        caption: r.scene,
+        opacity: i === this.state.mediaRitual ? 1 : 0,
+        events: i === this.state.mediaRitual ? 'auto' : 'none'
+      })),
+      spaceScenes: Component.SPACES.map((s, i) => {
+        const active = i === this.state.activeSpace;
+        const n = Component.SPACES.length;
+        const local = Math.min(1.15, Math.max(-0.15, this.state.spaceP * n - i));
+        const sc = forcedReduced ? 1 : Math.round((1.075 - 0.075 * Math.min(1, Math.max(0, local))) * 1000) / 1000;
+        return {
+          slotId: 'space-media-' + i,
+          num: String(i + 1).padStart(2, '0') + ' / ' + String(Component.SPACES.length).padStart(2, '0'),
+          name: s.name,
+          sentence: s.sentence,
+          captionShort: s.name.toLowerCase() + ' — cinematic frame',
+          pad: s.pad,
+          tint: s.tint,
+          src: s.src,
+          opacity: active ? 1 : 0,
+          events: active ? 'auto' : 'none',
+          scale: sc
+        };
+      }),
+      spaceDots: Component.SPACES.map((s, i) => ({
+        w: (i === this.state.activeSpace || i === this.state.focusedDot) ? '28px' : '14px',
+        h: i === this.state.focusedDot ? '3px' : '1px',
+        bg: i === this.state.focusedDot ? '#C99B62' : (i === this.state.activeSpace ? '#C99B62' : 'rgba(244,239,230,0.35)'),
+        label: s.name,
+        focus: () => this.setState({ focusedDot: i }),
+        blur: () => { if (this.state.focusedDot === i) this.setState({ focusedDot: -1 }); },
+        go: () => {
+          const sp = document.getElementById('spaces');
+          if (!sp) return;
+          const total = sp.offsetHeight - window.innerHeight;
+          const top = sp.getBoundingClientRect().top + window.scrollY;
+          const n = Component.SPACES.length;
+          const target = top + ((i + 0.5) / n) * total;
+          window.scrollTo({ top: target, behavior: 'smooth' });
+        }
+      })),
+      stages: Component.JOURNEY.map((s, i) => {
+        const active = i === this.state.activeStage;
+        return {
+          i: i,
+          name: s.name,
+          select: () => this.selectStage(i),
+          color: active ? '#26241F' : 'rgba(38,36,31,0.45)',
+          underline: active ? '0 1px 0 0 #9C7B52' : 'none'
+        };
+      }),
+      stagePanels: Component.JOURNEY.map((s, i) => ({
+        slotId: 'journey-media-' + i,
+        src: s.src,
+        caption: s.name.toLowerCase() + ' — human gesture, 16:9',
+        opacity: i === this.state.mediaStage ? 1 : 0,
+        events: i === this.state.mediaStage ? 'auto' : 'none'
+      })),
+      stageTitle: Component.JOURNEY[this.state.activeStage].title,
+      stageSentence: Component.JOURNEY[this.state.activeStage].sentence,
+      stageGesture: Component.JOURNEY[this.state.mediaStage].gesture,
+      stageTextOp: this.state.stageTextOp,
+      stageProgressW: (((this.state.activeStage + 1) / Component.JOURNEY.length) * 100).toFixed(2) + '%',
+      stageKeyDown: (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        const dir = e.key === 'ArrowRight' ? 1 : -1;
+        const n = Component.JOURNEY.length;
+        const next = (this.state.activeStage + dir + n) % n;
+        this.selectStage(next);
+        const btn = e.currentTarget.querySelector('button[data-stage="' + next + '"]');
+        if (btn) btn.focus();
+      },
+      nightSrc: Component.NIGHT || '',
+      closingSrc: Component.CLOSING || '',
+      closingVideoOn: !forcedReduced && !!Component.CLOSING_VIDEO,
+      closingVideoOff: forcedReduced || !Component.CLOSING_VIDEO,
+      closingVideoSrc: Component.CLOSING_VIDEO || '',
+      closeLineOp: (this.state.rev['close-line'] || forcedReduced) ? 1 : 0,
+      bkEntryVisible: !this.state.bkOpen && !this.state.bkConfirmed,
+      bkFlowVisible: this.state.bkOpen && !this.state.bkConfirmed,
+      bkConfirmed: this.state.bkConfirmed,
+      bkBackOp: (this.state.bkOpen && !this.state.bkConfirmed) ? 0.22 : 0.42,
+      bkHostOpen: this.state.bkHostOpen,
+      bkBegin: () => this.setBk({ bkOpen: true, bkStep: 1, bkStepError: '' }),
+      bkToggleHost: () => this.setState({ bkHostOpen: !this.state.bkHostOpen }),
+      bkStepLabel: 'Step ' + this.state.bkStep + ' of 5',
+      bkProgressW: (this.state.bkStep / 5 * 100).toFixed(1) + '%',
+      bkCanBack: this.state.bkStep > 1,
+      bkBack: () => this.setBk({ bkStep: Math.max(1, this.state.bkStep - 1), bkStepError: '' }),
+      bkStepTitle: ['', 'Where would you like to be received?', 'Choose your ritual', 'Choose a day and time', 'A few quiet details', 'Review your ritual'][this.state.bkStep],
+      bkAnnounce: 'Step ' + this.state.bkStep + ' of 5',
+      bkIsStep1: this.state.bkStep === 1,
+      bkIsStep2: this.state.bkStep === 2,
+      bkIsStep3: this.state.bkStep === 3,
+      bkIsStep4: this.state.bkStep === 4,
+      bkIsStep5: this.state.bkStep === 5,
+      bkSanctuaries: Component.SANCTUARIES.map((s, i) => {
+        const sel = i === this.state.bkSanctuary;
+        return {
+          name: s.name, meta: s.meta,
+          pick: () => this.setBk({ bkSanctuary: i, bkStepError: '' }),
+          color: sel ? '#F4EFE6' : 'rgba(244,239,230,0.55)',
+          border: sel ? 'rgba(201,155,98,0.9)' : 'rgba(244,239,230,0.15)'
+        };
+      }),
+      bkRituals: Component.RITUALS.map((r, i) => {
+        const sel = this.state.bkRituals.includes(i);
+        return {
+          name: r.name, meta: (sel ? 'chosen · ' : '') + r.dur + ' · from €' + r.price,
+          pick: () => this.bkToggleRitual(i),
+          color: sel ? '#F4EFE6' : 'rgba(244,239,230,0.55)',
+          border: sel ? 'rgba(201,155,98,0.9)' : 'rgba(244,239,230,0.15)'
+        };
+      }),
+      bkSelSummary: this.state.bkRituals.length
+        ? (this.state.bkRituals.length + (this.state.bkRituals.length === 1 ? ' ritual chosen' : ' rituals chosen') + ' · ' + this._bkNeedLabel())
+        : 'Choose up to three rituals for one visit.',
+      bkDays: this._bkDays().map((d, i) => {
+        const sel = i === this.state.bkDay;
+        return {
+          label: d.label,
+          pick: () => {
+            if (this._bkTimesT) clearTimeout(this._bkTimesT);
+            this.setBk({ bkDay: i, bkTime: -1, bkTimesLoading: true, bkStepError: '' });
+            this._bkTimesT = setTimeout(() => this.setState({ bkTimesLoading: false }), 700);
+          },
+          bg: sel ? '#F4EFE6' : 'transparent',
+          color: sel ? '#26241F' : 'rgba(244,239,230,0.85)',
+          border: sel ? '#F4EFE6' : 'rgba(244,239,230,0.3)'
+        };
+      }),
+      bkTimesLoading: this.state.bkTimesLoading,
+      bkTimesEmpty: this.state.bkDay >= 0 && !this.state.bkTimesLoading && this._bkTimesFor(this.state.bkDay).length === 0,
+      bkTimesVisible: this.state.bkDay >= 0 && !this.state.bkTimesLoading && this._bkTimesFor(this.state.bkDay).length > 0,
+      bkTimes: this._bkTimesFor(this.state.bkDay).map((t) => {
+        const gi = Component.TIMES.indexOf(t);
+        const sel = gi === this.state.bkTime;
+        return {
+          label: t,
+          title: 'Ends around ' + this._bkEndLabel(t),
+          pick: () => this.setBk({ bkTime: gi, bkStepError: '' }),
+          bg: sel ? '#F4EFE6' : 'transparent',
+          color: sel ? '#26241F' : 'rgba(244,239,230,0.85)',
+          border: sel ? '#F4EFE6' : 'rgba(244,239,230,0.3)'
+        };
+      }),
+      bkGuests1: () => this.setBk({ bkGuests: 1 }),
+      bkGuests2: () => this.setBk({ bkGuests: 2 }),
+      bkG1Bg: this.state.bkGuests === 1 ? '#F4EFE6' : 'transparent',
+      bkG1Color: this.state.bkGuests === 1 ? '#26241F' : 'rgba(244,239,230,0.85)',
+      bkG1Border: this.state.bkGuests === 1 ? '#F4EFE6' : 'rgba(244,239,230,0.3)',
+      bkG2Bg: this.state.bkGuests === 2 ? '#F4EFE6' : 'transparent',
+      bkG2Color: this.state.bkGuests === 2 ? '#26241F' : 'rgba(244,239,230,0.85)',
+      bkG2Border: this.state.bkGuests === 2 ? '#F4EFE6' : 'rgba(244,239,230,0.3)',
+      bkName: this.state.bkName,
+      bkIsTwoGuests: this.state.bkGuests === 2,
+      bkGuest2: this.state.bkGuest2,
+      bkGuest2Change: (e) => this.setBk({ bkGuest2: e.target.value, bkGuest2Error: '' }),
+      bkGuest2Error: this.state.bkGuest2Error,
+      bkEmail: this.state.bkEmail,
+      bkNotes: this.state.bkNotes,
+      bkNameChange: (e) => this.setBk({ bkName: e.target.value, bkNameError: '' }),
+      bkEmailChange: (e) => this.setBk({ bkEmail: e.target.value, bkEmailError: '' }),
+      bkNotesChange: (e) => this.setBk({ bkNotes: e.target.value }),
+      bkNameError: this.state.bkNameError,
+      bkEmailError: this.state.bkEmailError,
+      bkReviewRows: this.state.bkStep === 5 ? (() => {
+        const sel = this.state.bkRituals;
+        const day = this._bkDays()[this.state.bkDay] || {};
+        const names = sel.map(i => Component.RITUALS[i].name).join(', ') || '—';
+        const priceParts = sel.map(i => {
+          const flat = i === 6 || i === 7;
+          const r = Component.RITUALS[i];
+          return '€' + (flat ? r.price : r.price * this.state.bkGuests);
+        });
+        return [
+          { label: 'Sanctuary', value: (Component.SANCTUARIES[this.state.bkSanctuary] || {}).name || '—', edit: () => this.setBk({ bkStep: 1 }) },
+          { label: sel.length === 1 ? 'Ritual' : 'Rituals', value: names + ' · ' + this._bkNeedLabel(), edit: () => this.setBk({ bkStep: 2 }) },
+          { label: 'Day & time', value: (day.full || '—') + ' at ' + (Component.TIMES[this.state.bkTime] || '—') + ' — ends ~' + this._bkEndLabel(Component.TIMES[this.state.bkTime] || '10:00'), edit: () => this.setBk({ bkStep: 3 }) },
+          { label: 'Guests', value: this.state.bkGuests === 2 ? ('Two guests' + (this.state.bkGuest2.trim() ? ' — with ' + this.state.bkGuest2.trim() : '')) : 'One guest', edit: () => this.setBk({ bkStep: 4 }) },
+          { label: 'Price', value: priceParts.join(' + ') + (this.state.bkGuests === 2 ? ' — for two guests' : ''), edit: () => this.setBk({ bkStep: 2 }) }
+        ];
+      })() : [],
+      bkTotal: (() => {
+        const sel = this.state.bkRituals;
+        if (!sel.length) return '—';
+        const sum = sel.reduce((a, i) => {
+          const flat = i === 6 || i === 7;
+          const r = Component.RITUALS[i];
+          return a + (flat ? r.price : r.price * this.state.bkGuests);
+        }, 0);
+        return '€' + sum;
+      })(),
+      bkContinueLabel: this.state.bkStep === 5 ? (this.state.bkConfirming ? 'Confirming' : 'Confirm reservation') : 'Continue',
+      bkConfirming: this.state.bkConfirming,
+      bkContinue: () => this.bkContinue(),
+      bkStepError: this.state.bkStepError,
+      bkConfirmSummary: (() => {
+        const names = this.state.bkRituals.map(i => Component.RITUALS[i].name).join(', ');
+        const day = this._bkDays()[this.state.bkDay] || {};
+        const sa = Component.SANCTUARIES[this.state.bkSanctuary] || {};
+        return names + ' · ' + (day.full || '') + ' at ' + (Component.TIMES[this.state.bkTime] || '') + ' · ' + (sa.name || '');
+      })(),
+      bkReset: () => {
+        try { localStorage.removeItem('satori_booking_v1'); } catch (e) {}
+        this.setState({ bkOpen: false, bkConfirmed: false, bkStep: 1, bkSanctuary: -1, bkRituals: [], bkDay: -1, bkTime: -1, bkGuests: 1, bkName: '', bkGuest2: '', bkGuest2Error: '', bkEmail: '', bkNotes: '', bkStepError: '', bkNameError: '', bkEmailError: '' });
+      },
+      archTravertineSrc: Component.ARCH_TRAVERTINE || '',
+      archBasaltSrc: Component.ARCH_BASALT || '',
+      archHinokiSrc: Component.ARCH_HINOKI || '',
+      activeScene: '[ ' + Component.RITUALS[this.state.mediaRitual].scene + ' ]',
+      activeMeta: Component.RITUALS[this.state.mediaRitual].dur + ' · from €' + Component.RITUALS[this.state.mediaRitual].price,
+      ritualKeyDown: (e) => {
+        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+        e.preventDefault();
+        const dir = e.key === 'ArrowDown' ? 1 : -1;
+        const n = Component.RITUALS.length;
+        const next = (this.state.activeRitual + dir + n) % n;
+        this.selectRitual(next);
+        const btn = e.currentTarget.querySelector('button[data-ritual="' + next + '"]');
+        if (btn) btn.focus();
+      },
+      archHOp: (this.state.rev['arch-h'] || forcedReduced) ? 1 : 0,
+      archHShift: (this.state.rev['arch-h'] || forcedReduced) ? 'translateY(0)' : 'translateY(16px)',
+      archD1Op: (this.state.rev['arch-d1'] || forcedReduced) ? 1 : 0,
+      archD1Shift: (this.state.rev['arch-d1'] || forcedReduced) ? 'translateY(0)' : 'translateY(16px)',
+      archD2Op: (this.state.rev['arch-d2'] || forcedReduced) ? 1 : 0,
+      archD2Shift: (this.state.rev['arch-d2'] || forcedReduced) ? 'translateY(0)' : 'translateY(16px)',
+      archD3Op: (this.state.rev['arch-d3'] || forcedReduced) ? 1 : 0,
+      archD3Shift: (this.state.rev['arch-d3'] || forcedReduced) ? 'translateY(0)' : 'translateY(16px)',
+      reflQ1Op: (this.state.rev['refl-q1'] || forcedReduced) ? 1 : 0,
+      reflQ1Shift: (this.state.rev['refl-q1'] || forcedReduced) ? 'translateY(0)' : 'translateY(16px)',
+      reflQ2Op: (this.state.rev['refl-q2'] || forcedReduced) ? 1 : 0,
+      reflQ2Shift: (this.state.rev['refl-q2'] || forcedReduced) ? 'translateY(0)' : 'translateY(16px)',
+      reflQ3Op: (this.state.rev['refl-q3'] || forcedReduced) ? 1 : 0,
+      reflQ3Shift: (this.state.rev['refl-q3'] || forcedReduced) ? 'translateY(0)' : 'translateY(16px)',
+      reflQ4Op: (this.state.rev['refl-q4'] || forcedReduced) ? 1 : 0,
+      reflQ4Shift: (this.state.rev['refl-q4'] || forcedReduced) ? 'translateY(0)' : 'translateY(16px)',
+      reflQ5Op: (this.state.rev['refl-q5'] || forcedReduced) ? 1 : 0,
+      reflQ5Shift: (this.state.rev['refl-q5'] || forcedReduced) ? 'translateY(0)' : 'translateY(16px)',
+      portraitElenaSrc: Component.PORTRAIT_ELENA || '',
+      portraitTomaszSrc: Component.PORTRAIT_TOMASZ || '',
+      portraitMarcSrc: Component.PORTRAIT_MARC || '',
+      portraitIngridSrc: Component.PORTRAIT_INGRID || '',
+      portraitSofiaSrc: Component.PORTRAIT_SOFIA || '',
+      philoOp: (this.state.philoIn || forcedReduced) ? 1 : 0,
+      philoShift: (this.state.philoIn || forcedReduced) ? 'translateY(0)' : 'translateY(14px)',
+      soundColor: this.state.soundOverDark ? '#F4EFE6' : '#26241F',
+      soundLabel: this.state.soundOn ? 'Mute atmosphere' : 'Enable atmosphere',
+      soundDotColor: this.state.soundOn ? '#C99B62' : 'rgba(169,131,92,0.35)',
+      soundStrikeOp: this.state.soundOn ? 0 : 1,
+      calmLabel: this.state.reduced ? 'Use full motion' : 'Use calm display mode',
+      toggleCalm: () => this.setState({ reduced: !this.state.reduced }),
+      toggleSound: async () => {
+        this._ensureAudio();
+        if (this._ac.state === 'suspended') await this._ac.resume();
+        const on = !this.state.soundOn;
+        const t = this._ac.currentTime;
+        const mix = this._soundMix || 0;
+        this._ambGain.gain.cancelScheduledValues(t);
+        this._ambGain.gain.setTargetAtTime(on ? 0.045 * (1 - mix) : 0, t, 1.2);
+        const cv = this._cvEl();
+        if (cv) {
+          if (on && mix > 0.01) { cv.muted = false; cv.volume = Math.min(1, mix * 0.9); }
+          else { cv.muted = true; }
+        }
+        if (on && !this._dropTimer) {
+          const sched = () => {
+            this._drop();
+            this._dropTimer = setTimeout(sched, 3500 + Math.random() * 6000);
+          };
+          this._dropTimer = setTimeout(sched, 700);
+        }
+        if (!on && this._dropTimer) {
+          clearTimeout(this._dropTimer);
+          this._dropTimer = null;
+        }
+        this.setState({ soundOn: on });
+      },
+      enterSanctuary: () => {
+        const el = document.getElementById('philosophy');
+        if (el) window.scrollTo({ top: el.offsetTop - 20, behavior: 'smooth' });
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>
