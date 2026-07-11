@@ -162,6 +162,42 @@
     #philosophy.is-in .philo__body, #philosophy.is-in .philo__quote { opacity: 1; transform: translateY(0); }
     #philosophy.is-in .philo__media { opacity: 1; }
 
+    /* ---- signature rituals ---- */
+    #rituals { padding: 180px var(--margin); background: var(--sand); box-sizing: border-box; scroll-margin-top: 40px; }
+    .rituals__eyebrow { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(38, 36, 31, 0.45); margin-bottom: 16px; }
+    .rituals__title { font-size: 52px; line-height: 1.15; margin: 0 0 24px; max-width: 18ch; }
+    .rituals__intro { font-size: 17px; line-height: 1.8; color: rgba(38, 36, 31, 0.7); max-width: 44ch; margin: 0 0 80px; }
+    .rituals__grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); align-items: start; }
+    .rituals__index { grid-column: 1 / span 5; }
+    .rituals__panel { grid-column: 7 / span 6; position: sticky; top: 96px; }
+    .rituals__stage { position: relative; aspect-ratio: 3 / 2; overflow: hidden; background: #DDD3BF; }
+    .rituals__stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.1s ease; }
+    .rituals__stage img.is-active { opacity: 1; }
+    .rituals__caption { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 20px; }
+    .rituals__scene { font-family: monospace; font-size: 11px; color: rgba(38, 36, 31, 0.5); }
+    .rituals__meta { font-size: 13px; color: rgba(38, 36, 31, 0.6); }
+
+    .ritual { border-bottom: 1px solid rgba(38, 36, 31, 0.12); transition: border-color 0.6s ease; cursor: pointer; }
+    .ritual.is-active { border-bottom-color: rgba(38, 36, 31, 0.4); }
+    .ritual__head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 22px 0 20px; }
+    .ritual__name { background: transparent; border: none; padding: 0 0 6px; margin: 0; text-align: left; cursor: pointer; font-family: var(--font-display); box-shadow: none; transition: box-shadow 0.6s ease; }
+    .ritual__name span { font-family: var(--font-display); font-size: 23px; font-weight: 500; color: rgba(38, 36, 31, 0.45); line-height: 1.2; transition: color 0.6s ease, font-size 0.5s ease; }
+    .ritual__name:hover { box-shadow: 0 1px 0 0 rgba(156, 123, 82, 0.55); }
+    .ritual__name:focus-visible { outline: none; box-shadow: 0 2px 0 0 var(--bronze); }
+    .ritual.is-active .ritual__name { box-shadow: 0 1px 0 0 var(--bronze); }
+    .ritual.is-active .ritual__name span { font-size: 30px; color: var(--ink); }
+    .ritual__num { font-family: monospace; font-size: 11px; color: rgba(38, 36, 31, 0.4); }
+    .ritual__detail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.7s ease; }
+    .ritual.is-active .ritual__detail { grid-template-rows: 1fr; }
+    .ritual__detail > div { overflow: hidden; }
+    .ritual__detail-inner { padding: 2px 0 30px; }
+    .ritual__promise { font-family: var(--font-display); font-size: 23px; font-weight: 500; color: #4A392C; }
+    .ritual__desc { font-size: 15px; line-height: 1.75; color: rgba(38, 36, 31, 0.72); max-width: 46ch; margin-top: 10px; }
+    .ritual__foot { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 22px; }
+    .ritual__reserve { background: transparent; border: none; margin: 0; cursor: pointer; font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; color: var(--ink); border-bottom: 1px solid var(--bronze); padding: 0 0 3px; transition: color 0.4s ease; }
+    .ritual__reserve:hover { color: var(--bronze); }
+    .ritual__reserve:focus-visible { outline: none; box-shadow: 0 2px 0 0 var(--bronze); }
+
     /* ---- section skeleton (proportions from prototype) ---- */
     section { position: relative; }
     #hero         { min-height: 100vh; background: var(--hero-black); color: var(--ivory); }
@@ -188,8 +224,10 @@
       :root { --margin: 24px; }
       .nav__links a:not(.nav__reserve) { display: none; }
       h1, .hero__copy h1 { font-size: 40px; }
-      h2, .philo__text h2 { font-size: 34px; }
+      h2, .philo__text h2, .rituals__title { font-size: 34px; }
       .philo__text, .philo__media { grid-column: 1 / -1; }
+      .rituals__index, .rituals__panel { grid-column: 1 / -1; }
+      .rituals__panel { position: static; order: -1; margin-bottom: 48px; }
       blockquote { font-size: 26px; }
       #philosophy, #rituals, #spaces-intro, #journal, #architecture, #reflections, #reserve { padding-left: 24px; padding-right: 24px; }
       #spaces { height: 560vh; }
@@ -273,9 +311,20 @@
     </section>
 
     <!-- 03 · SIGNATURE RITUALS -->
-    <section id="rituals" class="scaffold" aria-label="03 Signature Rituals">
-      <span class="scaffold__label">03 · Signature Rituals</span>
-      <h2>Vertical index (8) · sticky cinematic panel</h2>
+    <section id="rituals" aria-label="03 Signature Rituals">
+      <div class="rituals__eyebrow">Signature Rituals</div>
+      <h2 class="rituals__title">Care, composed with intention.</h2>
+      <p class="rituals__intro">Every gesture has a purpose. Every pause belongs.</p>
+      <div class="rituals__grid">
+        <div class="rituals__index"></div>
+        <div class="rituals__panel">
+          <div class="rituals__stage"></div>
+          <div class="rituals__caption">
+            <span class="rituals__scene"></span>
+            <span class="rituals__meta"></span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- 04 · SPACES (intro + sequence) -->
@@ -442,6 +491,104 @@
       } else {
         philo.classList.add('is-in');
       }
+    }
+
+    // ---- signature rituals ----
+    // pendingRituals is consumed by the booking flow (Phase 10) for preselection.
+    var pendingRituals = [];
+    var RITUALS = [
+      { name: 'Water Rituals', promise: 'Return through warmth.', desc: 'Immersive bathing and thermal transitions designed to quiet the body.', dur: '120 min', scene: 'steam over the bathing pool — warm side light', price: 180, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_131256_fb2b873b-3827-49d0-9953-a0854cf5840c.png' },
+      { name: 'Head & Scalp Rituals', promise: 'Release what the day holds.', desc: 'Slow, precise care for the scalp, neck, shoulders, and breath.', dur: '75 min', scene: 'precise care for scalp and neck — 85 mm', price: 140, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_132328_45d9b17f-6b19-4c5b-b422-364b46bad11c.png' },
+      { name: 'Body Restoration', promise: 'Let the body become quiet.', desc: 'Measured touch, warmth, and pressure restore a sense of ease.', dur: '90 min', scene: 'basalt stones placed on linen — 100 mm macro', price: 165, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_131258_f35ca9ab-1623-48ac-be77-e5cc4bd4be00.png' },
+      { name: 'Facial Renewal', promise: 'Light returns gradually.', desc: 'Considered facial care guided by touch, hydration, and rest.', dur: '75 min', scene: 'water touched in a ceramic basin — macro', price: 150, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_132330_7074a60c-e6dc-4d77-a6ad-c2d5b4d80e32.png' },
+      { name: 'Stone & Heat Therapy', promise: 'Grounded by warmth.', desc: 'Basalt, heat, and deliberate pressure release accumulated tension.', dur: '90 min', scene: 'warm stone prepared beside linen — 100 mm macro', price: 170, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_132332_28eadd45-16be-4c7a-a6cc-7d755f34906e.png' },
+      { name: 'Tea & Breath Ceremonies', promise: 'A pause with form.', desc: 'Tea, scent, and guided breath create a gentle transition into presence.', dur: '60 min', scene: 'tea poured at the close — 100 mm macro', price: 95, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_131259_c1c8c6e6-e5d6-4f28-bf94-615ff193fa69.png' },
+      { name: "Couples' Rituals", promise: 'Shared silence.', desc: 'A private sequence composed for two.', dur: '120 min', scene: 'two robes, one quiet room — 50 mm', price: 340, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_132335_69b79bab-bc68-47b4-9ad7-a8493d484d4c.png' },
+      { name: 'Private Sanctuary Journeys', promise: 'Time, held entirely for you.', desc: 'A personalized progression through water, treatment, rest, and tea.', dur: 'half day', scene: 'private sanctuary — water, rest, tea — 35 mm', price: 620, src: 'https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_132337_8f59aa77-2e79-43bb-8615-052112467a19.png' }
+    ];
+
+    var rIndex = document.querySelector('.rituals__index');
+    if (rIndex) {
+      var rStage = document.querySelector('.rituals__stage');
+      var rScene = document.querySelector('.rituals__scene');
+      var rMeta = document.querySelector('.rituals__meta');
+      var activeRitual = 0, mediaRitual = 0, mediaT = null;
+
+      RITUALS.forEach(function (r, i) {
+        var num = String(i + 1).padStart(2, '0');
+        var item = document.createElement('div');
+        item.className = 'ritual' + (i === 0 ? ' is-active' : '');
+        item.innerHTML =
+          '<div class="ritual__head">'
+          + '<button class="ritual__name" type="button" data-ritual="' + i + '" aria-expanded="' + (i === 0) + '"><span>' + r.name + '</span></button>'
+          + '<span class="ritual__num">' + num + '</span>'
+          + '</div>'
+          + '<div class="ritual__detail"><div><div class="ritual__detail-inner">'
+          + '<div class="ritual__promise">' + r.promise + '</div>'
+          + '<div class="ritual__desc">' + r.desc + '</div>'
+          + '<div class="ritual__foot"><span class="ritual__meta">' + r.dur + ' · from €' + r.price + '</span>'
+          + '<button class="ritual__reserve" type="button" data-reserve="' + i + '">Reserve this ritual</button></div>'
+          + '</div></div></div>';
+        rIndex.appendChild(item);
+
+        var img = document.createElement('img');
+        img.src = r.src; img.alt = r.scene; img.loading = 'lazy';
+        if (i === 0) img.className = 'is-active';
+        rStage.appendChild(img);
+      });
+
+      var items = rIndex.querySelectorAll('.ritual');
+      var imgs = rStage.querySelectorAll('img');
+
+      function setCaption(i) {
+        rScene.textContent = '[ ' + RITUALS[i].scene + ' ]';
+        rMeta.textContent = RITUALS[i].dur + ' · from €' + RITUALS[i].price;
+      }
+
+      function selectRitual(i) {
+        if (i === activeRitual) return;
+        // text + index update first
+        items[activeRitual].classList.remove('is-active');
+        items[activeRitual].querySelector('.ritual__name').setAttribute('aria-expanded', 'false');
+        activeRitual = i;
+        items[i].classList.add('is-active');
+        items[i].querySelector('.ritual__name').setAttribute('aria-expanded', 'true');
+        // media crossfades 550ms later
+        if (mediaT) clearTimeout(mediaT);
+        var swap = function () {
+          imgs[mediaRitual].classList.remove('is-active');
+          mediaRitual = i;
+          imgs[i].classList.add('is-active');
+          setCaption(i);
+        };
+        if (reduced) swap(); else mediaT = setTimeout(swap, 550);
+      }
+
+      setCaption(0);
+
+      rIndex.addEventListener('click', function (e) {
+        var resBtn = e.target.closest('.ritual__reserve');
+        if (resBtn) {
+          var idx = +resBtn.getAttribute('data-reserve');
+          if (pendingRituals.indexOf(idx) < 0 && pendingRituals.length < 3) pendingRituals.push(idx);
+          var el = document.getElementById('reserve');
+          if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: reduced ? 'auto' : 'smooth' });
+          return;
+        }
+        // click anywhere on the row selects it
+        var item = e.target.closest('.ritual');
+        if (item) selectRitual(+item.querySelector('.ritual__name').getAttribute('data-ritual'));
+      });
+
+      rIndex.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+        e.preventDefault();
+        var dir = e.key === 'ArrowDown' ? 1 : -1, n = RITUALS.length;
+        var next = (activeRitual + dir + n) % n;
+        selectRitual(next);
+        var btn = rIndex.querySelector('button[data-ritual="' + next + '"]');
+        if (btn) btn.focus();
+      });
     }
   })();
   </script>
