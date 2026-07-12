@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/WebDevCaveman/satori-spa#readme",
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.61.1"
   }
 }
