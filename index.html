@@ -75,7 +75,6 @@
     @keyframes satori-ripple { 0% { transform: scale(0.1); opacity: 0; } 15% { opacity: 0.6; } 100% { transform: scale(1); opacity: 0; } }
     @keyframes satori-fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes satori-breathe { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
-    @media (prefers-reduced-motion: reduce) { [class*="bk-"], .bk-flow, .bk-step, .bk-confirm { animation: none !important; } }
 
     /* ---- skip link (keyboard) ---- */
     .skip-link {
@@ -497,6 +496,8 @@
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
+      /* designed-still variant: content appears composed, without transform/keyframe motion */
+      *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
     }
   </style>
 </head>
