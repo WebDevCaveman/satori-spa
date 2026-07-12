@@ -90,6 +90,25 @@ test('booking: validation blocks empty step 4', async ({ page }) => {
   await expect(page.locator('.bk-steptitle')).toHaveText('A few quiet details'); // stayed on step 4
 });
 
+test('booking: fully-quiet day marks the nearest open day', async ({ page }) => {
+  await page.goto('/index.html');
+  await page.evaluate(() => localStorage.removeItem('satori_booking_v1'));
+  await page.locator('#reserve').scrollIntoViewIfNeeded();
+  await page.locator('[data-act="begin"]').click();
+  await page.locator('[data-act="pick-sanctuary:1"]').click();
+  await page.locator('[data-act="continue"]').click();
+  await page.locator('[data-act="toggle-ritual:0"]').click();
+  await page.locator('[data-act="continue"]').click();
+  await page.locator('[data-act="pick-day:2"]').click();                 // day index 2 is always fully quiet
+  await expect(page.locator('.bk-empty')).toBeVisible({ timeout: 3000 });
+  const near = page.locator('.bk-chip.is-nearest');
+  await expect(near).toHaveCount(1);                                     // exactly one suggested day
+  await expect(near).not.toHaveClass(/is-selected/);                    // not the fully-quiet day itself
+  await expect(near).toHaveAttribute('aria-label', /nearest open day/); // not colour-only
+  await near.click();                                                    // the suggestion is genuinely open
+  await expect(page.locator('.bk-chip--time').first()).toBeVisible({ timeout: 3000 });
+});
+
 test('closing water video autoplays when in view (muted)', async ({ page }) => {
   await page.goto('/index.html');
   await page.locator('#visit').scrollIntoViewIfNeeded();

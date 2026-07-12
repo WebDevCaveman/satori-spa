@@ -360,6 +360,7 @@
     .bk-chip:hover { border-color: rgba(201, 155, 98, 0.8); }
     .bk-chip:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
     .bk-chip.is-selected { background: var(--ivory); color: var(--ink); border-color: var(--ivory); }
+    .bk-chip.is-nearest:not(.is-selected) { border-color: var(--amber); color: var(--amber); } /* suggested nearest-open day */
     .bk-chip--time { padding: 13px 18px; }
     .bk-chip--guest { padding: 13px 20px; }
 
@@ -1260,6 +1261,16 @@
         var need = bkNeedMin();
         return TIMES.filter(function (t) { var p = t.split(':'); return (+p[0] * 60 + +p[1]) + need <= CLOSE_MIN; });
       }
+      // nearest day with any open time to fromIdx (ties resolve to the sooner day)
+      function bkNearestOpenDay(fromIdx) {
+        var days = bkDays(), best = -1, bestDist = 99;
+        for (var j = 0; j < days.length; j++) {
+          if (!bkTimesFor(j).length) continue;
+          var dist = Math.abs(j - fromIdx);
+          if (dist < bestDist) { bestDist = dist; best = j; }
+        }
+        return best;
+      }
       function bkEndLabel(t) {
         var p = t.split(':'), end = +p[0] * 60 + +p[1] + bkNeedMin();
         var h = Math.floor(end / 60), m = end % 60;
@@ -1345,15 +1356,19 @@
           }).join('') + '</div></div>';
         }
         if (bk.step === 3) {
+          var dayEmpty = bk.day >= 0 && !bk.timesLoading && !bkTimesFor(bk.day).length;
+          var nearest = dayEmpty ? bkNearestOpenDay(bk.day) : -1;
           var dayChips = bkDays().map(function (d, i) {
-            return '<button class="bk-chip' + (i === bk.day ? ' is-selected' : '') + '" data-act="pick-day:' + i + '" type="button">' + d.label + '</button>';
+            var cls = 'bk-chip' + (i === bk.day ? ' is-selected' : '') + (i === nearest ? ' is-nearest' : '');
+            var aria = i === nearest ? ' aria-label="' + d.full + ', nearest open day"' : '';
+            return '<button class="' + cls + '" data-act="pick-day:' + i + '" type="button"' + aria + '>' + d.label + '</button>';
           }).join('');
           var timeBlock = '';
           if (bk.day >= 0) {
             if (bk.timesLoading) timeBlock = '<div class="bk-loading"><span class="bk-dot"></span>Preparing the next moment…</div>';
             else {
               var tf = bkTimesFor(bk.day);
-              if (!tf.length) timeBlock = '<div class="bk-empty">This day is already fully quiet. The nearest open day is highlighted above — or a host can find time that suits you.</div>';
+              if (!tf.length) timeBlock = '<div class="bk-empty">This day is already fully quiet. The nearest open day is highlighted above — or a host will gladly find a time that suits you.</div>';
               else timeBlock = '<div class="bk-sublabel">Time</div><div class="bk-hint">Only times that leave room for everything you have chosen — we close at 20:00.</div><div class="bk-chips">' + tf.map(function (t) {
                 var gi = TIMES.indexOf(t);
                 return '<button class="bk-chip bk-chip--time' + (gi === bk.time ? ' is-selected' : '') + '" data-act="pick-time:' + gi + '" type="button" title="Ends around ' + bkEndLabel(t) + '" aria-label="' + t + ', ends around ' + bkEndLabel(t) + '">' + t + '</button>';
