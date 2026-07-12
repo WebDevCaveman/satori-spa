@@ -1,0 +1,17 @@
+# Only index.html (fully self-contained) is served publicly.
+# Everything below is internal design/dev material — keep it off the public host.
+uploads/
+*.dc.html
+*.md
+support.js
+image-slot.js
+tests/
+playwright.config.js
+package.json
+package-lock.json
+node_modules/
+test-results/
+playwright-report/
+.thumbnail
+.image-slots.state.json
+.claude/
