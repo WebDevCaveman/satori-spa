@@ -189,3 +189,19 @@
 [2026-07-11 23:07:55] MCP__CLAUDE-IN-CHROME__NAVIGATE
 [2026-07-11 23:08:07] MCP__CLAUDE-IN-CHROME__JAVASCRIPT_TOOL
 [2026-07-11 23:08:22] MCP__CLAUDE-IN-CHROME__READ_CONSOLE_MESSAGES
+[2026-07-11 23:12:48] BASH: cd "/Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori" && git add -A && git commit -q -m "Phase 9: reservation  Night-backdrop entry + 5-step booking flow (sanctuary, multi-select rituals <=3, day/time with availability sim + full-day empty + time filtering, preferences with validation, review, confirm). Pricing (flat for couples/ private), localStorage persistence, ritual deep-link preselection.  Refinements: restore preserves data but always lands on entry (no auto-open); enter-animations only fire on real view/step transitions (fixes form jump on same-step selection).  Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>" && git push -q origin main && echo "pushed $(git rev-parse --short HEAD)"
+[2026-07-11 23:12:53] READ: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/SATORI Site.dc.html
+[2026-07-11 23:17:22] BASH: cd "/Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori" && echo "VIDEO:" && grep -oE "hf_20260711_155611[^'\" ]+\.mp4" "SATORI Site.dc.html" | head -1 && echo "POSTER:" && grep -oE "hf_20260711_154453[^'\" ]+\.png" "SATORI Site.dc.html" | head -1
+[2026-07-11 23:17:41] EDIT: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/index.html
+[2026-07-11 23:18:02] EDIT: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/index.html
+[2026-07-11 23:19:22] EDIT: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/index.html
+[2026-07-11 23:19:32] EDIT: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/index.html
+[2026-07-11 23:19:56] EDIT: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/index.html
+[2026-07-11 23:20:09] EDIT: /Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori/index.html
+[2026-07-11 23:20:25] MCP__CLAUDE-IN-CHROME__NAVIGATE
+[2026-07-11 23:20:39] MCP__CLAUDE-IN-CHROME__JAVASCRIPT_TOOL
+[2026-07-11 23:20:50] MCP__CLAUDE-IN-CHROME__COMPUTER
+[2026-07-11 23:21:09] MCP__CLAUDE-IN-CHROME__JAVASCRIPT_TOOL
+[2026-07-11 23:21:16] MCP__CLAUDE-IN-CHROME__COMPUTER
+[2026-07-11 23:21:42] BASH: cd "/Users/krzysztofpiekarz24/Claude Code/WEBSITES/satori-spa/satori" && vo=$(grep -oE "hf_20260711_155611[^'\" ]+\.mp4" "SATORI Site.dc.html"|head -1); vm=$(grep -oE "hf_20260711_155611[^'\" ]+\.mp4" index.html|head -1); po=$(grep -oE "hf_20260711_154453[^'\" ]+\.png" "SATORI Site.dc.html"|head -1); pm=$(grep -oE "hf_20260711_154453[^'\" ]+\.png" index.html|head -1); [ "$vo" = "$vm" ] && echo "VIDEO ok" || echo "VIDEO MISMATCH"; [ "$po" = "$pm" ] && echo "POSTER ok" || echo "POSTER MISMATCH"
+[2026-07-11 23:21:47] MCP__CLAUDE-IN-CHROME__READ_CONSOLE_MESSAGES

@@ -397,6 +397,38 @@
     .bk-confirm__lead { font-size: 17px; line-height: 1.8; color: rgba(244, 239, 230, 0.75); max-width: 44ch; margin: 0; }
     .bk-confirm__summary { margin-top: 44px; font-size: 14px; line-height: 2; color: rgba(244, 239, 230, 0.6); border-top: 1px solid rgba(244, 239, 230, 0.15); padding-top: 28px; max-width: 44ch; }
 
+    /* ---- closing & footer ---- */
+    #visit { background: var(--night-deep); color: var(--ivory); scroll-margin-top: 40px; }
+    .closing { position: relative; aspect-ratio: 21 / 9; overflow: hidden; }
+    .closing video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .closing #closing-video-b { opacity: 0; transition: opacity 1.2s ease; }
+    .closing__scrim { position: absolute; inset: 0; background: rgba(10, 15, 19, 0.25); pointer-events: none; }
+    .close-line { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; opacity: 0; transition: opacity 3s ease; }
+    .close-line.is-in { opacity: 1; }
+    .close-line span { font-family: var(--font-display); font-weight: 500; font-size: 30px; letter-spacing: 0.06em; color: rgba(244, 239, 230, 0.85); }
+
+    .footer { padding: 96px var(--margin) 64px; color: rgba(244, 239, 230, 0.65); }
+    .footer__grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); }
+    .footer__brand { grid-column: 1 / span 4; }
+    .footer__mark { font-family: var(--font-display); font-weight: 600; font-size: 20px; letter-spacing: 0.22em; color: var(--ivory); margin-bottom: 16px; }
+    .footer__tag { font-size: 13px; line-height: 1.8; color: rgba(244, 239, 230, 0.5); }
+    .footer__col--visit { grid-column: 6 / span 3; }
+    .footer__col--contact { grid-column: 9 / span 2; }
+    .footer__label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(244, 239, 230, 0.4); margin-bottom: 16px; }
+    .footer__lines { font-size: 13px; line-height: 2; }
+    .footer__reserve-wrap { grid-column: 11 / span 2; justify-self: end; }
+    .footer__reserve { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244, 239, 230, 0.75); border-bottom: 1px solid rgba(201, 155, 98, 0.6); padding-bottom: 4px; transition: color 0.4s ease; }
+    .footer__reserve:hover { color: var(--amber); }
+    .footer__reserve:focus-visible { outline: none; box-shadow: 0 2px 0 0 var(--amber); }
+    .footer__legal { margin-top: 72px; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-size: 12px; color: rgba(244, 239, 230, 0.35); }
+    .footer__legal-links { display: flex; gap: 20px; align-items: baseline; }
+    .footer__legal button, .footer__legal a { background: transparent; border: none; padding: 0; margin: 0; cursor: pointer; font-family: var(--font-ui); font-size: 12px; color: rgba(244, 239, 230, 0.35); transition: color 0.4s ease; }
+    .footer__legal button:hover, .footer__legal a:hover { color: rgba(244, 239, 230, 0.7); }
+    .footer__legal button:focus-visible, .footer__legal a:focus-visible { outline: none; box-shadow: 0 2px 0 0 var(--amber); }
+
+    /* calm display mode — user-toggled motion reduction (footer control) */
+    html.is-calm *, html.is-calm *::before, html.is-calm *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+
     /* ---- section skeleton (proportions from prototype) ---- */
     section { position: relative; }
     #hero         { min-height: 100vh; background: var(--hero-black); color: var(--ivory); }
@@ -445,6 +477,11 @@
       .reserve__col { grid-column: 1 / -1; }
       .bk-entry h2, .bk-confirm h2 { font-size: 38px; }
       .bk-steptitle { font-size: 28px; }
+      .closing { aspect-ratio: 4 / 3; }
+      .close-line span { font-size: 24px; }
+      .footer__brand, .footer__col--visit, .footer__col--contact, .footer__reserve-wrap { grid-column: 1 / -1; }
+      .footer__col--visit, .footer__col--contact, .footer__reserve-wrap { margin-top: 40px; }
+      .footer__reserve-wrap { justify-self: start; }
       blockquote { font-size: 26px; }
       #philosophy, #rituals, #spaces-intro, #journal, #architecture, #reflections, #reserve { padding-left: 24px; padding-right: 24px; }
       #spaces { height: 560vh; }
@@ -631,13 +668,39 @@
     </section>
 
     <!-- 09 · CLOSING & FOOTER -->
-    <section id="visit" class="scaffold is-dark" aria-label="09 Closing and Footer">
-      <div style="padding: 200px var(--margin) 0;">
-        <span class="scaffold__label">09 · Closing</span>
-        <h2>Return to presence.</h2>
+    <section id="visit" class="is-dark" aria-label="09 Closing and Footer">
+      <div class="closing">
+        <video id="closing-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_155611_8a21ba59-ed4b-495d-81a0-3ae0ac9a923a.mp4" poster="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_154453_9dc9a353-8206-4408-ae96-c5e5b572668e.png" muted loop playsinline aria-hidden="true"></video>
+        <video id="closing-video-b" src="https://d8j0ntlcm91z4.cloudfront.net/user_3GJ9WuPW4IStx01Ioprbsjfo4bm/hf_20260711_155611_8a21ba59-ed4b-495d-81a0-3ae0ac9a923a.mp4" muted loop playsinline aria-hidden="true"></video>
+        <div class="closing__scrim"></div>
+        <div id="close-line" class="close-line"><span>Return to presence.</span></div>
       </div>
       <footer class="footer">
-        <span class="scaffold__label">Footer — Visit · Contact · legal</span>
+        <div class="footer__grid">
+          <div class="footer__brand">
+            <div class="footer__mark">SATORI</div>
+            <div class="footer__tag">Oriental Spa &amp; Ritual House</div>
+          </div>
+          <div class="footer__col--visit">
+            <div class="footer__label">Visit</div>
+            <div class="footer__lines">14 Willow Court, Stillwater Valley<br>Open daily 9:00 – 20:00</div>
+          </div>
+          <div class="footer__col--contact">
+            <div class="footer__label">Contact</div>
+            <div class="footer__lines">host@satori-spa.com<br>+44 20 7946 0918</div>
+          </div>
+          <div class="footer__reserve-wrap">
+            <a class="footer__reserve" href="#reserve">Reserve</a>
+          </div>
+        </div>
+        <div class="footer__legal">
+          <span>© SATORI — a fictional brand study</span>
+          <span class="footer__legal-links">
+            <button id="calm-toggle" type="button">Use calm display mode</button>
+            <a href="#">Privacy</a>
+            <a href="#">Accessibility</a>
+          </span>
+        </div>
       </footer>
     </section>
   </main>
@@ -715,7 +778,7 @@
     // ---- opt-in atmosphere (synthesised ambient + occasional water drop) ----
     // ponytail: water-video audio crossfade at the footer lands with the closing
     // section; _soundMix stays 0 here so ambient plays standalone, no rework then.
-    var ac, ambGain, dropTimer = null, soundOn = false;
+    var ac, ambGain, dropTimer = null, soundOn = false, soundMix = 0, cvActive = 'a';
     var btn = sound.querySelector('button');
     var label = sound.querySelector('.sound__label');
 
@@ -748,7 +811,9 @@
       soundOn = !soundOn;
       var t = ac.currentTime;
       ambGain.gain.cancelScheduledValues(t);
-      ambGain.gain.setTargetAtTime(soundOn ? 0.045 : 0, t, 1.2);
+      ambGain.gain.setTargetAtTime(soundOn ? 0.045 * (1 - soundMix) : 0, t, 1.2);
+      var cvNow = document.getElementById(cvActive === 'b' ? 'closing-video-b' : 'closing-video');
+      if (cvNow) { if (soundOn && soundMix > 0.01) { cvNow.muted = false; cvNow.volume = Math.min(1, soundMix * 0.9); } else { cvNow.muted = true; } }
       if (soundOn && !dropTimer) {
         var sched = function () { waterDrop(); dropTimer = setTimeout(sched, 3500 + Math.random() * 6000); };
         dropTimer = setTimeout(sched, 700);
@@ -760,6 +825,79 @@
       btn.setAttribute('title', lbl);
       label.textContent = lbl;
     });
+
+    // ---- closing: water-video loop + ambient<->water crossfade (deferred from hero phase) ----
+    var cvA = document.getElementById('closing-video');
+    var cvB = document.getElementById('closing-video-b');
+    if (cvA && cvB) {
+      var cvSwapping = false;
+      function cvGetActive() { return cvActive === 'b' ? cvB : cvA; }
+
+      function updateClosing() {
+        var r = cvA.getBoundingClientRect();
+        var cur = cvGetActive();
+        // start muted playback once the section is within 1.5 viewports (no autoplay attribute)
+        if (!reduced && cur.paused && !cvSwapping && r.top < window.innerHeight * 1.5) {
+          cur.muted = true;
+          cur.play().catch(function () {});
+        }
+        // scroll-linked crossfade: ambient ducks, water rises as the footer approaches
+        soundMix = Math.max(0, Math.min(1, (window.innerHeight * 1.05 - r.top) / (window.innerHeight * 0.75)));
+        if (soundOn && ac && ambGain) {
+          ambGain.gain.setTargetAtTime(0.045 * (1 - soundMix), ac.currentTime, 0.4);
+          cur.muted = soundMix <= 0.01;
+          cur.volume = Math.min(1, soundMix * 0.9);
+        } else {
+          cur.muted = true;
+        }
+      }
+      addEventListener('scroll', updateClosing, { passive: true });
+      updateClosing();
+
+      // audibility guard: videos stay silent unless sound is on AND we're in the crossfade zone
+      setInterval(function () {
+        var act = cvGetActive();
+        var allowed = soundOn && soundMix > 0.01;
+        [cvA, cvB].forEach(function (v) {
+          if (!allowed || v !== act) { if (!v.muted) v.muted = true; if (v.volume !== 0) v.volume = 0; }
+          else if (v.volume === 0) { v.muted = false; v.volume = Math.min(1, soundMix * 0.9); }
+        });
+      }, 400);
+
+      // seamless-loop manager: 0.5x playback, crossfade two copies ~1.4s before the clip ends
+      // ponytail: dual-video doubles decode briefly; swap for a loop-cut clip if perf matters
+      setInterval(function () {
+        if (cvA.playbackRate !== 0.5) { cvA.playbackRate = 0.5; cvB.playbackRate = 0.5; }
+        var cur = cvGetActive();
+        var other = cur === cvA ? cvB : cvA;
+        if (cvSwapping || !cur.duration || cur.paused) return;
+        if (cur.duration - cur.currentTime < 1.4) {
+          cvSwapping = true;
+          other.muted = true; other.volume = 0;
+          try { other.currentTime = 0; } catch (e) {}
+          other.play().catch(function () {});
+          cvB.style.opacity = other === cvB ? '1' : '0';
+          setTimeout(function () {
+            cur.pause();
+            try { cur.currentTime = 0; } catch (e) {}
+            cvActive = other === cvB ? 'b' : 'a';
+            cvSwapping = false;
+          }, 1250);
+        }
+      }, 250);
+    }
+    revealOnce('.close-line');
+
+    // ---- calm display mode toggle (footer) ----
+    var calmBtn = document.getElementById('calm-toggle');
+    if (calmBtn) {
+      if (reduced) { document.documentElement.classList.add('is-calm'); calmBtn.textContent = 'Use full motion'; }
+      calmBtn.addEventListener('click', function () {
+        reduced = !reduced;
+        document.documentElement.classList.toggle('is-calm', reduced);
+        calmBtn.textContent = reduced ? 'Use full motion' : 'Use calm display mode';
+      });
+    }
 
     // ---- philosophy: group reveal on entry ----
     var philo = document.getElementById('philosophy');
