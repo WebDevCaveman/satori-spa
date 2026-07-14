@@ -4,3 +4,18 @@ test-results/
 playwright-report/
 .image-slots.state.json
 .claude/logs/
+
+# Internal design package & dev tooling — kept local, off the public repo.
+# The published site is just index.html + media/ + vercel.json.
+uploads/
+*.dc.html
+CLAUDE.md
+.thumbnail
+SATORI Acceptance Record.md
+SATORI Handoff.md
+image-slot.js
+support.js
+package.json
+package-lock.json
+playwright.config.js
+tests/
