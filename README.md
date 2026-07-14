@@ -2,6 +2,8 @@
 
 **SATORI** presents a fictional oriental spa and ritual house through a single-scroll narrative built around one promise: *where silence becomes luxury*. The project demonstrates vanilla web development—no frameworks, dependencies, or build tools required.
 
+![SATORI hero — a robed figure crossing a still reflection pool in dawn mist](media/satori-hero.jpeg)
+
 ## Core Concept
 
 The site trades feature lists for atmosphere. Rather than selling treatments, it moves visitors through nine scenes—hero, philosophy, signature rituals, spaces, the wellness journey, architecture and materials, guest reflections, reservation, and a closing footer—each composed to change the way time feels. Water, light, ritual, and time carry the story.
